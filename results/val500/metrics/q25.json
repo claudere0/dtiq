@@ -1,0 +1,19 @@
+{
+  "experiment_name": "val500",
+  "variant": "q25",
+  "quantization_type": "jpeg",
+  "parameter": "25",
+  "dataset": "configs/datasets/val500/q25.yaml",
+  "model": "yolov8n.pt",
+  "device": "mps",
+  "imgsz": 640,
+  "batch": 1,
+  "workers": 0,
+  "elapsed_seconds": 209.473,
+  "save_dir": "/Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/q25",
+  "precision": 0.5756652246249083,
+  "recall": 0.4055274369991309,
+  "map50": 0.44188023053081665,
+  "map50_95": 0.30390849291957617,
+  "fitness": 0.30390849291957617
+}

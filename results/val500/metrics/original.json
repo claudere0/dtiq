@@ -9,11 +9,11 @@
   "imgsz": 640,
   "batch": 1,
   "workers": 0,
-  "elapsed_seconds": 64.09,
-  "save_dir": "/Users/amirkarataev/Desktop/dissertation/dtiq/runs/detect/results/val500/yolo_runs/original",
-  "precision": 0.6827802692137114,
-  "recall": 0.4894056204285236,
-  "map50": 0.5590828713510262,
-  "map50_95": 0.40555747611017784,
-  "fitness": 0.40555747611017784
+  "elapsed_seconds": 222.684,
+  "save_dir": "/Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/original",
+  "precision": 0.6827801895240087,
+  "recall": 0.4894056429718711,
+  "map50": 0.5590827873475924,
+  "map50_95": 0.4055574084077106,
+  "fitness": 0.4055574084077106
 }

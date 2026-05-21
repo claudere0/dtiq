@@ -1,0 +1,19 @@
+{
+  "experiment_name": "val500",
+  "variant": "b2",
+  "quantization_type": "bpc",
+  "parameter": "2",
+  "dataset": "configs/datasets/val500/b2.yaml",
+  "model": "yolov8n.pt",
+  "device": "mps",
+  "imgsz": 640,
+  "batch": 1,
+  "workers": 0,
+  "elapsed_seconds": 196.054,
+  "save_dir": "/Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/b2",
+  "precision": 0.4566077783817286,
+  "recall": 0.3100229225441336,
+  "map50": 0.3139235336929262,
+  "map50_95": 0.2129851884330015,
+  "fitness": 0.2129851884330015
+}

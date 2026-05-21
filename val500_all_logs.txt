@@ -1,0 +1,1051 @@
+dtiq git:(assisted_programming) python3 scripts/validate/run_all_validations.py --experiment-config configs/experiment_500.yaml
+python3 scripts/analyze/collect_metrics.py --experiment-config configs/experiment_500.yaml
+python3 scripts/analyze/summarize_results.py --metrics-csv results/val500/summary/metrics.csv
+python3 scripts/analyze/plot_results.py --metrics-csv results/val500/summary/metrics.csv
+Starting variant: original
+Running experiment 'val500' for variant 'original'
+Dataset config: configs/datasets/val500/original.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.0±0.0 ms, read: 374.0±116.8 MB/s, size: 149.3 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/original/labels/original_1_10th.cache... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 63.6Mit/s 0.0s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.4it/s 3:29
+                   all        500       3504      0.683      0.489      0.559      0.406
+                person        282       1069      0.806      0.646       0.74      0.506
+               bicycle         15         34      0.799      0.351      0.498      0.209
+                   car         50        167      0.697       0.51      0.581      0.375
+            motorcycle         16         45       0.74      0.756      0.832      0.522
+              airplane          9         12          1       0.82      0.839      0.731
+                   bus         18         34      0.838      0.441      0.652      0.496
+                 train         12         14       0.91      0.643      0.687      0.579
+                 truck         21         29      0.526      0.268      0.296      0.178
+                  boat          8         38      0.526      0.147      0.308      0.142
+         traffic light         11         29      0.595      0.305      0.262      0.157
+          fire hydrant          9         11          1      0.633      0.789      0.633
+             stop sign          3          4      0.632       0.75      0.845      0.765
+         parking meter          6         14      0.776      0.494      0.537       0.42
+                 bench         18         38      0.542      0.184      0.218       0.13
+                  bird         14         48      0.693      0.354      0.423      0.248
+                   cat         15         17      0.943      0.969      0.992      0.854
+                   dog          9          9       0.69          1      0.968      0.761
+                 horse         17         28      0.901      0.821      0.841      0.682
+                 sheep          8         18      0.603      0.759      0.788      0.614
+                   cow          6         15       0.59        0.4      0.494      0.346
+              elephant          7         17       0.76      0.941      0.918      0.693
+                  bear          3          4      0.815          1      0.995      0.829
+                 zebra         12         31      0.802      0.806      0.875       0.71
+               giraffe          5          9       0.91          1      0.995      0.907
+              backpack         32         46      0.384      0.122      0.186     0.0924
+              umbrella         13         20      0.484      0.375      0.402      0.264
+               handbag         22         41      0.307     0.0732      0.186      0.106
+                   tie         27         51      0.832      0.275       0.41      0.234
+              suitcase         11         22       0.58        0.5      0.625      0.512
+               frisbee          9         14      0.881      0.929       0.97      0.782
+                  skis         17         25      0.656       0.32      0.316      0.166
+             snowboard          5          6      0.562      0.333      0.559      0.295
+           sports ball         19         22      0.703        0.5      0.607      0.388
+                  kite         10         25      0.621       0.44      0.577      0.428
+          baseball bat          8          8      0.577      0.514      0.652      0.402
+        baseball glove          9         10      0.869        0.8      0.797      0.471
+            skateboard         10         12      0.591      0.583      0.542      0.366
+             surfboard         20         28      0.808      0.601       0.64       0.36
+         tennis racket         19         22      0.855      0.773      0.825      0.508
+                bottle         38        116       0.52      0.215      0.268      0.167
+            wine glass         16         47      0.777      0.372      0.474      0.299
+                   cup         40        108      0.686      0.405      0.487      0.353
+                  fork         11         17      0.384      0.235      0.411      0.248
+                 knife         23         34      0.741      0.265      0.276       0.19
+                 spoon         13         22      0.612      0.145      0.234      0.144
+                  bowl         33         60      0.543      0.467      0.487      0.379
+                banana         11         38      0.716      0.421      0.441      0.281
+                 apple          8         17      0.168     0.0588      0.075     0.0441
+              sandwich         12         19       0.82      0.243      0.525      0.426
+                orange          6         23      0.677      0.729      0.615      0.478
+              broccoli         12         45      0.487      0.244      0.342      0.187
+                carrot          7         29      0.672      0.276      0.524      0.395
+               hot dog          7         15      0.786        0.6      0.754      0.525
+                 pizza         11         19      0.726      0.842      0.846      0.659
+                 donut          5         27      0.861      0.519      0.632      0.464
+                  cake          9         13      0.329      0.308       0.35      0.283
+                 chair         66        197      0.607      0.329      0.421      0.286
+                 couch         24         27      0.624      0.593      0.646       0.52
+          potted plant         18         44      0.575      0.364      0.413      0.231
+                   bed         18         19        0.7      0.632      0.683      0.504
+          dining table         51         82       0.53      0.354       0.39      0.286
+                toilet         16         17      0.839      0.765      0.834      0.757
+                    tv         28         33      0.889      0.726      0.789      0.592
+                laptop         20         30      0.735        0.8      0.797      0.662
+                 mouse         11         15      0.647        0.8      0.837      0.585
+                remote         17         29      0.365      0.207      0.247      0.179
+              keyboard         15         22      0.615      0.545      0.587      0.466
+            cell phone         23         28      0.604      0.429      0.517      0.419
+             microwave          4          4      0.412       0.25      0.524      0.364
+                  oven         14         18      0.718      0.333      0.344      0.227
+                  sink         16         20      0.797       0.35       0.48      0.291
+          refrigerator         16         16      0.622      0.562      0.594      0.441
+                  book         21        109      0.575     0.0734      0.229     0.0982
+                 clock         16         20      0.862      0.626       0.66      0.481
+                  vase         14         22      0.574      0.455      0.474      0.347
+              scissors          1          2          1          0          0          0
+            teddy bear          8         14      0.658        0.5      0.689      0.483
+            toothbrush          1          1          1          0     0.0498     0.0321
+Speed: 3.1ms preprocess, 84.3ms inference, 0.0ms loss, 121.5ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/original
+mAP50-95: 0.4055574084077106
+mAP50: 0.5590827873475924
+Precision: 0.6827801895240087
+Recall: 0.4894056429718711
+Saved metrics to results/val500/metrics/original.json
+Starting variant: q94
+Running experiment 'val500' for variant 'q94'
+Dataset config: configs/datasets/val500/q94.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.1±0.1 ms, read: 446.7±146.9 MB/s, size: 137.5 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/jpeg/q94/labels.cache... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 99.9Mit/s 0.0s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.4it/s 3:24
+                   all        500       3504      0.674      0.491      0.554      0.404
+                person        282       1069      0.794      0.643      0.739      0.505
+               bicycle         15         34      0.745      0.345      0.486       0.21
+                   car         50        167      0.697      0.551      0.591      0.377
+            motorcycle         16         45      0.738      0.752      0.825       0.52
+              airplane          9         12          1      0.821      0.835      0.732
+                   bus         18         34      0.889       0.47      0.687      0.507
+                 train         12         14      0.753      0.643      0.688      0.575
+                 truck         21         29      0.514      0.276       0.29       0.19
+                  boat          8         38      0.504      0.161      0.296      0.127
+         traffic light         11         29      0.497       0.31      0.266      0.157
+          fire hydrant          9         11          1      0.634      0.798      0.635
+             stop sign          3          4      0.625       0.75      0.828      0.778
+         parking meter          6         14      0.646      0.394      0.528      0.415
+                 bench         18         38      0.483      0.184      0.208      0.129
+                  bird         14         48      0.739      0.354      0.418      0.251
+                   cat         15         17       0.89      0.947       0.99      0.879
+                   dog          9          9      0.818          1      0.975      0.768
+                 horse         17         28       0.92      0.822      0.889      0.695
+                 sheep          8         18      0.622      0.722      0.779       0.62
+                   cow          6         15      0.473      0.333      0.474      0.311
+              elephant          7         17      0.723      0.922       0.92      0.698
+                  bear          3          4      0.786          1      0.995      0.829
+                 zebra         12         31      0.799      0.806      0.874       0.72
+               giraffe          5          9      0.916          1      0.995      0.899
+              backpack         32         46      0.442       0.13      0.181     0.0983
+              umbrella         13         20      0.495        0.4      0.412      0.274
+               handbag         22         41      0.274     0.0732      0.177      0.102
+                   tie         27         51      0.805      0.275      0.385      0.235
+              suitcase         11         22      0.621      0.522      0.613      0.493
+               frisbee          9         14      0.863      0.929      0.957      0.784
+                  skis         17         25      0.639       0.32      0.323      0.164
+             snowboard          5          6      0.631        0.5      0.621      0.351
+           sports ball         19         22      0.675        0.5      0.595      0.384
+                  kite         10         25      0.601       0.44      0.574       0.42
+          baseball bat          8          8      0.612        0.5      0.633      0.387
+        baseball glove          9         10      0.783        0.8        0.8      0.471
+            skateboard         10         12      0.559      0.583      0.522      0.372
+             surfboard         20         28      0.736      0.571      0.631      0.374
+         tennis racket         19         22      0.819      0.773      0.829      0.512
+                bottle         38        116      0.508      0.224      0.275       0.17
+            wine glass         16         47      0.783      0.385      0.476      0.303
+                   cup         40        108      0.696      0.382       0.48      0.334
+                  fork         11         17      0.497      0.235      0.385      0.249
+                 knife         23         34      0.651      0.235      0.254      0.168
+                 spoon         13         22      0.779      0.163      0.207      0.161
+                  bowl         33         60      0.554      0.483       0.48      0.374
+                banana         11         38      0.673      0.395      0.426      0.267
+                 apple          8         17      0.178     0.0588      0.069     0.0401
+              sandwich         12         19      0.684      0.263      0.522      0.432
+                orange          6         23      0.626      0.696      0.589      0.459
+              broccoli         12         45      0.401      0.244      0.333      0.179
+                carrot          7         29      0.685      0.379      0.501      0.391
+               hot dog          7         15      0.817        0.6      0.713      0.516
+                 pizza         11         19      0.716      0.842      0.843      0.656
+                 donut          5         27      0.822      0.512      0.621      0.443
+                  cake          9         13      0.337      0.308      0.315      0.261
+                 chair         66        197      0.592      0.335      0.427       0.29
+                 couch         24         27      0.652      0.593       0.63      0.508
+          potted plant         18         44      0.617      0.386      0.415      0.231
+                   bed         18         19      0.741      0.632       0.69      0.517
+          dining table         51         82      0.521      0.354      0.398      0.293
+                toilet         16         17      0.791      0.765      0.821      0.745
+                    tv         28         33      0.889      0.727      0.796      0.591
+                laptop         20         30      0.728      0.767      0.786      0.654
+                 mouse         11         15      0.646        0.8      0.835      0.567
+                remote         17         29      0.496      0.276      0.248      0.172
+              keyboard         15         22      0.626      0.545      0.587      0.458
+            cell phone         23         28      0.637      0.464      0.553      0.435
+             microwave          4          4       0.34       0.25      0.462      0.314
+                  oven         14         18      0.707      0.333      0.349      0.236
+                  sink         16         20        0.8       0.35      0.459      0.271
+          refrigerator         16         16      0.617      0.562      0.604      0.449
+                  book         21        109       0.56     0.0826       0.21      0.091
+                 clock         16         20      0.862      0.627      0.667      0.487
+                  vase         14         22      0.572      0.409       0.47      0.328
+              scissors          1          2          1          0          0          0
+            teddy bear          8         14      0.623        0.5      0.668      0.481
+            toothbrush          1          1          1          0     0.0474     0.0332
+Speed: 2.5ms preprocess, 81.0ms inference, 0.0ms loss, 122.4ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/q94
+mAP50-95: 0.40389556534244764
+mAP50: 0.5543378118364223
+Precision: 0.6737333014311171
+Recall: 0.4912623179635392
+Saved metrics to results/val500/metrics/q94.json
+Starting variant: q88
+Running experiment 'val500' for variant 'q88'
+Dataset config: configs/datasets/val500/q88.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.1±0.1 ms, read: 193.7±104.0 MB/s, size: 70.3 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/jpeg/q88/labels... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 3.6Kit/s 0.1s
+val: New cache created: /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/jpeg/q88/labels.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.2it/s 3:43
+                   all        500       3504      0.692      0.483      0.555      0.403
+                person        282       1069      0.809      0.638      0.735      0.503
+               bicycle         15         34      0.744      0.324       0.48      0.204
+                   car         50        167      0.708      0.509       0.58      0.372
+            motorcycle         16         45      0.718      0.735      0.835      0.527
+              airplane          9         12      0.922       0.75      0.824      0.703
+                   bus         18         34      0.842      0.441      0.664      0.497
+                 train         12         14      0.838      0.643      0.688      0.575
+                 truck         21         29      0.504      0.241       0.29      0.181
+                  boat          8         38      0.555      0.164      0.292      0.131
+         traffic light         11         29      0.583      0.338      0.279      0.168
+          fire hydrant          9         11      0.882      0.685      0.766      0.627
+             stop sign          3          4      0.638       0.75      0.816      0.752
+         parking meter          6         14      0.762      0.461      0.564      0.448
+                 bench         18         38      0.613      0.184      0.223      0.136
+                  bird         14         48      0.813      0.363       0.44      0.256
+                   cat         15         17      0.967      0.941      0.992      0.887
+                   dog          9          9      0.712      0.889      0.937      0.738
+                 horse         17         28      0.838      0.821      0.881      0.692
+                 sheep          8         18      0.632      0.722      0.769      0.614
+                   cow          6         15      0.549      0.407      0.509      0.374
+              elephant          7         17      0.761      0.935      0.908      0.686
+                  bear          3          4      0.823          1      0.995       0.83
+                 zebra         12         31       0.83      0.806      0.871      0.713
+               giraffe          5          9      0.815          1      0.995      0.897
+              backpack         32         46      0.421      0.109      0.172     0.0905
+              umbrella         13         20      0.516        0.4      0.405      0.264
+               handbag         22         41      0.275     0.0732      0.175      0.101
+                   tie         27         51      0.784      0.275      0.399      0.231
+              suitcase         11         22       0.66      0.531      0.645      0.529
+               frisbee          9         14      0.863      0.902       0.96      0.777
+                  skis         17         25      0.729       0.36      0.356      0.171
+             snowboard          5          6      0.838      0.333      0.547       0.28
+           sports ball         19         22      0.735      0.504      0.622      0.406
+                  kite         10         25      0.648       0.44      0.557      0.411
+          baseball bat          8          8      0.651        0.5      0.722      0.432
+        baseball glove          9         10      0.785      0.732      0.791      0.472
+            skateboard         10         12      0.633      0.583      0.554      0.359
+             surfboard         20         28      0.706      0.516      0.626      0.369
+         tennis racket         19         22        0.9      0.773      0.796      0.501
+                bottle         38        116      0.492      0.181      0.271      0.168
+            wine glass         16         47      0.764      0.362      0.454      0.288
+                   cup         40        108      0.675      0.398      0.474      0.339
+                  fork         11         17      0.542      0.294      0.407      0.263
+                 knife         23         34      0.653      0.235      0.247      0.156
+                 spoon         13         22      0.786      0.169      0.231       0.16
+                  bowl         33         60       0.56      0.446      0.468      0.366
+                banana         11         38      0.702      0.421      0.437      0.263
+                 apple          8         17      0.178     0.0588     0.0562     0.0335
+              sandwich         12         19          1      0.253      0.548      0.454
+                orange          6         23      0.616      0.628      0.588      0.461
+              broccoli         12         45      0.437      0.244      0.335       0.18
+                carrot          7         29      0.608      0.321      0.472      0.368
+               hot dog          7         15      0.808        0.6      0.715      0.516
+                 pizza         11         19      0.691      0.842      0.823      0.662
+                 donut          5         27      0.777      0.519      0.632      0.453
+                  cake          9         13      0.354      0.308      0.315      0.259
+                 chair         66        197      0.629       0.34      0.429      0.288
+                 couch         24         27      0.674      0.593      0.662      0.504
+          potted plant         18         44      0.567      0.357        0.4       0.23
+                   bed         18         19      0.766      0.632      0.697      0.512
+          dining table         51         82       0.51      0.341      0.402      0.292
+                toilet         16         17      0.861      0.765      0.832      0.737
+                    tv         28         33      0.888      0.697      0.789      0.593
+                laptop         20         30      0.735      0.733      0.799       0.67
+                 mouse         11         15      0.664        0.8      0.831      0.589
+                remote         17         29      0.444      0.248      0.251      0.175
+              keyboard         15         22      0.648      0.545      0.579      0.452
+            cell phone         23         28      0.601      0.431      0.501      0.417
+             microwave          4          4      0.428       0.25      0.495      0.326
+                  oven         14         18      0.703      0.333      0.356      0.239
+                  sink         16         20      0.901       0.35      0.479      0.281
+          refrigerator         16         16      0.711      0.562      0.573      0.438
+                  book         21        109      0.517     0.0459      0.216       0.09
+                 clock         16         20      0.841       0.65      0.673      0.486
+                  vase         14         22       0.62      0.445      0.463      0.328
+              scissors          1          2          1          0          0          0
+            teddy bear          8         14       0.65        0.5      0.657      0.443
+            toothbrush          1          1          1          0     0.0524     0.0314
+Speed: 3.0ms preprocess, 89.7ms inference, 0.0ms loss, 130.5ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/q88
+mAP50-95: 0.4028025335949661
+mAP50: 0.5546775273624508
+Precision: 0.6923429441280796
+Recall: 0.4830344109510403
+Saved metrics to results/val500/metrics/q88.json
+Starting variant: q75
+Running experiment 'val500' for variant 'q75'
+Dataset config: configs/datasets/val500/q75.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.1±0.0 ms, read: 241.6±117.3 MB/s, size: 64.6 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/jpeg/q75/labels... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 4.0Kit/s 0.1s
+val: New cache created: /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/jpeg/q75/labels.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.4it/s 3:32
+                   all        500       3504      0.648      0.487      0.542      0.392
+                person        282       1069      0.784      0.645      0.728      0.494
+               bicycle         15         34      0.674      0.365      0.496      0.221
+                   car         50        167      0.624      0.539      0.574      0.367
+            motorcycle         16         45      0.748      0.724      0.815      0.532
+              airplane          9         12      0.912       0.75       0.82      0.739
+                   bus         18         34      0.848      0.492      0.675      0.488
+                 train         12         14      0.797      0.643      0.699      0.574
+                 truck         21         29      0.419      0.241      0.279      0.162
+                  boat          8         38      0.583      0.221      0.297      0.132
+         traffic light         11         29      0.522      0.345      0.278      0.176
+          fire hydrant          9         11          1      0.621      0.823      0.645
+             stop sign          3          4      0.618       0.75      0.807      0.751
+         parking meter          6         14       0.71      0.351      0.505      0.402
+                 bench         18         38      0.533      0.181      0.195      0.121
+                  bird         14         48      0.659      0.396      0.439      0.252
+                   cat         15         17      0.998      0.941       0.98      0.838
+                   dog          9          9      0.635      0.889      0.934      0.715
+                 horse         17         28      0.893      0.857      0.873      0.675
+                 sheep          8         18      0.596      0.722      0.739      0.582
+                   cow          6         15      0.347      0.333      0.408       0.31
+              elephant          7         17      0.685      0.882      0.911      0.687
+                  bear          3          4      0.725          1      0.945      0.755
+                 zebra         12         31      0.794      0.806      0.872      0.717
+               giraffe          5          9       0.92          1      0.995      0.888
+              backpack         32         46       0.43       0.13      0.149      0.079
+              umbrella         13         20      0.466      0.437      0.354      0.227
+               handbag         22         41      0.402      0.115      0.197      0.127
+                   tie         27         51      0.764      0.294      0.394      0.222
+              suitcase         11         22      0.462      0.545      0.613      0.493
+               frisbee          9         14      0.794      0.857       0.95      0.787
+                  skis         17         25      0.673       0.36       0.38      0.187
+             snowboard          5          6      0.481      0.333      0.368      0.202
+           sports ball         19         22      0.741      0.455      0.612      0.403
+                  kite         10         25       0.64       0.52      0.581      0.392
+          baseball bat          8          8      0.632      0.625      0.734      0.413
+        baseball glove          9         10      0.642        0.8      0.795      0.456
+            skateboard         10         12      0.536      0.583      0.527      0.341
+             surfboard         20         28      0.737        0.6      0.654      0.382
+         tennis racket         19         22      0.746      0.682      0.717      0.492
+                bottle         38        116      0.504       0.25       0.27      0.174
+            wine glass         16         47      0.899      0.362      0.445      0.284
+                   cup         40        108      0.647      0.408      0.473       0.32
+                  fork         11         17      0.532      0.353      0.335      0.235
+                 knife         23         34      0.704      0.206      0.302       0.21
+                 spoon         13         22      0.508     0.0909      0.151      0.116
+                  bowl         33         60      0.528      0.483      0.458       0.36
+                banana         11         38      0.648      0.395      0.408      0.262
+                 apple          8         17      0.272      0.118     0.0683     0.0435
+              sandwich         12         19      0.884      0.263      0.516      0.422
+                orange          6         23      0.606      0.603      0.558      0.431
+              broccoli         12         45      0.357      0.244      0.327      0.174
+                carrot          7         29      0.558      0.276      0.441      0.292
+               hot dog          7         15      0.676      0.557      0.725       0.51
+                 pizza         11         19      0.642      0.842      0.822      0.657
+                 donut          5         27      0.732      0.505      0.624      0.438
+                  cake          9         13      0.253      0.231      0.285      0.242
+                 chair         66        197      0.587       0.33      0.426      0.289
+                 couch         24         27      0.666       0.59      0.637       0.48
+          potted plant         18         44      0.577      0.403      0.432      0.232
+                   bed         18         19      0.784      0.684      0.789      0.539
+          dining table         51         82      0.493      0.366      0.404      0.295
+                toilet         16         17      0.752      0.765      0.814      0.723
+                    tv         28         33      0.773      0.723      0.803      0.592
+                laptop         20         30      0.771        0.8      0.772      0.663
+                 mouse         11         15      0.648        0.8      0.781      0.526
+                remote         17         29        0.4      0.172      0.248      0.168
+              keyboard         15         22      0.637      0.545      0.574      0.458
+            cell phone         23         28       0.57      0.429      0.495      0.407
+             microwave          4          4      0.423       0.25      0.478       0.33
+                  oven         14         18        0.7      0.333      0.353      0.229
+                  sink         16         20      0.656       0.35      0.447      0.259
+          refrigerator         16         16      0.633        0.5      0.554       0.44
+                  book         21        109       0.49     0.0917        0.2     0.0811
+                 clock         16         20       0.74       0.65      0.648      0.493
+                  vase         14         22      0.463      0.455      0.469      0.335
+              scissors          1          2          1          0          0          0
+            teddy bear          8         14      0.646        0.5      0.625      0.448
+            toothbrush          1          1          1          0     0.0383     0.0115
+Speed: 2.7ms preprocess, 84.3ms inference, 0.0ms loss, 127.9ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/q75
+mAP50-95: 0.39229928147528814
+mAP50: 0.542353665204341
+Precision: 0.6477788538119834
+Recall: 0.48661515845977743
+Saved metrics to results/val500/metrics/q75.json
+Starting variant: q50
+Running experiment 'val500' for variant 'q50'
+Dataset config: configs/datasets/val500/q50.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.2±0.1 ms, read: 168.6±77.0 MB/s, size: 33.1 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/jpeg/q50/labels... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 3.9Kit/s 0.1s
+val: New cache created: /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/jpeg/q50/labels.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.2it/s 3:47
+                   all        500       3504      0.637      0.464       0.52      0.373
+                person        282       1069      0.763      0.623      0.703      0.474
+               bicycle         15         34      0.542      0.324      0.444      0.209
+                   car         50        167      0.671      0.521      0.555      0.333
+            motorcycle         16         45      0.723      0.756      0.801      0.525
+              airplane          9         12          1      0.817      0.835      0.695
+                   bus         18         34      0.882      0.471      0.662      0.489
+                 train         12         14      0.691      0.643      0.665      0.544
+                 truck         21         29      0.421      0.276        0.3      0.178
+                  boat          8         38      0.493      0.211      0.294      0.124
+         traffic light         11         29      0.473      0.345      0.259      0.159
+          fire hydrant          9         11      0.867      0.596       0.77      0.602
+             stop sign          3          4      0.643       0.75      0.682      0.639
+         parking meter          6         14          1      0.277      0.524      0.358
+                 bench         18         38      0.556      0.211      0.195      0.123
+                  bird         14         48      0.603      0.333      0.378       0.23
+                   cat         15         17      0.834      0.884       0.92      0.761
+                   dog          9          9      0.723      0.873      0.902      0.709
+                 horse         17         28      0.837      0.736        0.8      0.628
+                 sheep          8         18      0.663      0.722      0.737      0.592
+                   cow          6         15      0.386        0.4      0.358      0.248
+              elephant          7         17      0.786      0.863      0.857      0.607
+                  bear          3          4      0.739          1      0.995      0.783
+                 zebra         12         31      0.797      0.806      0.879      0.709
+               giraffe          5          9      0.903          1      0.995      0.902
+              backpack         32         46      0.393      0.109      0.178        0.1
+              umbrella         13         20      0.475        0.4      0.351      0.218
+               handbag         22         41      0.224     0.0488      0.155     0.0942
+                   tie         27         51      0.744      0.294      0.382      0.213
+              suitcase         11         22      0.585      0.545      0.587      0.488
+               frisbee          9         14      0.848      0.801      0.905      0.728
+                  skis         17         25      0.627       0.36      0.333      0.166
+             snowboard          5          6      0.417      0.333      0.327      0.181
+           sports ball         19         22      0.647      0.455      0.583      0.368
+                  kite         10         25      0.595       0.52      0.622      0.374
+          baseball bat          8          8      0.637      0.625      0.704      0.398
+        baseball glove          9         10      0.709        0.7      0.745      0.512
+            skateboard         10         12      0.422        0.5      0.513      0.308
+             surfboard         20         28      0.676      0.571      0.619      0.354
+         tennis racket         19         22       0.78      0.636      0.737      0.462
+                bottle         38        116      0.554      0.259      0.272      0.177
+            wine glass         16         47      0.839      0.298      0.417      0.256
+                   cup         40        108      0.622      0.396      0.444      0.316
+                  fork         11         17       0.52      0.294      0.387      0.247
+                 knife         23         34      0.659      0.171      0.233      0.152
+                 spoon         13         22      0.525     0.0909      0.152      0.104
+                  bowl         33         60      0.489       0.45      0.436      0.338
+                banana         11         38      0.566      0.395      0.414      0.271
+                 apple          8         17      0.146     0.0588     0.0499     0.0299
+              sandwich         12         19      0.769      0.263      0.439      0.354
+                orange          6         23      0.535      0.435      0.524      0.405
+              broccoli         12         45      0.405      0.267      0.286      0.158
+                carrot          7         29      0.613      0.273      0.395       0.28
+               hot dog          7         15      0.733      0.533      0.701      0.502
+                 pizza         11         19       0.62      0.842      0.826      0.658
+                 donut          5         27      0.941      0.481      0.611      0.437
+                  cake          9         13      0.204      0.158      0.256      0.216
+                 chair         66        197      0.618      0.296      0.402      0.261
+                 couch         24         27      0.662      0.581      0.644      0.472
+          potted plant         18         44      0.431      0.341       0.34      0.192
+                   bed         18         19      0.715      0.528      0.692      0.486
+          dining table         51         82      0.483      0.366      0.389      0.281
+                toilet         16         17      0.815      0.706        0.8      0.682
+                    tv         28         33      0.732      0.745       0.77       0.58
+                laptop         20         30      0.693      0.733      0.736      0.627
+                 mouse         11         15      0.634      0.694      0.729      0.502
+                remote         17         29      0.452      0.171      0.196      0.127
+              keyboard         15         22      0.589        0.5       0.55      0.423
+            cell phone         23         28      0.568      0.376      0.467      0.382
+             microwave          4          4        0.4       0.25      0.577      0.399
+                  oven         14         18      0.719      0.278      0.348      0.199
+                  sink         16         20      0.625        0.3      0.402      0.263
+          refrigerator         16         16      0.706      0.562      0.599      0.452
+                  book         21        109      0.476     0.0833      0.164     0.0668
+                 clock         16         20       0.63       0.65      0.645      0.476
+                  vase         14         22      0.461      0.455      0.386      0.275
+              scissors          1          2          1          0          0          0
+            teddy bear          8         14      0.727       0.57      0.625      0.461
+            toothbrush          1          1          1          0          0          0
+Speed: 3.0ms preprocess, 88.7ms inference, 0.0ms loss, 136.3ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/q50
+mAP50-95: 0.37293541173646155
+mAP50: 0.5199250596022116
+Precision: 0.6365672243056616
+Recall: 0.4638974691748781
+Saved metrics to results/val500/metrics/q50.json
+Starting variant: q25
+Running experiment 'val500' for variant 'q25'
+Dataset config: configs/datasets/val500/q25.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.1±0.0 ms, read: 79.4±16.5 MB/s, size: 14.8 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/jpeg/q25/labels... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 4.0Kit/s 0.1s
+val: New cache created: /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/jpeg/q25/labels.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.5it/s 3:17
+                   all        500       3504      0.576      0.406      0.442      0.304
+                person        282       1069      0.723      0.572      0.647      0.421
+               bicycle         15         34      0.489      0.282      0.389      0.154
+                   car         50        167      0.548      0.467      0.516        0.3
+            motorcycle         16         45       0.75      0.689      0.764      0.477
+              airplane          9         12      0.696       0.75      0.776      0.676
+                   bus         18         34      0.734      0.488      0.584      0.451
+                 train         12         14      0.371      0.714      0.689      0.463
+                 truck         21         29      0.341       0.31      0.267      0.148
+                  boat          8         38      0.318      0.211      0.202     0.0834
+         traffic light         11         29      0.397       0.31      0.237      0.147
+          fire hydrant          9         11      0.858      0.545      0.691      0.558
+             stop sign          3          4      0.744      0.731      0.682      0.639
+         parking meter          6         14      0.666      0.143      0.195       0.15
+                 bench         18         38      0.372      0.105      0.146     0.0717
+                  bird         14         48      0.654      0.271      0.314      0.197
+                   cat         15         17      0.515      0.353      0.398      0.293
+                   dog          9          9      0.512      0.444      0.585      0.434
+                 horse         17         28      0.709      0.786      0.805       0.56
+                 sheep          8         18      0.497        0.5      0.515      0.393
+                   cow          6         15      0.297      0.333      0.231      0.163
+              elephant          7         17      0.662      0.693      0.716      0.498
+                  bear          3          4      0.908        0.5      0.603      0.532
+                 zebra         12         31      0.755      0.806       0.88      0.707
+               giraffe          5          9      0.895          1      0.995       0.89
+              backpack         32         46       0.27      0.109      0.137     0.0715
+              umbrella         13         20      0.342       0.35      0.277      0.176
+               handbag         22         41      0.285     0.0881      0.102     0.0478
+                   tie         27         51      0.702      0.373       0.38       0.22
+              suitcase         11         22      0.398      0.636      0.507        0.4
+               frisbee          9         14      0.906      0.643      0.824       0.72
+                  skis         17         25      0.588      0.343       0.33      0.127
+             snowboard          5          6      0.138      0.115      0.082     0.0439
+           sports ball         19         22      0.595        0.4       0.49      0.304
+                  kite         10         25      0.536       0.44      0.467      0.297
+          baseball bat          8          8       0.57       0.75      0.671      0.354
+        baseball glove          9         10      0.589        0.7       0.76      0.467
+            skateboard         10         12      0.482        0.5      0.405      0.201
+             surfboard         20         28      0.576      0.286      0.418      0.243
+         tennis racket         19         22      0.773      0.636      0.656      0.402
+                bottle         38        116      0.497      0.233       0.24      0.134
+            wine glass         16         47      0.799      0.319       0.38      0.239
+                   cup         40        108      0.644      0.318      0.388      0.238
+                  fork         11         17      0.522      0.235      0.339      0.181
+                 knife         23         34      0.444     0.0588      0.112     0.0598
+                 spoon         13         22      0.335     0.0711      0.101     0.0633
+                  bowl         33         60      0.519      0.333      0.383      0.278
+                banana         11         38      0.536      0.342      0.363       0.22
+                 apple          8         17      0.215      0.118     0.0658     0.0442
+              sandwich         12         19      0.269      0.137      0.174      0.113
+                orange          6         23      0.514      0.323       0.46      0.327
+              broccoli         12         45      0.313      0.244      0.279      0.178
+                carrot          7         29      0.574      0.345      0.393      0.244
+               hot dog          7         15          1      0.513      0.662      0.465
+                 pizza         11         19      0.505      0.789      0.782      0.605
+                 donut          5         27      0.928      0.478      0.635      0.387
+                  cake          9         13      0.133      0.154       0.15      0.104
+                 chair         66        197      0.573      0.239      0.304      0.187
+                 couch         24         27      0.797      0.407      0.453      0.323
+          potted plant         18         44      0.423      0.432      0.347       0.18
+                   bed         18         19      0.785      0.576      0.588      0.394
+          dining table         51         82      0.486      0.354       0.37      0.255
+                toilet         16         17      0.855      0.706      0.776      0.628
+                    tv         28         33      0.571      0.697       0.69      0.515
+                laptop         20         30      0.668      0.471      0.588      0.453
+                 mouse         11         15      0.826      0.667      0.698      0.461
+                remote         17         29      0.436     0.0812      0.101     0.0714
+              keyboard         15         22      0.746        0.5      0.523      0.405
+            cell phone         23         28      0.701      0.393      0.458       0.34
+             microwave          4          4      0.281       0.25      0.407      0.244
+                  oven         14         18      0.477      0.167      0.298       0.15
+                  sink         16         20      0.813        0.4      0.455      0.299
+          refrigerator         16         16      0.566        0.5       0.57      0.412
+                  book         21        109      0.339     0.0459      0.138     0.0612
+                 clock         16         20      0.455       0.55      0.527      0.414
+                  vase         14         22      0.355      0.426      0.324      0.215
+              scissors          1          2          1          0          0          0
+            teddy bear          8         14      0.843      0.385      0.612      0.336
+            toothbrush          1          1          1          0          0          0
+Speed: 2.7ms preprocess, 81.7ms inference, 0.0ms loss, 122.3ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/q25
+mAP50-95: 0.30390849291957617
+mAP50: 0.44188023053081665
+Precision: 0.5756652246249083
+Recall: 0.4055274369991309
+Saved metrics to results/val500/metrics/q25.json
+Starting variant: b7
+Running experiment 'val500' for variant 'b7'
+Dataset config: configs/datasets/val500/b7.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.2±0.1 ms, read: 958.2±135.8 MB/s, size: 402.5 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/bpc/b7/labels... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 2.6Kit/s 0.2s
+val: New cache created: /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/bpc/b7/labels.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.3it/s 3:34
+                   all        500       3504      0.667      0.497       0.56      0.406
+                person        282       1069       0.79       0.66      0.739      0.505
+               bicycle         15         34      0.748      0.353      0.495      0.206
+                   car         50        167      0.677      0.527      0.583      0.374
+            motorcycle         16         45      0.712      0.769      0.838       0.53
+              airplane          9         12          1      0.824      0.839      0.732
+                   bus         18         34      0.841      0.467      0.675      0.493
+                 train         12         14      0.901      0.643      0.687      0.579
+                 truck         21         29        0.5      0.276      0.294      0.178
+                  boat          8         38      0.571      0.176       0.31      0.142
+         traffic light         11         29      0.517       0.31      0.262      0.154
+          fire hydrant          9         11      0.976      0.636      0.787      0.632
+             stop sign          3          4      0.623       0.75      0.836      0.759
+         parking meter          6         14      0.777      0.498      0.532      0.415
+                 bench         18         38      0.491      0.184      0.213      0.128
+                  bird         14         48      0.684      0.354      0.425       0.25
+                   cat         15         17      0.943      0.978      0.992      0.862
+                   dog          9          9      0.686          1      0.968      0.765
+                 horse         17         28      0.853       0.83      0.867      0.698
+                 sheep          8         18      0.593      0.778      0.793      0.618
+                   cow          6         15      0.542        0.4      0.483      0.344
+              elephant          7         17      0.751      0.941      0.917      0.698
+                  bear          3          4      0.808          1      0.995      0.829
+                 zebra         12         31      0.797      0.806      0.874      0.706
+               giraffe          5          9       0.91          1      0.995      0.907
+              backpack         32         46      0.371       0.13       0.19     0.0933
+              umbrella         13         20      0.499      0.398      0.404      0.262
+               handbag         22         41      0.322     0.0928      0.189      0.106
+                   tie         27         51      0.801      0.275      0.384      0.233
+              suitcase         11         22       0.55      0.501       0.63      0.521
+               frisbee          9         14      0.872      0.929      0.972      0.784
+                  skis         17         25      0.623       0.32      0.316      0.167
+             snowboard          5          6      0.523      0.333      0.587      0.284
+           sports ball         19         22      0.672        0.5      0.609       0.38
+                  kite         10         25      0.613       0.44      0.581      0.433
+          baseball bat          8          8      0.587      0.536       0.66      0.403
+        baseball glove          9         10      0.848        0.8      0.797      0.477
+            skateboard         10         12      0.583      0.583      0.554      0.364
+             surfboard         20         28       0.78      0.634      0.644      0.367
+         tennis racket         19         22      0.809      0.773      0.825        0.5
+                bottle         38        116        0.5      0.216      0.268      0.167
+            wine glass         16         47      0.779      0.376      0.478      0.303
+                   cup         40        108      0.685      0.426      0.484      0.352
+                  fork         11         17      0.334      0.236      0.421      0.253
+                 knife         23         34      0.691      0.265      0.272      0.188
+                 spoon         13         22      0.612      0.144      0.206      0.154
+                  bowl         33         60      0.535      0.483      0.488      0.378
+                banana         11         38      0.711      0.421      0.441      0.284
+                 apple          8         17      0.162     0.0588     0.0757     0.0441
+              sandwich         12         19      0.828      0.255      0.528      0.428
+                orange          6         23      0.658      0.739      0.617      0.477
+              broccoli         12         45      0.415      0.252      0.346      0.185
+                carrot          7         29      0.693      0.389      0.522      0.391
+               hot dog          7         15      0.777        0.6      0.753      0.525
+                 pizza         11         19      0.716      0.842      0.845      0.659
+                 donut          5         27      0.845      0.519      0.631      0.458
+                  cake          9         13      0.324      0.308      0.349      0.283
+                 chair         66        197      0.585       0.34      0.422      0.286
+                 couch         24         27      0.588      0.593      0.646      0.521
+          potted plant         18         44      0.577      0.373      0.412      0.229
+                   bed         18         19      0.682      0.632      0.684      0.504
+          dining table         51         82      0.484      0.355      0.389      0.281
+                toilet         16         17      0.823      0.765      0.832      0.752
+                    tv         28         33       0.88      0.727      0.788       0.59
+                laptop         20         30      0.685        0.8      0.797      0.658
+                 mouse         11         15      0.637        0.8      0.833      0.591
+                remote         17         29       0.36      0.207      0.247       0.18
+              keyboard         15         22      0.605      0.545      0.588      0.465
+            cell phone         23         28      0.601      0.464      0.528      0.426
+             microwave          4          4      0.347      0.271      0.524      0.359
+                  oven         14         18      0.702      0.333      0.346      0.229
+                  sink         16         20       0.78       0.35      0.474      0.289
+          refrigerator         16         16       0.61      0.562      0.589      0.436
+                  book         21        109      0.553     0.0826      0.229     0.0995
+                 clock         16         20      0.864      0.638      0.661      0.479
+                  vase         14         22      0.565      0.455      0.465       0.34
+              scissors          1          2          1          0          0          0
+            teddy bear          8         14       0.72      0.552      0.695      0.488
+            toothbrush          1          1          1          0     0.0433     0.0303
+Speed: 3.0ms preprocess, 85.4ms inference, 0.0ms loss, 124.2ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/b7
+mAP50-95: 0.4056193141526201
+mAP50: 0.5597375553421374
+Precision: 0.66737694078054
+Recall: 0.49717106307751724
+Saved metrics to results/val500/metrics/b7.json
+Starting variant: b4
+Running experiment 'val500' for variant 'b4'
+Dataset config: configs/datasets/val500/b4.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.1±0.0 ms, read: 536.0±220.1 MB/s, size: 155.3 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/bpc/b4/labels... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 3.5Kit/s 0.1s
+val: New cache created: /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/bpc/b4/labels.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.4it/s 3:29
+                   all        500       3504      0.671      0.461      0.536      0.384
+                person        282       1069      0.798      0.628      0.722      0.496
+               bicycle         15         34      0.806      0.367      0.516       0.22
+                   car         50        167      0.695      0.519       0.59      0.371
+            motorcycle         16         45      0.755      0.711      0.773      0.485
+              airplane          9         12      0.905       0.75      0.805      0.671
+                   bus         18         34      0.888      0.466      0.675      0.495
+                 train         12         14      0.749      0.643      0.674      0.581
+                 truck         21         29      0.434      0.276      0.306      0.185
+                  boat          8         38      0.356     0.0789      0.308       0.14
+         traffic light         11         29      0.528      0.345      0.273      0.173
+          fire hydrant          9         11      0.924      0.636      0.778      0.606
+             stop sign          3          4      0.626       0.75      0.783      0.722
+         parking meter          6         14      0.723      0.357      0.506      0.401
+                 bench         18         38      0.508      0.132      0.214      0.125
+                  bird         14         48      0.665      0.375       0.43      0.265
+                   cat         15         17          1      0.946      0.995      0.871
+                   dog          9          9      0.602      0.842       0.83      0.647
+                 horse         17         28      0.857      0.786      0.873      0.675
+                 sheep          8         18        0.6      0.722      0.751      0.596
+                   cow          6         15      0.539      0.333      0.426      0.287
+              elephant          7         17      0.753      0.706      0.834      0.625
+                  bear          3          4      0.828          1      0.995      0.837
+                 zebra         12         31       0.85      0.806      0.884      0.702
+               giraffe          5          9      0.922          1      0.995       0.91
+              backpack         32         46      0.487      0.124      0.218      0.113
+              umbrella         13         20      0.465        0.4      0.383      0.253
+               handbag         22         41      0.396     0.0976      0.195      0.108
+                   tie         27         51        0.8      0.275      0.398      0.227
+              suitcase         11         22      0.586        0.5      0.585      0.488
+               frisbee          9         14      0.903      0.929      0.942       0.79
+                  skis         17         25      0.544      0.287        0.3      0.149
+             snowboard          5          6      0.379      0.414      0.389      0.158
+           sports ball         19         22      0.803        0.5      0.603      0.386
+                  kite         10         25      0.676       0.48      0.564      0.396
+          baseball bat          8          8      0.544        0.5      0.647      0.356
+        baseball glove          9         10      0.709        0.7      0.773      0.499
+            skateboard         10         12      0.548      0.505      0.528      0.388
+             surfboard         20         28      0.847      0.536      0.653      0.354
+         tennis racket         19         22      0.885      0.727       0.77      0.496
+                bottle         38        116      0.537      0.207      0.256      0.166
+            wine glass         16         47      0.784      0.362       0.47      0.291
+                   cup         40        108      0.636      0.352      0.479      0.329
+                  fork         11         17      0.424      0.235      0.373      0.231
+                 knife         23         34      0.499      0.176      0.213       0.14
+                 spoon         13         22      0.512     0.0909      0.131     0.0925
+                  bowl         33         60      0.539      0.433      0.446      0.344
+                banana         11         38      0.754      0.403      0.463      0.292
+                 apple          8         17          0          0      0.069     0.0384
+              sandwich         12         19      0.618      0.211      0.412      0.325
+                orange          6         23      0.515      0.509      0.504      0.386
+              broccoli         12         45      0.442      0.244      0.309      0.158
+                carrot          7         29      0.621      0.345      0.496      0.369
+               hot dog          7         15      0.892        0.6      0.736      0.514
+                 pizza         11         19       0.68      0.842      0.806      0.614
+                 donut          5         27      0.842      0.481      0.639      0.437
+                  cake          9         13      0.378      0.231      0.329      0.275
+                 chair         66        197      0.621      0.341      0.416      0.279
+                 couch         24         27      0.678      0.519      0.602      0.469
+          potted plant         18         44      0.608      0.364      0.405      0.209
+                   bed         18         19      0.775      0.632      0.652      0.464
+          dining table         51         82      0.587      0.366      0.405        0.3
+                toilet         16         17      0.809      0.765      0.774      0.666
+                    tv         28         33      0.723      0.667      0.721      0.528
+                laptop         20         30      0.672      0.767      0.744      0.618
+                 mouse         11         15      0.759      0.667      0.813      0.571
+                remote         17         29      0.491      0.233       0.24      0.179
+              keyboard         15         22      0.593        0.5      0.603      0.462
+            cell phone         23         28      0.645      0.464      0.534      0.424
+             microwave          4          4          1          0      0.473      0.322
+                  oven         14         18      0.719      0.333      0.314      0.213
+                  sink         16         20      0.913        0.4      0.525      0.325
+          refrigerator         16         16      0.733        0.5      0.593       0.41
+                  book         21        109      0.514     0.0642      0.197     0.0819
+                 clock         16         20      0.746       0.55      0.645       0.48
+                  vase         14         22      0.556      0.409      0.379       0.25
+              scissors          1          2          1          0          0          0
+            teddy bear          8         14      0.625      0.571      0.668      0.424
+            toothbrush          1          1          1          0     0.0765     0.0459
+Speed: 2.5ms preprocess, 81.5ms inference, 0.0ms loss, 123.1ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/b4
+mAP50-95: 0.3842671278977709
+mAP50: 0.5358113417032307
+Precision: 0.6708631297149045
+Recall: 0.46132622220865416
+Saved metrics to results/val500/metrics/b4.json
+Starting variant: b3
+Running experiment 'val500' for variant 'b3'
+Dataset config: configs/datasets/val500/b3.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.2±0.1 ms, read: 511.2±174.7 MB/s, size: 156.5 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/bpc/b3/labels... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 3.3Kit/s 0.2s
+val: New cache created: /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/bpc/b3/labels.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.5it/s 3:20
+                   all        500       3504      0.635      0.408      0.471      0.332
+                person        282       1069      0.783      0.588      0.688      0.453
+               bicycle         15         34       0.67      0.299       0.43      0.163
+                   car         50        167       0.71      0.485      0.564      0.342
+            motorcycle         16         45      0.783      0.689      0.769      0.492
+              airplane          9         12      0.759       0.75      0.805      0.644
+                   bus         18         34      0.822      0.529      0.651      0.476
+                 train         12         14      0.669      0.571      0.576      0.463
+                 truck         21         29      0.379      0.241      0.243      0.143
+                  boat          8         38      0.409      0.105      0.273       0.11
+         traffic light         11         29       0.47       0.31      0.265      0.176
+          fire hydrant          9         11      0.787      0.636      0.673      0.552
+             stop sign          3          4      0.569       0.75      0.752      0.699
+         parking meter          6         14       0.49      0.214      0.207      0.158
+                 bench         18         38      0.617      0.184      0.219       0.14
+                  bird         14         48      0.845      0.333      0.419      0.247
+                   cat         15         17       0.77      0.647      0.826      0.685
+                   dog          9          9      0.741      0.556      0.784      0.584
+                 horse         17         28      0.875      0.748      0.821      0.618
+                 sheep          8         18      0.688      0.667      0.699      0.526
+                   cow          6         15       0.36      0.267      0.292      0.205
+              elephant          7         17      0.918      0.647      0.726      0.565
+                  bear          3          4      0.799       0.75      0.945      0.753
+                 zebra         12         31      0.775      0.806      0.869      0.701
+               giraffe          5          9       0.88          1      0.995      0.924
+              backpack         32         46      0.685     0.0953      0.181     0.0855
+              umbrella         13         20      0.405        0.4      0.375      0.232
+               handbag         22         41      0.454     0.0976      0.182     0.0866
+                   tie         27         51      0.812      0.294      0.401      0.228
+              suitcase         11         22      0.596        0.5       0.52      0.418
+               frisbee          9         14      0.876      0.857      0.884      0.719
+                  skis         17         25      0.637       0.24      0.327      0.153
+             snowboard          5          6       0.19      0.333      0.221      0.108
+           sports ball         19         22      0.885      0.455      0.585       0.37
+                  kite         10         25      0.544       0.36      0.463      0.295
+          baseball bat          8          8        0.6      0.567      0.645      0.323
+        baseball glove          9         10      0.875        0.7      0.794       0.44
+            skateboard         10         12      0.512        0.5      0.447      0.291
+             surfboard         20         28      0.636      0.571      0.542      0.299
+         tennis racket         19         22      0.811      0.682      0.683      0.487
+                bottle         38        116      0.416      0.138      0.197       0.13
+            wine glass         16         47       0.91      0.319      0.427       0.25
+                   cup         40        108      0.702      0.343      0.415       0.28
+                  fork         11         17      0.425      0.235      0.345      0.227
+                 knife         23         34      0.332      0.103      0.153     0.0891
+                 spoon         13         22      0.709      0.114      0.201      0.129
+                  bowl         33         60      0.538      0.369      0.404      0.312
+                banana         11         38      0.852      0.289      0.381      0.246
+                 apple          8         17      0.197     0.0231      0.144     0.0872
+              sandwich         12         19       0.37      0.105      0.207      0.166
+                orange          6         23      0.462      0.448      0.488      0.363
+              broccoli         12         45      0.398        0.2       0.27      0.143
+                carrot          7         29      0.699      0.321      0.476      0.316
+               hot dog          7         15      0.761      0.533       0.68      0.455
+                 pizza         11         19      0.625      0.789      0.754      0.605
+                 donut          5         27      0.984      0.481      0.606      0.423
+                  cake          9         13      0.128      0.154      0.152      0.118
+                 chair         66        197      0.601      0.254      0.352      0.226
+                 couch         24         27      0.777      0.388      0.495      0.383
+          potted plant         18         44      0.585      0.364      0.383      0.198
+                   bed         18         19      0.769      0.579      0.656      0.426
+          dining table         51         82      0.601      0.354      0.388      0.274
+                toilet         16         17      0.748      0.588       0.68      0.572
+                    tv         28         33      0.678      0.511      0.638      0.479
+                laptop         20         30      0.592        0.7      0.695      0.572
+                 mouse         11         15      0.681      0.467      0.633      0.442
+                remote         17         29      0.456      0.138      0.107     0.0852
+              keyboard         15         22      0.625      0.545      0.565      0.433
+            cell phone         23         28      0.651        0.4      0.471      0.346
+             microwave          4          4          1          0     0.0793     0.0545
+                  oven         14         18      0.794      0.216      0.277      0.196
+                  sink         16         20      0.702        0.3       0.33      0.194
+          refrigerator         16         16       0.83      0.306       0.38       0.24
+                  book         21        109      0.413     0.0459      0.141     0.0599
+                 clock         16         20       0.61      0.548       0.59      0.441
+                  vase         14         22      0.361      0.283      0.288        0.2
+              scissors          1          2          0          0          0          0
+            teddy bear          8         14       0.48      0.429      0.546      0.347
+            toothbrush          1          1          1          0     0.0146    0.00585
+Speed: 2.5ms preprocess, 81.5ms inference, 0.0ms loss, 117.1ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/b3
+mAP50-95: 0.3316128446438291
+mAP50: 0.47113579701509906
+Precision: 0.6352484024652688
+Recall: 0.4077916940865849
+Saved metrics to results/val500/metrics/b3.json
+Starting variant: b2
+Running experiment 'val500' for variant 'b2'
+Dataset config: configs/datasets/val500/b2.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.1±0.0 ms, read: 250.9±124.5 MB/s, size: 62.4 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/bpc/b2/labels... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 3.9Kit/s 0.1s
+val: New cache created: /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/bpc/b2/labels.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.7it/s 3:04
+                   all        500       3504      0.457       0.31      0.314      0.213
+                person        282       1069      0.615      0.548      0.576      0.352
+               bicycle         15         34      0.373      0.297      0.234      0.108
+                   car         50        167      0.497      0.449      0.449      0.277
+            motorcycle         16         45      0.521      0.733      0.689      0.422
+              airplane          9         12      0.483      0.583      0.614      0.508
+                   bus         18         34      0.671      0.441      0.531      0.363
+                 train         12         14      0.368        0.5      0.506      0.419
+                 truck         21         29      0.313      0.376      0.246      0.151
+                  boat          8         38      0.253      0.184      0.154       0.06
+         traffic light         11         29      0.192      0.379      0.137     0.0786
+          fire hydrant          9         11      0.567      0.545      0.557      0.369
+             stop sign          3          4      0.519       0.75      0.745      0.695
+         parking meter          6         14      0.407      0.143      0.179      0.137
+                 bench         18         38      0.351      0.132     0.0764     0.0509
+                  bird         14         48      0.393      0.283      0.252      0.143
+                   cat         15         17      0.753     0.0588       0.28      0.154
+                   dog          9          9      0.682      0.222      0.297      0.244
+                 horse         17         28      0.795      0.607      0.696      0.458
+                 sheep          8         18      0.416      0.222       0.28      0.208
+                   cow          6         15      0.175      0.267       0.18      0.134
+              elephant          7         17      0.455      0.235      0.315      0.135
+                  bear          3          4      0.684       0.75      0.745      0.485
+                 zebra         12         31      0.636      0.742      0.793      0.605
+               giraffe          5          9      0.911          1      0.995      0.882
+              backpack         32         46      0.366       0.13      0.113     0.0606
+              umbrella         13         20      0.104        0.4      0.148     0.0913
+               handbag         22         41      0.295     0.0488     0.0967     0.0617
+                   tie         27         51      0.447      0.196      0.233       0.12
+              suitcase         11         22      0.732      0.373      0.398      0.329
+               frisbee          9         14      0.845      0.778      0.749      0.614
+                  skis         17         25      0.222       0.24      0.138     0.0729
+             snowboard          5          6        0.1      0.333      0.142      0.094
+           sports ball         19         22      0.468      0.318      0.409      0.253
+                  kite         10         25      0.077       0.36       0.14     0.0963
+          baseball bat          8          8      0.414      0.625      0.505      0.348
+        baseball glove          9         10      0.887        0.6       0.63      0.416
+            skateboard         10         12      0.188       0.25      0.196     0.0894
+             surfboard         20         28       0.38      0.429      0.387      0.219
+         tennis racket         19         22      0.716      0.591      0.637        0.4
+                bottle         38        116       0.29      0.112      0.107     0.0577
+            wine glass         16         47      0.697      0.191      0.219      0.135
+                   cup         40        108       0.58      0.268      0.275      0.166
+                  fork         11         17      0.331      0.235      0.254      0.156
+                 knife         23         34          0          0      0.033     0.0131
+                 spoon         13         22      0.457     0.0415     0.0937     0.0359
+                  bowl         33         60      0.402      0.201      0.219       0.17
+                banana         11         38      0.571      0.237      0.264      0.168
+                 apple          8         17      0.327     0.0588     0.0928     0.0535
+              sandwich         12         19          0          0     0.0456     0.0253
+                orange          6         23      0.277      0.183      0.183        0.1
+              broccoli         12         45      0.262      0.133      0.149     0.0901
+                carrot          7         29      0.321      0.276      0.275      0.145
+               hot dog          7         15          1      0.133      0.558      0.339
+                 pizza         11         19      0.435      0.526      0.442      0.341
+                 donut          5         27      0.575      0.201       0.29      0.189
+                  cake          9         13      0.066      0.462      0.186      0.145
+                 chair         66        197      0.439      0.173      0.217      0.131
+                 couch         24         27      0.813      0.163      0.246      0.201
+          potted plant         18         44      0.446      0.273      0.272       0.14
+                   bed         18         19      0.387        0.3      0.237      0.186
+          dining table         51         82      0.395       0.35      0.284      0.198
+                toilet         16         17      0.691      0.235        0.4      0.272
+                    tv         28         33      0.641      0.485      0.531      0.376
+                laptop         20         30      0.644      0.567      0.563      0.386
+                 mouse         11         15      0.357      0.133      0.278      0.168
+                remote         17         29          0          0     0.0506     0.0345
+              keyboard         15         22      0.366      0.318      0.329       0.26
+            cell phone         23         28      0.718      0.274      0.363      0.237
+             microwave          4          4          1          0          0          0
+                  oven         14         18      0.414     0.0556       0.16       0.11
+                  sink         16         20      0.806       0.25      0.321      0.195
+          refrigerator         16         16      0.366      0.125      0.149      0.123
+                  book         21        109      0.261      0.101      0.125     0.0535
+                 clock         16         20      0.288       0.35       0.35      0.244
+                  vase         14         22      0.315      0.364      0.178      0.109
+              scissors          1          2          0          0          0          0
+            teddy bear          8         14      0.411      0.286        0.3      0.155
+            toothbrush          1          1          1          0          0          0
+Speed: 2.3ms preprocess, 75.7ms inference, 0.0ms loss, 112.5ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/b2
+mAP50-95: 0.2129851884330015
+mAP50: 0.3139235336929262
+Precision: 0.4566077783817286
+Recall: 0.3100229225441336
+Saved metrics to results/val500/metrics/b2.json
+Starting variant: b1
+Running experiment 'val500' for variant 'b1'
+Dataset config: configs/datasets/val500/b1.yaml
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.1±0.1 ms, read: 145.1±40.6 MB/s, size: 27.5 KB)
+val: Scanning /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/bpc/b1/labels... 496 images, 4 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 500/500 4.1Kit/s 0.1s
+val: New cache created: /Users/amirkarataev/Desktop/dissertation/dtiq/data/processed/val500/bpc/b1/labels.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 500/500 2.8it/s 3:01
+                   all        500       3504      0.345      0.167      0.152     0.0996
+                person        282       1069      0.409      0.391      0.348      0.183
+               bicycle         15         34      0.257     0.0882       0.07     0.0571
+                   car         50        167      0.315      0.204      0.209      0.112
+            motorcycle         16         45      0.389      0.467      0.409      0.193
+              airplane          9         12       0.35      0.333      0.362      0.315
+                   bus         18         34      0.512      0.155      0.216      0.147
+                 train         12         14      0.235      0.357      0.305      0.164
+                 truck         21         29      0.192       0.31      0.129     0.0589
+                  boat          8         38      0.157     0.0789       0.03    0.00695
+         traffic light         11         29      0.028      0.172    0.00918    0.00248
+          fire hydrant          9         11      0.552      0.455      0.529      0.284
+             stop sign          3          4      0.239        0.5      0.539      0.497
+         parking meter          6         14       0.51      0.143      0.145       0.12
+                 bench         18         38     0.0578     0.0263     0.0056    0.00336
+                  bird         14         48     0.0852      0.104     0.0517     0.0426
+                   cat         15         17          0          0   0.000447   4.47e-05
+                   dog          9          9      0.561      0.222      0.274      0.184
+                 horse         17         28      0.512      0.321      0.355      0.207
+                 sheep          8         18          0          0    0.00703    0.00547
+                   cow          6         15      0.139      0.267      0.175       0.12
+              elephant          7         17      0.376      0.118      0.135     0.0477
+                  bear          3          4          0          0      0.165      0.116
+                 zebra         12         31      0.722      0.677      0.726      0.502
+               giraffe          5          9      0.754      0.889      0.885      0.619
+              backpack         32         46      0.265     0.0435     0.0464     0.0314
+              umbrella         13         20      0.062       0.35      0.068     0.0377
+               handbag         22         41          0          0    0.00917    0.00268
+                   tie         27         51      0.325      0.176      0.141     0.0653
+              suitcase         11         22       0.21     0.0909     0.0877     0.0738
+               frisbee          9         14      0.337      0.286      0.347      0.271
+                  skis         17         25      0.118        0.2     0.0784     0.0305
+             snowboard          5          6     0.0201      0.167      0.015      0.013
+           sports ball         19         22       0.35      0.273      0.271      0.168
+                  kite         10         25     0.0345       0.48      0.137     0.0975
+          baseball bat          8          8      0.425      0.281      0.303      0.201
+        baseball glove          9         10      0.607        0.4       0.34      0.296
+            skateboard         10         12          0          0    0.00941     0.0052
+             surfboard         20         28      0.682      0.154      0.205      0.115
+         tennis racket         19         22      0.612        0.5      0.523      0.349
+                bottle         38        116      0.359     0.0517     0.0373     0.0175
+            wine glass         16         47       0.33     0.0851      0.103     0.0585
+                   cup         40        108      0.428      0.139      0.131      0.088
+                  fork         11         17      0.302      0.104      0.123     0.0628
+                 knife         23         34      0.453     0.0294     0.0417     0.0211
+                 spoon         13         22          1          0          0          0
+                  bowl         33         60      0.301        0.1     0.0946     0.0677
+                banana         11         38      0.382      0.211      0.203      0.146
+                 apple          8         17          1          0    0.00368    0.00246
+              sandwich         12         19          1          0     0.0242     0.0189
+                orange          6         23          0          0     0.0643     0.0422
+              broccoli         12         45       0.61     0.0222     0.0391     0.0238
+                carrot          7         29     0.0878     0.0345    0.00875    0.00788
+               hot dog          7         15          1          0          0          0
+                 pizza         11         19      0.457      0.105      0.132      0.118
+                 donut          5         27          0          0    0.00647     0.0029
+                  cake          9         13     0.0337      0.538     0.0511     0.0391
+                 chair         66        197      0.284     0.0484     0.0516     0.0252
+                 couch         24         27      0.542     0.0464      0.103     0.0696
+          potted plant         18         44     0.0841     0.0682     0.0252     0.0103
+                   bed         18         19      0.299      0.158       0.19      0.129
+          dining table         51         82      0.295      0.207      0.163      0.105
+                toilet         16         17      0.384     0.0588     0.0745      0.044
+                    tv         28         33      0.174      0.182      0.205       0.14
+                laptop         20         30      0.729      0.449      0.455      0.275
+                 mouse         11         15      0.249     0.0332     0.0325     0.0292
+                remote         17         29          1          0          0          0
+              keyboard         15         22       0.13     0.0455      0.132     0.0749
+            cell phone         23         28      0.229     0.0357     0.0562     0.0381
+             microwave          4          4          1          0          0          0
+                  oven         14         18          0          0          0          0
+                  sink         16         20      0.702       0.15      0.258      0.125
+          refrigerator         16         16          0          0     0.0233     0.0106
+                  book         21        109     0.0994     0.0367     0.0362     0.0122
+                 clock         16         20      0.252      0.253       0.22      0.168
+                  vase         14         22      0.125     0.0909     0.0607     0.0346
+              scissors          1          2          0          0          0          0
+            teddy bear          8         14      0.209     0.0714     0.0502     0.0167
+            toothbrush          1          1          1          0          0          0
+Speed: 2.5ms preprocess, 75.2ms inference, 0.0ms loss, 109.5ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/yolo_runs/b1
+mAP50-95: 0.09957985958214488
+mAP50: 0.15202598766615344
+Precision: 0.3452724624236935
+Recall: 0.16710345577100227
+Saved metrics to results/val500/metrics/b1.json
+Completed 11 validation runs from configs/experiment_500.yaml
+Saved aggregated metrics to results/val500/summary/metrics.csv
+Saved summary to results/val500/summary/summary.md
+Saved plots to /Users/amirkarataev/Desktop/dissertation/dtiq/results/val500/plots
