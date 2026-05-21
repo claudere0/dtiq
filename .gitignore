@@ -1,1 +1,4 @@
 /data/processed
+.DS_Store
+/runs
+/.cache

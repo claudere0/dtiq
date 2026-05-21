@@ -1,0 +1,4 @@
+path: data/processed/val500/original
+train: images/original_1_10th
+val: images/original_1_10th
+nc: 80

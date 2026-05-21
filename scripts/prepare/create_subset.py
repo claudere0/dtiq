@@ -1,52 +1,73 @@
-import os
+import argparse
 import shutil
 from pathlib import Path
 
-base_dir = Path("./data/raw/coco")
-prcsd_dir = Path("./data/processed/val500/original")
 
-src_img_dir = base_dir / "images" / "val2017"
-src_lbl_dir = base_dir / "labels" / "val2017"
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 
-dst_img_dir = prcsd_dir / "images" / "original_1_10th"
-dst_lbl_dir = prcsd_dir / "labels" / "original_1_10th"
 
-def create_yolo_subset(num_images=500):
-    # create if does not exist
-    dst_img_dir.mkdir(parents=True, exist_ok=True)
-    dst_lbl_dir.mkdir(parents=True, exist_ok=True)
+def parse_args():
+    parser = argparse.ArgumentParser(description="Create a YOLO subset from COCO images and labels.")
+    parser.add_argument("--source-root", default="data/raw/coco", help="Root directory with images/ and labels/.")
+    parser.add_argument("--source-split", default="val2017", help="Image and label split to copy.")
+    parser.add_argument("--output-root", default="data/processed/val500/original", help="Output dataset root.")
+    parser.add_argument(
+        "--subset-name",
+        default="original_1_10th",
+        help="Subdirectory name under output images/ and labels/.",
+    )
+    parser.add_argument(
+        "--num-images",
+        type=int,
+        default=500,
+        help="Number of sorted images to copy. Use 0 or a negative value to copy the full split.",
+    )
+    return parser.parse_args()
 
-    # sorted list of images
-    all_images = sorted([f for f in os.listdir(src_img_dir) if f.lower().endswith(('.jpg', '.jpeg', '.png'))])
-    
-    # only first 500
-    subset_images = all_images[:num_images]
-    
-    copied_images_count = 0
-    copied_labels_count = 0
 
-    print(f"Start copying first {num_images} images...")
+def select_images(source_images_dir, num_images):
+    all_images = sorted(
+        file_path.name
+        for file_path in source_images_dir.iterdir()
+        if file_path.is_file() and file_path.suffix.lower() in IMAGE_EXTENSIONS
+    )
+    if num_images and num_images > 0:
+        return all_images[:num_images]
+    return all_images
 
-    for img_name in subset_images:
-        # 1. copy image
-        src_img_path = src_img_dir / img_name
-        dst_img_path = dst_img_dir / img_name
-        shutil.copy2(src_img_path, dst_img_path)
-        copied_images_count += 1
 
-        # 2. find same annotation file (change to .txt)
-        label_name = Path(img_name).stem + ".txt"
-        src_lbl_path = src_lbl_dir / label_name
-        dst_lbl_path = dst_lbl_dir / label_name
+def create_subset(args):
+    source_root = Path(args.source_root)
+    source_images_dir = source_root / "images" / args.source_split
+    source_labels_dir = source_root / "labels" / args.source_split
 
-        if src_lbl_path.exists():
-            shutil.copy2(src_lbl_path, dst_lbl_path)
-            copied_labels_count += 1
+    destination_root = Path(args.output_root)
+    destination_images_dir = destination_root / "images" / args.subset_name
+    destination_labels_dir = destination_root / "labels" / args.subset_name
+    destination_images_dir.mkdir(parents=True, exist_ok=True)
+    destination_labels_dir.mkdir(parents=True, exist_ok=True)
 
-    print("---")
-    print(f"Succesfully copied images to '{dst_img_dir.name}': {copied_images_count}")
-    print(f"Succesfully copied annotations to '{dst_lbl_dir.name}': {copied_labels_count}")
-    print(f"Skipped background images (without .txt): {copied_images_count - copied_labels_count}")
+    selected_images = select_images(source_images_dir, args.num_images)
+    copied_labels = 0
+
+    print(f"Copying {len(selected_images)} images from {source_images_dir}")
+    for image_name in selected_images:
+        shutil.copy2(source_images_dir / image_name, destination_images_dir / image_name)
+        label_name = f"{Path(image_name).stem}.txt"
+        label_path = source_labels_dir / label_name
+        if label_path.exists():
+            shutil.copy2(label_path, destination_labels_dir / label_name)
+            copied_labels += 1
+
+    print(f"Images copied to {destination_images_dir}")
+    print(f"Labels copied to {destination_labels_dir}: {copied_labels}")
+    print(f"Background images without labels: {len(selected_images) - copied_labels}")
+
+
+def main():
+    args = parse_args()
+    create_subset(args)
+
 
 if __name__ == "__main__":
-    create_yolo_subset(num_images=500)
+    main()

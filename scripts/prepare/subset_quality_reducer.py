@@ -1,41 +1,76 @@
-import os
-import numpy as np
+import argparse
+import shutil
+from pathlib import Path
+
 from PIL import Image
 
-QUALITY_LEVELS = [94, 88, 75, 50, 25]
 
-def process_folder_jpeg_quality(input_folder, output_root="results"):
-    # folder_name = os.path.basename(os.path.normpath(input_folder))
+IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".webp"}
+DEFAULT_QUALITIES = [94, 88, 75, 50, 25]
 
-    for q in QUALITY_LEVELS:
-        output_dir = os.path.join(f"{output_root}", f"q{q}/images")
-        os.makedirs(output_dir, exist_ok=True)
 
-        print(f"\nProcessing JPEG quality {q} → {output_dir}")
+def parse_args():
+    parser = argparse.ArgumentParser(description="Generate JPEG recompression dataset variants.")
+    parser.add_argument(
+        "--source-images-dir",
+        default="data/processed/val500/original/images/original_1_10th",
+        help="Directory with source images.",
+    )
+    parser.add_argument(
+        "--source-labels-dir",
+        default="data/processed/val500/original/labels/original_1_10th",
+        help="Directory with YOLO labels matching the source images.",
+    )
+    parser.add_argument(
+        "--output-root",
+        default="data/processed/val500/jpeg",
+        help="Output root for JPEG variants.",
+    )
+    parser.add_argument(
+        "--qualities",
+        nargs="*",
+        type=int,
+        default=DEFAULT_QUALITIES,
+        help="JPEG quality variants to generate.",
+    )
+    return parser.parse_args()
 
-        for file in os.listdir(input_folder):
-            if not file.lower().endswith((".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".webp")):
-                continue
 
-            input_path = os.path.join(input_folder, file)
+def copy_labels(source_labels_dir, destination_labels_dir):
+    destination_labels_dir.mkdir(parents=True, exist_ok=True)
+    for label_path in source_labels_dir.glob("*.txt"):
+        shutil.copy2(label_path, destination_labels_dir / label_path.name)
 
-            img = Image.open(input_path).convert("RGB")
 
-            base_name = os.path.splitext(file)[0]
-            save_path = os.path.join(output_dir, f"{base_name}.jpg")
+def process_variant(source_images_dir, source_labels_dir, output_root, quality):
+    variant_root = output_root / f"q{quality}"
+    images_dir = variant_root / "images"
+    labels_dir = variant_root / "labels"
+    images_dir.mkdir(parents=True, exist_ok=True)
+    copy_labels(source_labels_dir, labels_dir)
 
-            # JPEG compression
-            img.save(
-                save_path,
-                format="JPEG",
-                quality=q,
-                optimize=True
-            )
+    print(f"Processing JPEG q{quality} -> {images_dir}")
+    for file_path in sorted(source_images_dir.iterdir()):
+        if file_path.suffix.lower() not in IMAGE_EXTENSIONS:
+            continue
+        img = Image.open(file_path).convert("RGB")
+        save_path = images_dir / f"{file_path.stem}.jpg"
+        img.save(save_path, format="JPEG", quality=quality, optimize=True)
 
-        print(f"Done quality {q}")
+
+def main():
+    args = parse_args()
+    source_images_dir = Path(args.source_images_dir)
+    source_labels_dir = Path(args.source_labels_dir)
+    output_root = Path(args.output_root)
+    if not source_images_dir.exists():
+        raise SystemExit(f"Source images directory not found: {source_images_dir}")
+    if not source_labels_dir.exists():
+        raise SystemExit(f"Source labels directory not found: {source_labels_dir}")
+
+    for quality in args.qualities:
+        process_variant(source_images_dir, source_labels_dir, output_root, quality)
+
 
 if __name__ == "__main__":
-    process_folder_jpeg_quality(
-        "data/processed/val500/original/images/original_1_10th",
-        "data/processed/val500/jpeg"
-    )
+    main()

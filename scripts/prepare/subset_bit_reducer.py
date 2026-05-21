@@ -1,51 +1,83 @@
-import os
+import argparse
+import shutil
+from pathlib import Path
+
 import numpy as np
 from PIL import Image
 
-def quantize_image(data, bits):
-    levels = 2**bits - 1
 
+IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".webp"}
+DEFAULT_BITS = [7, 4, 3, 2, 1]
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Generate bit-depth reduced dataset variants.")
+    parser.add_argument(
+        "--source-images-dir",
+        default="data/processed/val500/original/images/original_1_10th",
+        help="Directory with source images.",
+    )
+    parser.add_argument(
+        "--source-labels-dir",
+        default="data/processed/val500/original/labels/original_1_10th",
+        help="Directory with YOLO labels matching the source images.",
+    )
+    parser.add_argument("--output-root", default="data/processed/val500/bpc", help="Output root for BPC variants.")
+    parser.add_argument(
+        "--bits",
+        nargs="*",
+        type=int,
+        default=DEFAULT_BITS,
+        help="Bit-per-channel variants to generate.",
+    )
+    return parser.parse_args()
+
+
+def quantize_image(data, bits):
+    levels = (2**bits) - 1
     normalized = data / 255.0
     quantized = np.round(normalized * levels)
     restored = (quantized / levels) * 255.0
-
     return np.clip(restored, 0, 255).astype(np.uint8)
 
-def process_folder(input_folder, output_root="results", bits_range=range(1, 8)):
-    # folder_name = os.path.basename(os.path.normpath(input_folder))
 
-    for bits in bits_range:
-        # Check FileNotFoundError
-        if not os.path.exists(input_folder):
-            print(f"Error: Input folder '{input_folder}' not found!")
-            return
-        # skip 6 and 5 bit per channel
-        if bits in (5, 6):
-            print(f"Skip {bits} bpc...")
+def copy_labels(source_labels_dir, destination_labels_dir):
+    destination_labels_dir.mkdir(parents=True, exist_ok=True)
+    for label_path in source_labels_dir.glob("*.txt"):
+        shutil.copy2(label_path, destination_labels_dir / label_path.name)
+
+
+def process_variant(source_images_dir, source_labels_dir, output_root, bits):
+    variant_root = output_root / f"b{bits}"
+    images_dir = variant_root / "images"
+    labels_dir = variant_root / "labels"
+    images_dir.mkdir(parents=True, exist_ok=True)
+    copy_labels(source_labels_dir, labels_dir)
+
+    print(f"Processing {bits} bpc -> {images_dir}")
+    for file_path in sorted(source_images_dir.iterdir()):
+        if file_path.suffix.lower() not in IMAGE_EXTENSIONS:
             continue
-        # bit depth folder
-        output_dir = os.path.join(f"{output_root}/b{bits}", "images")
-        os.makedirs(output_dir, exist_ok=True)
+        img = Image.open(file_path).convert("RGB")
+        data = np.array(img, dtype=np.float32)
+        reduced_data = quantize_image(data, bits)
+        save_path = images_dir / f"{file_path.stem}.png"
+        Image.fromarray(reduced_data).save(save_path, format="PNG")
 
-        print(f"\nProcessing {bits} bpc → {output_dir}")
 
-        for file in os.listdir(input_folder):
-            if not file.lower().endswith((".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".webp")):
-                continue
+def main():
+    args = parse_args()
+    source_images_dir = Path(args.source_images_dir)
+    source_labels_dir = Path(args.source_labels_dir)
+    output_root = Path(args.output_root)
+    if not source_images_dir.exists():
+        raise SystemExit(f"Source images directory not found: {source_images_dir}")
+    if not source_labels_dir.exists():
+        raise SystemExit(f"Source labels directory not found: {source_labels_dir}")
 
-            input_path = os.path.join(input_folder, file)
+    for bits in args.bits:
+        process_variant(source_images_dir, source_labels_dir, output_root, bits)
 
-            img = Image.open(input_path).convert("RGB")
-            data = np.array(img, dtype=np.float32)
-
-            reduced_data = quantize_image(data, bits)
-            final_img = Image.fromarray(reduced_data.astype("uint8"))
-
-            base_name = os.path.splitext(file)[0]
-            save_path = os.path.join(output_dir, f"{base_name}.png")
-            final_img.save(save_path, format="PNG")
-
-        print(f"Done {bits} bpc")
 
 if __name__ == "__main__":
-    process_folder("data/processed/val500/original/images/original_1_10th", "data/processed/val500/bpc")
+    main()

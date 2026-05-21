@@ -1,0 +1,4 @@
+path: data/raw/coco
+train: images/val2017
+val: images/val2017
+nc: 80

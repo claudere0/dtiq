@@ -1,0 +1,4 @@
+path: data/processed/val5k/bpc/b4
+train: images
+val: images
+nc: 80
