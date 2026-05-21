@@ -1,0 +1,73 @@
+test_yolo /usr/local/bin/python3 /Users/amirkarataev/Desktop/CSE-2506M/third_trimester/article/test_yolo/00.py         
+Ultralytics 8.4.52 🚀 Python-3.11.5 torch-2.6.0 MPS (Apple M1)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+val: Fast image access ✅ (ping: 0.0±0.0 ms, read: 83.9±13.6 MB/s, size: 17.5 KB)
+val: Scanning /Users/amirkarataev/Desktop/CSE-2506M/third_trimester/article/test_yolo/coco/labels/output/val2017_1_100th_1bpc... 50 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 50/50 2.2Kit/s 0.0s
+val: New cache created: /Users/amirkarataev/Desktop/CSE-2506M/third_trimester/article/test_yolo/coco/labels/output/val2017_1_100th_1bpc.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 50/50 3.7it/s 13.5s
+                   all         50        362      0.646      0.131      0.187      0.131
+                person         29        139      0.342      0.468      0.378      0.199
+               bicycle          1          1          1          0          0          0
+                   car          3         10      0.192        0.2      0.202      0.129
+              airplane          1          2      0.318          1      0.995      0.895
+                   bus          3          5       0.92        0.6      0.619      0.528
+                 train          1          1          0          0          0          0
+                 truck          2          2          0          0          0          0
+                  boat          2          7          0          0          0          0
+         traffic light          1          2          0          0          0          0
+             stop sign          1          2          1          0      0.495      0.446
+                  bird          2          4          0          0     0.0123    0.00616
+                   cat          2          2          1          0          0          0
+                  bear          1          1          1          0      0.995      0.697
+                 zebra          1          2          1          0          0          0
+              backpack          3          6          0          0          0          0
+               handbag          4          5          1          0      0.395     0.0877
+                   tie          4         15      0.305        0.2      0.148     0.0716
+                  skis          4          4      0.194        0.5      0.495      0.247
+           sports ball          1          1          0          0          0          0
+          baseball bat          1          1          1          0          0          0
+        baseball glove          1          1          1          0          0          0
+            skateboard          1          1          1          0          0          0
+             surfboard          3          3          1          0     0.0168    0.00838
+         tennis racket          2          2      0.511        0.5      0.495      0.396
+                bottle          1          8          1          0          0          0
+            wine glass          5         19      0.541     0.0526       0.11     0.0495
+                   cup          7         10      0.523        0.1      0.162      0.162
+                  fork          1          1          1          0          0          0
+                 knife          3          5      0.623        0.2      0.262      0.156
+                 spoon          2          3          1          0          0          0
+                  bowl          3          3          0          0      0.012    0.00957
+                banana          2          2          1          0      0.495      0.446
+                 apple          1          1          1          0          0          0
+              sandwich          1          1          1          0          0          0
+              broccoli          2          5          1          0          0          0
+                carrot          1          5          1          0          0          0
+                 donut          1          1          0          0     0.0398     0.0156
+                  cake          1          1      0.027          1      0.995      0.895
+                 chair          5         12      0.242      0.167     0.0832     0.0398
+                 couch          2          2          1          0      0.495      0.297
+          potted plant          2          3      0.262      0.333      0.349      0.106
+                   bed          3          3      0.371      0.667      0.686      0.549
+          dining table          7          9      0.647      0.411      0.464       0.28
+                toilet          1          1          1          0          0          0
+                    tv          4          5      0.337      0.407      0.595      0.479
+                laptop          2          2       0.51        0.5      0.495      0.181
+                 mouse          1          2          1          0          0          0
+                remote          1          2          1          0          0          0
+              keyboard          3          3          1          0      0.168      0.101
+            cell phone          3          3          1          0          0          0
+             microwave          1          1          1          0          0          0
+                  oven          1          1          1          0          0          0
+                  sink          1          1          1          0          0          0
+          refrigerator          2          2          1          0          0          0
+                  book          2         15     0.0616      0.133     0.0738     0.0244
+                 clock          2          2      0.182      0.272      0.165      0.132
+                  vase          1          4          1          0      0.124     0.0691
+              scissors          1          2          1          0          0          0
+            teddy bear          1          3          1          0     0.0403     0.0135
+Speed: 3.2ms preprocess, 106.1ms inference, 0.0ms loss, 50.8ms postprocess per image
+Results saved to /Users/amirkarataev/Desktop/CSE-2506M/third_trimester/article/test_yolo/runs/detect/val
+mAP50-95: 0.13077697280643108
+mAP50: 0.18742489211941968
+Precision: 0.6458911300171012
+Recall: 0.13068563437120972
