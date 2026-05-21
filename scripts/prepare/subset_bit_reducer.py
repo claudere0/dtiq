@@ -11,8 +11,8 @@ def quantize_image(data, bits):
 
     return np.clip(restored, 0, 255).astype(np.uint8)
 
-def process_folder(input_folder, output_root="results", bits_range=range(2, 8)):
-    folder_name = os.path.basename(os.path.normpath(input_folder))
+def process_folder(input_folder, output_root="results", bits_range=range(1, 8)):
+    # folder_name = os.path.basename(os.path.normpath(input_folder))
 
     for bits in bits_range:
         # Check FileNotFoundError

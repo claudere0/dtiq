@@ -5,10 +5,10 @@ from PIL import Image
 QUALITY_LEVELS = [94, 88, 75, 50, 25]
 
 def process_folder_jpeg_quality(input_folder, output_root="results"):
-    folder_name = os.path.basename(os.path.normpath(input_folder))
+    # folder_name = os.path.basename(os.path.normpath(input_folder))
 
     for q in QUALITY_LEVELS:
-        output_dir = os.path.join(f"{output_root}/q{q}", f"val500_q{q}/images")
+        output_dir = os.path.join(f"{output_root}/q{q}", f"q{q}/images")
         os.makedirs(output_dir, exist_ok=True)
 
         print(f"\nProcessing JPEG quality {q} → {output_dir}")
@@ -36,6 +36,6 @@ def process_folder_jpeg_quality(input_folder, output_root="results"):
 
 if __name__ == "__main__":
     process_folder_jpeg_quality(
-        "data/processed/original/val500/images/original_1_10th",
-        "data/processed/jpeg"
+        "data/processed/val500/original/images/original_1_10th",
+        "data/processed/val500/jpeg"
     )
