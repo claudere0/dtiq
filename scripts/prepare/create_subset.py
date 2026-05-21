@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 
 base_dir = Path("./data/raw/coco")
-prcsd_dir = Path("./data/processed/original/val500")
+prcsd_dir = Path("./data/processed/val500/original")
 
 src_img_dir = base_dir / "images" / "val2017"
 src_lbl_dir = base_dir / "labels" / "val2017"
