@@ -27,7 +27,7 @@ def process_folder(input_folder, output_root="results", bits_range=range(1, 8)):
         output_dir = os.path.join(f"{output_root}/b{bits}", f"val500_{bits}bpc/images")
         os.makedirs(output_dir, exist_ok=True)
 
-        print(f"\n ~Processing {bits} bpc → {output_dir}")
+        print(f"\nProcessing {bits} bpc → {output_dir}")
 
         for file in os.listdir(input_folder):
             if not file.lower().endswith((".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".webp")):
