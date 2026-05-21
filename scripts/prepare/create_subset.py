@@ -8,8 +8,8 @@ prcsd_dir = Path("./data/processed/original/val500")
 src_img_dir = base_dir / "images" / "val2017"
 src_lbl_dir = base_dir / "labels" / "val2017"
 
-dst_img_dir = prcsd_dir / "images" / "original_1_10th" #create if not work
-dst_lbl_dir = prcsd_dir / "labels" / "original_1_10th" #create if not work
+dst_img_dir = prcsd_dir / "images" / "original_1_10th"
+dst_lbl_dir = prcsd_dir / "labels" / "original_1_10th"
 
 def create_yolo_subset(num_images=500):
     # create if does not exist
