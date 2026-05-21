@@ -8,7 +8,7 @@ def process_folder_jpeg_quality(input_folder, output_root="results"):
     # folder_name = os.path.basename(os.path.normpath(input_folder))
 
     for q in QUALITY_LEVELS:
-        output_dir = os.path.join(f"{output_root}/q{q}", f"q{q}/images")
+        output_dir = os.path.join(f"{output_root}", f"q{q}/images")
         os.makedirs(output_dir, exist_ok=True)
 
         print(f"\nProcessing JPEG quality {q} → {output_dir}")
