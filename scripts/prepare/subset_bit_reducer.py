@@ -11,7 +11,7 @@ def quantize_image(data, bits):
 
     return np.clip(restored, 0, 255).astype(np.uint8)
 
-def process_folder(input_folder, output_root="results", bits_range=range(1, 8)):
+def process_folder(input_folder, output_root="results", bits_range=range(2, 8)):
     folder_name = os.path.basename(os.path.normpath(input_folder))
 
     for bits in bits_range:
@@ -24,7 +24,7 @@ def process_folder(input_folder, output_root="results", bits_range=range(1, 8)):
             print(f"Skip {bits} bpc...")
             continue
         # bit depth folder
-        output_dir = os.path.join(f"{output_root}/b{bits}", f"val500_{bits}bpc/images")
+        output_dir = os.path.join(f"{output_root}/b{bits}", "images")
         os.makedirs(output_dir, exist_ok=True)
 
         print(f"\nProcessing {bits} bpc → {output_dir}")
@@ -48,4 +48,4 @@ def process_folder(input_folder, output_root="results", bits_range=range(1, 8)):
         print(f"Done {bits} bpc")
 
 if __name__ == "__main__":
-    process_folder("data/processed/original/val500/images/original_1_10th", "data/processed/bpc")
+    process_folder("data/processed/val500/original/images/original_1_10th", "data/processed/val500/bpc")
