@@ -1,7 +1,7 @@
 from ultralytics.data.converter import convert_coco
 
 convert_coco(
-    labels_dir="data/raw/coco/annotations/",
+    labels_dir="../../data/raw/coco/annotations/",
     use_segments=False
 )
 
