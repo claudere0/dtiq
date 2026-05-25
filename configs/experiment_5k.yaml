@@ -1,7 +1,7 @@
 experiment_name: val5k
 results_root: results/val5k
 model: yolov8n.pt
-device: mps
+device: cpu
 imgsz: 640
 batch: 1
 workers: 0

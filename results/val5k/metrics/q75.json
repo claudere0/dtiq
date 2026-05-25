@@ -1,0 +1,19 @@
+{
+  "experiment_name": "val5k",
+  "variant": "q75",
+  "quantization_type": "jpeg",
+  "parameter": "75",
+  "dataset": "configs/datasets/val5k/q75.yaml",
+  "model": "yolov8n.pt",
+  "device": "cpu",
+  "imgsz": 640,
+  "batch": 1,
+  "workers": 0,
+  "elapsed_seconds": 313.584,
+  "save_dir": "/Users/amirkarataev/Desktop/dissertation/dtiq/results/val5k/yolo_runs/q75",
+  "precision": 0.6233500021846614,
+  "recall": 0.46602241197026817,
+  "map50": 0.5056955824487938,
+  "map50_95": 0.3562966518266189,
+  "fitness": 0.3562966518266189
+}

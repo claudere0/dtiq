@@ -1,0 +1,19 @@
+{
+  "experiment_name": "val5k",
+  "variant": "b4",
+  "quantization_type": "bpc",
+  "parameter": "4",
+  "dataset": "configs/datasets/val5k/b4.yaml",
+  "model": "yolov8n.pt",
+  "device": "cpu",
+  "imgsz": 640,
+  "batch": 1,
+  "workers": 0,
+  "elapsed_seconds": 352.226,
+  "save_dir": "/Users/amirkarataev/Desktop/dissertation/dtiq/results/val5k/yolo_runs/b4",
+  "precision": 0.6081005129408126,
+  "recall": 0.459564273326657,
+  "map50": 0.49871195154924075,
+  "map50_95": 0.3509442993302164,
+  "fitness": 0.3509442993302164
+}
