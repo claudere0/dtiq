@@ -1,0 +1,52 @@
+experiment_name: val5k_image_quality_skimage
+results_root: results/val5k_image_quality_skimage
+model: yolov8n.pt
+device: cpu
+imgsz: 640
+batch: 1
+workers: 0
+variants:
+  - name: original
+    dataset: configs/datasets/val5k/original.yaml
+    quantization_type: original
+    parameter: original
+  - name: q94
+    dataset: configs/datasets/val5k/q94.yaml
+    quantization_type: jpeg
+    parameter: 94
+  - name: q88
+    dataset: configs/datasets/val5k/q88.yaml
+    quantization_type: jpeg
+    parameter: 88
+  - name: q75
+    dataset: configs/datasets/val5k/q75.yaml
+    quantization_type: jpeg
+    parameter: 75
+  - name: q50
+    dataset: configs/datasets/val5k/q50.yaml
+    quantization_type: jpeg
+    parameter: 50
+  - name: q25
+    dataset: configs/datasets/val5k/q25.yaml
+    quantization_type: jpeg
+    parameter: 25
+  - name: b7
+    dataset: configs/datasets/val5k/b7.yaml
+    quantization_type: bpc
+    parameter: 7
+  - name: b4
+    dataset: configs/datasets/val5k/b4.yaml
+    quantization_type: bpc
+    parameter: 4
+  - name: b3
+    dataset: configs/datasets/val5k/b3.yaml
+    quantization_type: bpc
+    parameter: 3
+  - name: b2
+    dataset: configs/datasets/val5k/b2.yaml
+    quantization_type: bpc
+    parameter: 2
+  - name: b1
+    dataset: configs/datasets/val5k/b1.yaml
+    quantization_type: bpc
+    parameter: 1

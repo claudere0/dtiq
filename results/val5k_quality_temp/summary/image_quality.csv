@@ -1,0 +1,11 @@
+variant,quantization_type,parameter,original_images_dir,variant_images_dir,num_images,mean_psnr,std_psnr,min_psnr,max_psnr,mean_ssim,std_ssim,min_ssim,max_ssim,per_image_csv
+q94,jpeg,94,data/raw/coco/images/val2017,data/processed/val5k/jpeg/q94/images,5000,37.472149,3.896003,21.729662,55.439038,0.96767,0.023613,0.690332,0.998752,results/val5k_quality_temp/quality/original_vs_q94_per_image.csv
+q88,jpeg,88,data/raw/coco/images/val2017,data/processed/val5k/jpeg/q88/images,5000,35.39109,3.470504,21.644445,51.06725,0.947623,0.031743,0.628038,0.997739,results/val5k_quality_temp/quality/original_vs_q88_per_image.csv
+q75,jpeg,75,data/raw/coco/images/val2017,data/processed/val5k/jpeg/q75/images,5000,32.293277,3.047474,21.352568,53.310533,0.90535,0.04027,0.484402,0.998621,results/val5k_quality_temp/quality/original_vs_q75_per_image.csv
+q50,jpeg,50,data/raw/coco/images/val2017,data/processed/val5k/jpeg/q50/images,5000,30.139206,3.041709,20.801498,42.348928,0.866012,0.048331,0.405534,0.981612,results/val5k_quality_temp/quality/original_vs_q50_per_image.csv
+q25,jpeg,25,data/raw/coco/images/val2017,data/processed/val5k/jpeg/q25/images,5000,28.137254,3.000264,19.299794,40.245935,0.813964,0.060447,0.363437,0.975379,results/val5k_quality_temp/quality/original_vs_q25_per_image.csv
+b7,bpc,7,data/raw/coco/images/val2017,data/processed/val5k/bpc/b7/images,5000,51.219091,0.278538,49.810527,59.370243,0.997988,0.001288,0.976149,0.999856,results/val5k_quality_temp/quality/original_vs_b7_per_image.csv
+b4,bpc,4,data/raw/coco/images/val2017,data/processed/val5k/bpc/b4/images,5000,34.482951,0.432413,31.657817,45.672218,0.906348,0.035402,0.491353,0.990739,results/val5k_quality_temp/quality/original_vs_b4_per_image.csv
+b3,bpc,3,data/raw/coco/images/val2017,data/processed/val5k/bpc/b3/images,5000,27.85774,0.583887,24.805155,39.633053,0.786067,0.068282,0.386898,0.981836,results/val5k_quality_temp/quality/original_vs_b3_per_image.csv
+b2,bpc,2,data/raw/coco/images/val2017,data/processed/val5k/bpc/b2/images,5000,20.513848,0.884454,16.336925,32.674181,0.600839,0.106449,0.129121,0.97774,results/val5k_quality_temp/quality/original_vs_b2_per_image.csv
+b1,bpc,1,data/raw/coco/images/val2017,data/processed/val5k/bpc/b1/images,5000,10.92454,1.625533,6.357031,25.503441,0.308883,0.143651,0.003566,0.965288,results/val5k_quality_temp/quality/original_vs_b1_per_image.csv
