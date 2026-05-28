@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="620" viewBox="0 0 920 620">
+<rect x="0" y="0" width="920" height="620" fill="white"/>
+<text x="460.0" y="32" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700">Detection quality vs dataset size</text>
+<line x1="95.00" y1="70" x2="95.00" y2="530" stroke="#dddddd" stroke-width="1"/>
+<text x="95.00" y="554" text-anchor="middle" font-family="Arial" font-size="12">5.10</text>
+<line x1="292.50" y1="70" x2="292.50" y2="530" stroke="#dddddd" stroke-width="1"/>
+<text x="292.50" y="554" text-anchor="middle" font-family="Arial" font-size="12">518.33</text>
+<line x1="490.00" y1="70" x2="490.00" y2="530" stroke="#dddddd" stroke-width="1"/>
+<text x="490.00" y="554" text-anchor="middle" font-family="Arial" font-size="12">1031.55</text>
+<line x1="687.50" y1="70" x2="687.50" y2="530" stroke="#dddddd" stroke-width="1"/>
+<text x="687.50" y="554" text-anchor="middle" font-family="Arial" font-size="12">1544.78</text>
+<line x1="885.00" y1="70" x2="885.00" y2="530" stroke="#dddddd" stroke-width="1"/>
+<text x="885.00" y="554" text-anchor="middle" font-family="Arial" font-size="12">2058.00</text>
+<line x1="95" y1="530.00" x2="885" y2="530.00" stroke="#dddddd" stroke-width="1"/>
+<text x="83" y="534.00" text-anchor="end" font-family="Arial" font-size="12">0.114</text>
+<line x1="95" y1="415.00" x2="885" y2="415.00" stroke="#dddddd" stroke-width="1"/>
+<text x="83" y="419.00" text-anchor="end" font-family="Arial" font-size="12">0.223</text>
+<line x1="95" y1="300.00" x2="885" y2="300.00" stroke="#dddddd" stroke-width="1"/>
+<text x="83" y="304.00" text-anchor="end" font-family="Arial" font-size="12">0.332</text>
+<line x1="95" y1="185.00" x2="885" y2="185.00" stroke="#dddddd" stroke-width="1"/>
+<text x="83" y="189.00" text-anchor="end" font-family="Arial" font-size="12">0.441</text>
+<line x1="95" y1="70.00" x2="885" y2="70.00" stroke="#dddddd" stroke-width="1"/>
+<text x="83" y="74.00" text-anchor="end" font-family="Arial" font-size="12">0.550</text>
+<line x1="95" y1="530" x2="885" y2="530" stroke="#333333" stroke-width="1.5"/>
+<line x1="95" y1="70" x2="95" y2="530" stroke="#333333" stroke-width="1.5"/>
+<text x="490.0" y="592" text-anchor="middle" font-family="Arial" font-size="15">Dataset size (MB)</text>
+<text x="24" y="300.0" text-anchor="middle" transform="rotate(-90 24 300.0)" font-family="Arial" font-size="15">mAP50</text>
+<polyline points="392.03,102.77" fill="none" stroke="#222222" stroke-width="2.5"/>
+<circle cx="392.03" cy="102.77" r="5" fill="#222222"/>
+<text x="399.03" y="95.77" font-family="Arial" font-size="12">original</text>
+<g data-legend="true"><rect x="115" y="38" width="13" height="13" fill="#222222"/><text x="135" y="49" font-family="Arial" font-size="13">ORIGINAL</text></g>
+<polyline points="129.96,220.30 153.33,142.10 185.09,116.51 240.89,106.97 302.14,105.42" fill="none" stroke="#d95f02" stroke-width="2.5"/>
+<circle cx="129.96" cy="220.30" r="5" fill="#d95f02"/>
+<text x="136.96" y="213.30" font-family="Arial" font-size="12">q25</text>
+<circle cx="153.33" cy="142.10" r="5" fill="#d95f02"/>
+<text x="160.33" y="135.10" font-family="Arial" font-size="12">q50</text>
+<circle cx="185.09" cy="116.51" r="5" fill="#d95f02"/>
+<text x="192.09" y="109.51" font-family="Arial" font-size="12">q75</text>
+<circle cx="240.89" cy="106.97" r="5" fill="#d95f02"/>
+<text x="247.89" y="99.97" font-family="Arial" font-size="12">q88</text>
+<circle cx="302.14" cy="105.42" r="5" fill="#d95f02"/>
+<text x="309.14" y="98.42" font-family="Arial" font-size="12">q94</text>
+<g data-legend="true"><rect x="230" y="38" width="13" height="13" fill="#d95f02"/><text x="250" y="49" font-family="Arial" font-size="13">JPEG</text></g>
+<polyline points="156.76,509.65 217.24,342.70 326.93,186.49 407.36,123.88 829.07,102.57" fill="none" stroke="#1b9e77" stroke-width="2.5"/>
+<circle cx="156.76" cy="509.65" r="5" fill="#1b9e77"/>
+<text x="163.76" y="502.65" font-family="Arial" font-size="12">b1</text>
+<circle cx="217.24" cy="342.70" r="5" fill="#1b9e77"/>
+<text x="224.24" y="335.70" font-family="Arial" font-size="12">b2</text>
+<circle cx="326.93" cy="186.49" r="5" fill="#1b9e77"/>
+<text x="333.93" y="179.49" font-family="Arial" font-size="12">b3</text>
+<circle cx="407.36" cy="123.88" r="5" fill="#1b9e77"/>
+<text x="414.36" y="116.88" font-family="Arial" font-size="12">b4</text>
+<circle cx="829.07" cy="102.57" r="5" fill="#1b9e77"/>
+<text x="836.07" y="95.57" font-family="Arial" font-size="12">b7</text>
+<g data-legend="true"><rect x="345" y="38" width="13" height="13" fill="#1b9e77"/><text x="365" y="49" font-family="Arial" font-size="13">BPC</text></g>
+</svg>

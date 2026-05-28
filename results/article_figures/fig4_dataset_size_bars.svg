@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="620" viewBox="0 0 980 620">
+<rect x="0" y="0" width="980" height="620" fill="white"/>
+<text x="490.0" y="32" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700">Dataset size by variant</text>
+<line x1="80" y1="525.00" x2="950" y2="525.00" stroke="#dddddd"/>
+<text x="70" y="529.00" text-anchor="end" font-family="Arial" font-size="12">0.00</text>
+<line x1="80" y1="411.25" x2="950" y2="411.25" stroke="#dddddd"/>
+<text x="70" y="415.25" text-anchor="end" font-family="Arial" font-size="12">535.55</text>
+<line x1="80" y1="297.50" x2="950" y2="297.50" stroke="#dddddd"/>
+<text x="70" y="301.50" text-anchor="end" font-family="Arial" font-size="12">1071.09</text>
+<line x1="80" y1="183.75" x2="950" y2="183.75" stroke="#dddddd"/>
+<text x="70" y="187.75" text-anchor="end" font-family="Arial" font-size="12">1606.64</text>
+<line x1="80" y1="70.00" x2="950" y2="70.00" stroke="#dddddd"/>
+<text x="70" y="74.00" text-anchor="end" font-family="Arial" font-size="12">2142.19</text>
+<rect x="80.00" y="504.62" width="68.18" height="20.38" fill="#d95f02"/>
+<text x="114.09" y="558" text-anchor="middle" font-family="Arial" font-size="12">q25</text>
+<rect x="160.18" y="491.72" width="68.18" height="33.28" fill="#d95f02"/>
+<text x="194.27" y="558" text-anchor="middle" font-family="Arial" font-size="12">q50</text>
+<rect x="240.36" y="489.83" width="68.18" height="35.17" fill="#1b9e77"/>
+<text x="274.45" y="558" text-anchor="middle" font-family="Arial" font-size="12">b1</text>
+<rect x="320.55" y="474.19" width="68.18" height="50.81" fill="#d95f02"/>
+<text x="354.64" y="558" text-anchor="middle" font-family="Arial" font-size="12">q75</text>
+<rect x="400.73" y="456.45" width="68.18" height="68.55" fill="#1b9e77"/>
+<text x="434.82" y="558" text-anchor="middle" font-family="Arial" font-size="12">b2</text>
+<rect x="480.91" y="443.39" width="68.18" height="81.61" fill="#d95f02"/>
+<text x="515.00" y="558" text-anchor="middle" font-family="Arial" font-size="12">q88</text>
+<rect x="561.09" y="409.59" width="68.18" height="115.41" fill="#d95f02"/>
+<text x="595.18" y="558" text-anchor="middle" font-family="Arial" font-size="12">q94</text>
+<rect x="641.27" y="395.90" width="68.18" height="129.10" fill="#1b9e77"/>
+<text x="675.36" y="558" text-anchor="middle" font-family="Arial" font-size="12">b3</text>
+<rect x="721.45" y="359.97" width="68.18" height="165.03" fill="#222222"/>
+<text x="755.55" y="558" text-anchor="middle" font-family="Arial" font-size="12">original</text>
+<rect x="801.64" y="351.51" width="68.18" height="173.49" fill="#1b9e77"/>
+<text x="835.73" y="558" text-anchor="middle" font-family="Arial" font-size="12">b4</text>
+<rect x="881.82" y="118.75" width="68.18" height="406.25" fill="#1b9e77"/>
+<text x="915.91" y="558" text-anchor="middle" font-family="Arial" font-size="12">b7</text>
+<line x1="80" y1="525" x2="950" y2="525" stroke="#333333" stroke-width="1.5"/>
+<line x1="80" y1="70" x2="80" y2="525" stroke="#333333" stroke-width="1.5"/>
+<text x="24" y="297.5" text-anchor="middle" transform="rotate(-90 24 297.5)" font-family="Arial" font-size="15">Dataset size (MB)</text>
+</svg>
