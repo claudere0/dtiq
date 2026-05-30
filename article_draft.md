@@ -1,4 +1,4 @@
-# Task-Aware Analysis of JPEG Recompression and Bit-Depth Reduction for Efficient Image Compression in Object Detection
+# Task-Aware Analysis of JPEG Recompression and Bit-Depth Reduction for Efficient Image Compression in Object Detection (reduced to "Task-Aware Analysis of JPEG Recompression and Bit-Depth Reduction for Object Detection" to be less than 96 charachters)
 
 **Author:** [Author Name/Affiliation Placeholder]  
 **Correspondence:** [Email Placeholder]  
