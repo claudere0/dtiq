@@ -162,26 +162,53 @@ Standard YOLO evaluation metrics were extracted from the validation runs:
 This section presents the comprehensive empirical findings from our full-scale 5,000-image validation runs.
 
 \subsection{Quantitative Performance Summary}
-Table \ref{tab:results} compiles the complete experimental results for all 11 validation subsets. 
+Tables \ref{tab:results_perf} and table \ref{tab:results_efficiency} compile the complete experimental results for all 11 validation subsets. 
 
 \begin{table*}[t]
 \centering
-\caption{Comprehensive quantitative results for original, JPEG, and BPC variants on COCO val2017 using YOLOv8n.}
-\label{tab:results}
-\begin{tabular}{|l|c|r|c|c|c|c|c|c|c|c|}
+\caption{Detection performance metrics on COCO val2017 using YOLOv8n.}
+\label{tab:results_perf}
+
+\begin{tabular}{|l|c|c|c|c|c|}
 \hline
-\textbf{Variant} & \textbf{Type} & \textbf{Size (MB)} & \textbf{CR} & \textbf{Precision} & \textbf{Recall} & \textbf{mAP50} & \textbf{mAP50-95} & \textbf{PSNR (dB)} & \textbf{SSIM} & \textbf{$\Delta$ mAP50} \\ \hline
-original & original & 776.9634 & 1.00x & 0.6347 & 0.4739 & 0.5187 & 0.3681 & — & — & 0.00\% \\ \hline
-q94 & JPEG & 543.3825 & 1.43x & 0.6357 & 0.4691 & 0.5162 & 0.3660 & 37.4721 & 0.9677 & 0.48\% \\ \hline
-q88 & JPEG & 384.2208 & 2.02x & 0.6446 & 0.4641 & 0.5147 & 0.3647 & 35.3911 & 0.9477 & 0.77\% \\ \hline
-q75 & JPEG & 239.2142 & 3.25x & 0.6234 & 0.4660 & 0.5057 & 0.3563 & 32.2933 & 0.9055 & 2.51\% \\ \hline
-q50 & JPEG & 156.6916 & 4.96x & 0.6003 & 0.4456 & 0.4814 & 0.3360 & 30.1392 & 0.8662 & 7.19\% \\ \hline
-q25 & JPEG & 95.9412 & 8.10x & 0.5682 & 0.3783 & 0.4073 & 0.2742 & 28.1373 & 0.8142 & 21.48\% \\ \hline
-b7 & BPC & 1912.6668 & 0.41x & 0.6328 & 0.4761 & 0.5189 & 0.3680 & 51.2191 & 0.9980 & -0.04\% \\ \hline
-b4 & BPC & 816.7964 & 0.95x & 0.6081 & 0.4596 & 0.4987 & 0.3509 & 34.4830 & 0.9064 & 3.86\% \\ \hline
-b3 & BPC & 607.8120 & 1.28x & 0.5808 & 0.4097 & 0.4393 & 0.3040 & 27.8577 & 0.7862 & 15.31\% \\ \hline
-b2 & BPC & 322.7558 & 2.41x & 0.4904 & 0.2884 & 0.2912 & 0.1942 & 20.5138 & 0.6009 & 43.86\% \\ \hline
-b1 & BPC & 165.5969 & 4.69x & 0.3859 & 0.1501 & 0.1328 & 0.0827 & 10.9245 & 0.3089 & 74.40\% \\ \hline
+\textbf{Variant} & \textbf{Precision} & \textbf{Recall} & \textbf{mAP50} & \textbf{mAP50-95} & $\boldsymbol{\Delta}$\textbf{mAP50} \\ \hline
+
+original & 0.6347 & 0.4739 & 0.5187 & 0.3681 & 0.00\% \\ \hline
+q94 & 0.6357 & 0.4691 & 0.5162 & 0.3660 & 0.48\% \\ \hline
+q88 & 0.6446 & 0.4641 & 0.5147 & 0.3647 & 0.77\% \\ \hline
+q75 & 0.6234 & 0.4660 & 0.5057 & 0.3563 & 2.51\% \\ \hline
+q50 & 0.6003 & 0.4456 & 0.4814 & 0.3360 & 7.19\% \\ \hline
+q25 & 0.5682 & 0.3783 & 0.4073 & 0.2742 & 21.48\% \\ \hline
+b7 & 0.6328 & 0.4761 & 0.5189 & 0.3680 & -0.04\% \\ \hline
+b4 & 0.6081 & 0.4596 & 0.4987 & 0.3509 & 3.86\% \\ \hline
+b3 & 0.5808 & 0.4097 & 0.4393 & 0.3040 & 15.31\% \\ \hline
+b2 & 0.4904 & 0.2884 & 0.2912 & 0.1942 & 43.86\% \\ \hline
+b1 & 0.3859 & 0.1501 & 0.1328 & 0.0827 & 74.40\% \\ \hline
+
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\caption{Compression efficiency and image quality metrics on COCO val2017 using YOLOv8n.}
+\label{tab:results_efficiency}
+
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Variant} & \textbf{Type} & \textbf{Size (MB)} & \textbf{CR} & \textbf{PSNR (dB)} & \textbf{SSIM} \\ \hline
+
+original & original & 776.9634 & 1.00x & 1 & 1 \\ \hline
+q94 & JPEG & 543.3825 & 1.43x & 37.4721 & 0.9677 \\ \hline
+q88 & JPEG & 384.2208 & 2.02x & 35.3911 & 0.9477 \\ \hline
+q75 & JPEG & 239.2142 & 3.25x & 32.2933 & 0.9055 \\ \hline
+q50 & JPEG & 156.6916 & 4.96x & 30.1392 & 0.8662 \\ \hline
+q25 & JPEG & 95.9412 & 8.10x & 28.1373 & 0.8142 \\ \hline
+b7 & BPC & 1912.6668 & 0.41x & 51.2191 & 0.9980 \\ \hline
+b4 & BPC & 816.7964 & 0.95x & 34.4830 & 0.9064 \\ \hline
+b3 & BPC & 607.8120 & 1.28x & 27.8577 & 0.7862 \\ \hline
+b2 & BPC & 322.7558 & 2.41x & 20.5138 & 0.6009 \\ \hline
+b1 & BPC & 165.5969 & 4.69x & 10.9245 & 0.3089 \\ \hline
+
 \end{tabular}
 \end{table*}
 
