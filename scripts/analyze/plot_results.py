@@ -66,15 +66,81 @@ def plot_metric(rows, metric_key, ylabel, output_path):
     plt.close()
 
 
+def pareto_optimal(rows):
+    tradeoff_rows = [row for row in rows if row["quantization_type"] != "original"]
+    frontier = []
+    best_map = -1.0
+    for row in sorted(tradeoff_rows, key=lambda item: item["dataset_size_mb"]):
+        if row["map50"] > best_map:
+            frontier.append(row)
+            best_map = row["map50"]
+    return frontier
+
+
+def plot_pareto_frontier(rows, output_path):
+    tradeoff_rows = [row for row in rows if row["quantization_type"] != "original"]
+    groups = {
+        "jpeg": [row for row in tradeoff_rows if row["quantization_type"] == "jpeg"],
+        "bpc": [row for row in tradeoff_rows if row["quantization_type"] == "bpc"],
+    }
+    colors = {"jpeg": "#d95f02", "bpc": "#1b9e77"}
+
+    plt.figure(figsize=(9, 6))
+    for label, group_rows in groups.items():
+        if not group_rows:
+            continue
+        plt.scatter(
+            [row["dataset_size_mb"] for row in group_rows],
+            [row["map50"] for row in group_rows],
+            s=70,
+            color=colors[label],
+            label=label.upper(),
+            zorder=3,
+        )
+        for row in group_rows:
+            plt.annotate(
+                row["variant"],
+                (row["dataset_size_mb"], row["map50"]),
+                textcoords="offset points",
+                xytext=(5, 5),
+                fontsize=9,
+            )
+
+    frontier = pareto_optimal(rows)
+    frontier = sorted(frontier, key=lambda row: row["dataset_size_mb"])
+    plt.plot(
+        [row["dataset_size_mb"] for row in frontier],
+        [row["map50"] for row in frontier],
+        linestyle="--",
+        color="#444444",
+        linewidth=2,
+        label="Pareto frontier",
+        zorder=2,
+    )
+
+    plt.xlabel("Dataset size (MB)")
+    plt.ylabel("mAP50")
+    plt.title("Storage-detection Pareto frontier")
+    plt.grid(alpha=0.3)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=200)
+    plt.close()
+
+
 def main():
     args = parse_args()
     rows = load_rows(args.metrics_csv)
     plots_dir = Path(args.metrics_csv).resolve().parent.parent / "plots"
     plots_dir.mkdir(parents=True, exist_ok=True)
+    article_figures_dir = Path(args.metrics_csv).resolve().parent.parent.parent / "article_figures"
+    article_figures_dir.mkdir(parents=True, exist_ok=True)
 
     plot_metric(rows, "map50", "mAP50", plots_dir / "map50_vs_size.png")
     plot_metric(rows, "map50_95", "mAP50-95", plots_dir / "map50_95_vs_size.png")
+    plot_pareto_frontier(rows, article_figures_dir / "fig8_pareto_storage_map50.png")
     print(f"Saved plots to {plots_dir}")
+    print(f"Saved Pareto figure to {article_figures_dir}")
 
 
 if __name__ == "__main__":

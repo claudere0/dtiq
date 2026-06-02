@@ -59,7 +59,7 @@ This creates:
 
 - original `COCO val2017` copy;
 - JPEG variants: `q94`, `q88`, `q75`, `q50`, `q25`;
-- BPC variants: `b7`, `b4`, `b3`, `b2`, `b1`.
+- BPC variants: `b8` (decoded JPEG → PNG control), `b7`, `b4`, `b3`, `b2`, `b1`.
 
 ### 3. Run YOLO validation
 
@@ -123,7 +123,8 @@ This creates a dedicated article figure folder with SVG files and a compact merg
 - `results/article_figures/fig4_dataset_size_bars.svg`;
 - `results/article_figures/fig5_detection_metric_bars.svg`;
 - `results/article_figures/fig6_psnr_vs_map50.svg`;
-- `results/article_figures/fig7_ssim_vs_map50.svg`.
+- `results/article_figures/fig7_ssim_vs_map50.svg`;
+- `results/article_figures/fig8_pareto_storage_map50.svg` (and `.png`).
 
 Recommended additional visual examples for the paper:
 
@@ -145,6 +146,7 @@ Recommended additional visual examples for the paper:
 | q75 | jpeg | 239.2142 | 3.25x | 0.6234 | 0.4660 | 0.5057 | 0.3563 |
 | q50 | jpeg | 156.6916 | 4.96x | 0.6003 | 0.4456 | 0.4814 | 0.3360 |
 | q25 | jpeg | 95.9412 | 8.10x | 0.5682 | 0.3783 | 0.4073 | 0.2742 |
+| b8 | bpc (PNG control) | 2288.6569 | 0.34x | 0.6347 | 0.4739 | 0.5187 | 0.3681 |
 | b7 | bpc | 1912.6668 | 0.41x | 0.6328 | 0.4761 | 0.5189 | 0.3680 |
 | b4 | bpc | 816.7964 | 0.95x | 0.6081 | 0.4596 | 0.4987 | 0.3509 |
 | b3 | bpc | 607.8120 | 1.28x | 0.5808 | 0.4097 | 0.4393 | 0.3040 |
@@ -172,6 +174,7 @@ Recommended additional visual examples for the paper:
 - `q88` is one of the strongest practical operating points: about `2.02x` compression with less than `1%` relative `mAP50` loss.
 - `q75` remains a strong practical compromise: about `3.25x` compression with only moderate detection degradation.
 - `q25` gives the smallest JPEG size, but its detection loss is too large to treat it as the best scientific trade-off.
+- `b8` isolates the PNG container penalty: baseline-level detection with ~2.95× larger storage than the source JPEG baseline.
 - `b7` preserves detection quality and has excellent `PSNR/SSIM`, but it is much larger than the original dataset.
 - `b4` is the main threshold point for BPC: detection remains relatively close to baseline, but storage savings are absent.
 - Aggressive BPC modes (`b2`, `b1`) strongly damage detection quality.

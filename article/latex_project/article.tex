@@ -42,7 +42,7 @@
 \maketitle
 
 \begin{abstract}
-This paper presents a task-aware empirical investigation into the effects of image compression and quantization on downstream deep learning-based computer vision systems. Traditional image compression frameworks have historically been optimized for visual appeal to human observers, using perceptual metrics such as Peak Signal-to-Noise Ratio (PSNR) and Structural Similarity Index Measure (SSIM). However, modern autonomous workflows increasingly rely on neural networks, whose feature-extraction pipelines process visual artifacts differently than the human visual system. To bridge this research gap, we evaluate two distinct image degradation and storage strategies using the standard COCO val2017 dataset (5,000 images) and a YOLOv8n object detection model. The first branch utilizes JPEG recompression at quality levels 94, 88, 75, 50, and 25. The second branch applies uniform RGB bit-depth reduction (BPC) to 7, 4, 3, 2, and 1 bits per channel, stored in a 24-bit truecolor lossless PNG container. Our findings reveal a significant divergence between classical visual quality and downstream task performance. JPEG recompression exhibits remarkable efficiency; quality level 88 achieves 2.02$\times$ storage reduction (halving the dataset size to 384.22 MB) with a negligible relative drop in mean Average Precision (mAP50) of less than 1\% (0.5147 compared to the baseline 0.5187). Conversely, the uniform bit-depth reduction branch yields poor storage-task efficiency when constrained by the tested 24-bit PNG container. While 7-bit quantization preserves baseline object detection performance (0.5189 mAP50), its file size inflates to 1912.67 MB (0.41$\times$ negative compression) due to spatial banding reducing the entropy coding efficiency of the PNG DEFLATE algorithm. Furthermore, BPC levels that achieve storage savings ($b \le 3$) cause a catastrophic drop in detection accuracy ($>15.3\%$ drop at $b=3$, and near total failure at lower bitrates). We conclude that under the evaluated BPC + 24-bit PNG storage scheme, JPEG recompression is vastly more efficient for task-aware machine vision workflows, and we establish that visual quality metrics alone are insufficient predictors of deep learning task stability.
+This paper presents a task-aware empirical investigation into the effects of image compression and quantization on downstream deep learning-based computer vision systems. Traditional image compression frameworks have historically been optimized for visual appeal to human observers, using perceptual metrics such as Peak Signal-to-Noise Ratio (PSNR) and Structural Similarity Index Measure (SSIM). However, modern autonomous workflows increasingly rely on neural networks, whose feature-extraction pipelines process visual artifacts differently than the human visual system. To bridge this research gap, we evaluate two distinct image degradation and storage strategies using the standard COCO val2017 dataset (5,000 images) and a YOLOv8n object detection model. The first branch utilizes JPEG recompression at quality levels 94, 88, 75, 50, and 25. The second branch stores decoded RGB images in 24-bit truecolor lossless PNG, including an $b8$ container control (no additional level reduction) and quantized variants at 7, 4, 3, 2, and 1 bits per channel mapped back to 8-bit RGB. Our findings reveal a significant divergence between classical visual quality and downstream task performance. JPEG recompression exhibits remarkable efficiency; among the tested JPEG settings, quality level 88 achieves 2.02$\times$ storage reduction (halving the dataset size to 384.22 MB) with a negligible relative drop in mean Average Precision (mAP50) of less than 1\% (0.5147 compared to the source JPEG baseline 0.5187). Conversely, the PNG branch is storage-inefficient even before aggressive quantization: the $b8$ control preserves baseline detection (0.5187 mAP50) but increases size to 2288.66 MB (0.34$\times$ compression). Variant $b7$ remains near baseline in detection (0.5189 mAP50) at 1912.67 MB. This storage behavior should be interpreted as the result of the combined interaction between source JPEG decoding, truecolor PNG storage, PNG filtering, DEFLATE entropy coding, and the spatial statistics of quantized RGB images. Furthermore, quantization levels that achieve storage savings ($b \le 3$) cause a catastrophic drop in detection accuracy ($>15.3\%$ drop at $b=3$, and near total failure at lower bitrates). We conclude that under the evaluated RGB level quantization + 24-bit PNG storage scheme, JPEG recompression is vastly more efficient for task-aware machine vision workflows, and we establish that visual quality metrics alone are insufficient predictors of deep learning task stability.
 \end{abstract}
 
 \noindent \textbf{Keywords:} Image Compression; Quantization; JPEG Recompression; Bit-Depth Reduction; Object Detection; YOLOv8; COCO Dataset; PSNR; SSIM; mAP.
@@ -59,10 +59,10 @@ This problem is particularly relevant for systems operating under constrained re
 This study investigates the practical trade-off between dataset storage size and downstream task accuracy. Specifically, we conduct a controlled empirical comparison of two distinct image degradation mechanisms:
 \begin{enumerate}
     \item \textbf{JPEG Recompression}: A frequency-domain lossy compression scheme. It applies discrete cosine transform (DCT) blocks and quantizes high-frequency coefficients, yielding substantial storage savings but introducing blocky artifacts and ringing around high-contrast boundaries.
-    \item \textbf{Bit-Depth Reduction (BPC)}: An amplitude-domain quantization scheme. It reduces the number of bits allocated to each color channel (from the standard 8-bit representation down to 1-bit), stored inside a lossless Portable Network Graphics (PNG) container. This preserves sharp geometric boundaries but limits amplitude resolution, introducing color banding and artificial contours.
+    \item \textbf{Uniform RGB Level Quantization}: An amplitude-domain scheme that reduces the number of available intensity levels per RGB channel, maps the result back to 8-bit RGB, and stores the image inside a lossless 24-bit truecolor Portable Network Graphics (PNG) container. This limits tonal resolution and can introduce color banding and artificial contours.
 \end{enumerate}
 
-By evaluating these pipelines using the state-of-the-art YOLOv8n detector on the Microsoft COCO val2017 dataset, we address a key research question: \textit{When constrained to a fixed storage budget, which degradation mechanism preserves downstream object detection accuracy more effectively?}
+By evaluating these pipelines using the lightweight YOLOv8n detector on the Microsoft COCO val2017 dataset, we address a key research question: \textit{Across the tested storage regimes, which degradation mechanism provides the stronger trade-off between dataset size and downstream object detection accuracy?}
 
 Our working hypothesis is that the sensitivity of an object detection model is determined not only by the degree of information loss, but also by the nature of the distortions introduced. Consequently, JPEG compression and bit-depth reduction, even at comparable levels of compression, may affect detection quality in fundamentally different ways.
 
@@ -70,7 +70,7 @@ The scientific novelty of this work lies in the comparative investigation of two
 
 The practical significance of the results extends to the design of visual data pipelines for edge-AI cameras, drones, mobile computer vision systems, video surveillance networks, image transmission channels for automated analysis, and low-resource embedded platforms. Specifically, this work provides empirically grounded guidance on which compression regimes are acceptable and which types of distortions are most detrimental to neural network-based object detection.
 
-Ultimately, this work presents a task-aware evaluation framework that challenges the reliance on visual similarity metrics for machine-centric visual pipelines. We demonstrate that JPEG recompression provides a highly efficient and gradual trade-off curve, whereas uniform BPC stored via 24-bit PNG suffers from severe container-level storage inflation and rapid detection degradation at lower bit depths.
+Ultimately, this work presents a task-aware evaluation framework that challenges the reliance on visual similarity metrics for machine-centric visual pipelines. We demonstrate that JPEG recompression provides a highly efficient and gradual trade-off curve, whereas uniform RGB level quantization stored via 24-bit PNG suffers from severe container-level storage inflation and rapid detection degradation at lower quantization levels.
 
 \section{Literature Review}
 The intersection of digital image compression, visual quality evaluation, and deep learning-based computer vision has attracted significant academic interest. This section reviews the historical development and current state of research in these domains.
@@ -89,10 +89,10 @@ Quantization represents the mathematical mapping of a continuous or high-precisi
 Parallel to image-level quantization, deep learning researchers have extensively explored network-level quantization. Jacob et al. \cite{jacob2018} demonstrated that quantizing network weights and activations to 8-bit integer formats enables efficient inference on edge hardware with minimal loss in accuracy. Similarly, Han et al. \cite{han2016} proposed ``Deep Compression,'' which integrates weight pruning, trained quantization, and Huffman coding to drastically compress deep neural network footprints. These efforts, however, focus on model weights rather than input image signals, leaving a significant gap in understanding how input-level color quantization interacts with standard networks.
 
 \subsection{Deep Learning-Based Object Detection}
-Object detection is a cornerstone of modern computer vision. Redmon et al. \cite{redmon2016} revolutionized this field by introducing the You Only Look Once (YOLO) framework, which formulated object detection as a single regression problem, enabling real-time inference. Over the past decade, the YOLO architecture has undergone numerous iterations to optimize speed and accuracy. Wang et al. \cite{wang2023} introduced YOLOv7, optimizing bag-of-freebies learning strategies and architectural scaling. The state-of-the-art YOLOv8 architecture, developed by Jocher et al. \cite{jocher2023}, incorporates an anchor-free split head and advanced spatial attention mechanisms, providing highly robust feature extraction across varying spatial resolutions. These models are typically trained and validated on complex datasets like Microsoft COCO, compiled by Lin et al. \cite{lin2014}, which contains 118,000 training and 5,000 validation images spanning 80 object categories.
+Object detection is a cornerstone of modern computer vision. Redmon et al. \cite{redmon2016} revolutionized this field by introducing the You Only Look Once (YOLO) framework, which formulated object detection as a single regression problem, enabling real-time inference. Over the past decade, the YOLO architecture has undergone numerous iterations to optimize speed and accuracy. Wang et al. \cite{wang2023} introduced YOLOv7, optimizing bag-of-freebies learning strategies and architectural scaling. The YOLOv8 architecture, developed by Jocher et al. \cite{jocher2023}, uses an anchor-free split head and is widely used in real-time detection pipelines. These models are typically trained and validated on complex datasets like Microsoft COCO, compiled by Lin et al. \cite{lin2014}, which contains 118,000 training and 5,000 validation images spanning 80 object categories.
 
 \subsection{Task-Aware and Machine-Centric Compression}
-With deep networks increasingly acting as the primary consumers of digital images, researchers have begun exploring ``compression for machines'' (CFM). Hu et al. \cite{hu2018} proposed a task-aware image compression pipeline tailored for cloud-based object detection, demonstrating that localized image patches containing target objects should be compressed with higher fidelity than background regions. Similarly, Kim et al. \cite{kim2021} developed a spatially-adaptive feature transform network that optimizes image compression directly against a machine vision objective function. Ye et al. \cite{ye2023} introduced AccelIR, demonstrating that joint optimization of image restoration and neural compression can accelerate downstream restoration tasks.
+With deep networks increasingly acting as the primary consumers of digital images, researchers have begun exploring ``compression for machines'' (CFM). Song et al. \cite{song2021} developed a variable-rate deep image compression framework based on spatially adaptive feature transform and quality maps, including task-aware quality-map optimization for downstream tasks. Ye et al. \cite{ye2023} introduced AccelIR, an image-restoration-aware compression framework that selects block-wise compression levels according to their impact on downstream image restoration quality.
 
 The impact of classical compression on deep networks remains a vital area of study. Gandor and Nalepa \cite{gandor2022} conducted systematic trials demonstrating that object detectors show non-linear sensitivity to JPEG compression, maintaining stable accuracy until a critical threshold is crossed, after which performance collapses. Hao et al. \cite{hao2022} extended this analysis by showing that image degradation interacts strongly with the physical size and distance of target objects, with smaller objects showing extreme sensitivity to compression noise. Modern surveys by Huang and Wu \cite{huang2024} and Piran \cite{piran2022} emphasize that developing end-to-end learned image compression standards for both human and machine eyes remains one of the most prominent challenges in contemporary computer vision.
 
@@ -102,7 +102,7 @@ To evaluate the effects of image degradation on downstream object detection, we 
 \subsection{Experimental Dataset \& Model Selection}
 Our primary evaluations were conducted on the official \textbf{Microsoft COCO val2017} dataset \cite{lin2014}. This validation set consists of \textbf{5,000 images} containing annotations for 80 distinct object classes. COCO val2017 represents a challenging real-world benchmark featuring diverse object scales, complex backgrounds, and varying lighting conditions.
 
-For the downstream task, we utilized \textbf{YOLOv8n} (the nano variant of the YOLOv8 family) \cite{jocher2023}. The model was loaded with pre-trained weights (\texttt{yolov8n.pt}) and run directly in validation mode. YOLOv8n was selected because it is a widely used lightweight real-time detector whose compact parameter space (3.2 million parameters) makes it highly sensitive to input signal quality, acting as an excellent ``canary in the coal mine'' for detecting structural information loss under severe compression.
+For the downstream task, we utilized \textbf{YOLOv8n} (the nano variant of the YOLOv8 family) \cite{jocher2023}. The model was loaded with pre-trained weights (\texttt{yolov8n.pt}) and run directly in validation mode. YOLOv8n was selected as a widely used lightweight real-time detector with low computational cost (3.2 million parameters), which makes full-scale validation on 5,000 images practical on CPU hardware.
 
 \subsection{Hardware and Environment Configuration}
 To reduce variability caused by hardware acceleration libraries, all final official validation runs were executed in a fixed CPU validation environment:
@@ -123,7 +123,7 @@ $$\text{JPEG Quality} \in \{94, 88, 75, 50, 25\}$$
 The quality factor directly scales the quantization matrix applied to the DCT coefficients, controlling the elimination of high-frequency components.
 
 \subsubsection{Bit-Depth Reduction (BPC) Branch}
-The BPC branch performs spatial amplitude-domain quantization on the raw RGB channels. For each pixel, the original 8-bit intensity value ($I_{8} \in [0, 255]$) was quantized to $b$ bits ($b \in \{7, 4, 3, 2, 1\}$) using the following uniform quantization mapping:
+The BPC branch performs spatial amplitude-domain quantization on the raw RGB channels. We first generated a container-control variant $b8$, which decodes each source JPEG to RGB and re-encodes it as lossless 8-bit truecolor PNG without additional level reduction. Quantized variants used $b \in \{7, 4, 3, 2, 1\}$. For each pixel, the original 8-bit intensity value ($I_{8} \in [0, 255]$) was quantized to $b$ bits using the following uniform quantization mapping:
 \begin{equation}
 I_{b} = \text{round}\left(I_{8} \times \frac{2^b - 1}{255}\right)
 \label{eq:quant}
@@ -149,7 +149,7 @@ We evaluated each dataset variant across three axes: storage footprint, traditio
 \end{itemize}
 
 \subsubsection{Visual Quality Metrics}
-For each degraded image, we calculated Peak Signal-to-Noise Ratio (PSNR) and Structural Similarity Index Measure (SSIM) relative to the original uncompressed image, averaging the results across the entire 5,000-image set.
+For each degraded image, we calculated Peak Signal-to-Noise Ratio (PSNR) and Structural Similarity Index Measure (SSIM) relative to the decoded source JPEG reference images, averaging the results across the entire 5,000-image set. PSNR is not reported for $b8$ because the control round-trip is numerically identical to the reference at the pixel level.
 \begin{itemize}
     \item \textbf{PSNR}: Calculated over the mean squared error (MSE) of the pixel differences:
     \begin{equation}
@@ -194,6 +194,7 @@ q88 & 0.6446 & 0.4641 & 0.5147 & 0.3647 & 0.77\% \\ \hline
 q75 & 0.6234 & 0.4660 & 0.5057 & 0.3563 & 2.51\% \\ \hline
 q50 & 0.6003 & 0.4456 & 0.4814 & 0.3360 & 7.19\% \\ \hline
 q25 & 0.5682 & 0.3783 & 0.4073 & 0.2742 & 21.48\% \\ \hline
+b8 & 0.6347 & 0.4739 & 0.5187 & 0.3681 & 0.00\% \\ \hline
 b7 & 0.6328 & 0.4761 & 0.5189 & 0.3680 & -0.04\% \\ \hline
 b4 & 0.6081 & 0.4596 & 0.4987 & 0.3509 & 3.86\% \\ \hline
 b3 & 0.5808 & 0.4097 & 0.4393 & 0.3040 & 15.31\% \\ \hline
@@ -212,12 +213,13 @@ b1 & 0.3859 & 0.1501 & 0.1328 & 0.0827 & 74.40\% \\ \hline
 \hline
 \textbf{Variant} & \textbf{Type} & \textbf{Size (MB)} & \textbf{CR} & \textbf{PSNR (dB)} & \textbf{SSIM} \\ \hline
 
-original & original & 776.9634 & 1.00x & --- & --- \\ \hline
+original & JPEG & 776.9634 & 1.00x & --- & --- \\ \hline
 q94 & JPEG & 543.3825 & 1.43x & 37.4721 & 0.9677 \\ \hline
 q88 & JPEG & 384.2208 & 2.02x & 35.3911 & 0.9477 \\ \hline
 q75 & JPEG & 239.2142 & 3.25x & 32.2933 & 0.9055 \\ \hline
 q50 & JPEG & 156.6916 & 4.96x & 30.1392 & 0.8662 \\ \hline
 q25 & JPEG & 95.9412 & 8.10x & 28.1373 & 0.8142 \\ \hline
+b8 & PNG control & 2288.6569 & 0.34x & --- & 1.0000 \\ \hline
 b7 & BPC & 1912.6668 & 0.41x & 51.2191 & 0.9980 \\ \hline
 b4 & BPC & 816.7964 & 0.95x & 34.4830 & 0.9064 \\ \hline
 b3 & BPC & 607.8120 & 1.28x & 27.8577 & 0.7862 \\ \hline
@@ -272,7 +274,7 @@ A direct comparison of the absolute physical storage footprint for each variant 
 \label{fig:dataset_size}
 \end{figure}
 
-Fig. 4 highlights the storage paradox of BPC: $b7$ requires an astonishing 1912.67 MB of storage---a 2.46$\times$ inflation compared to the original 776.96 MB JPEG dataset. Even $b4$ (816.80 MB) fails to yield any storage savings over the original uncompressed set.
+Fig. 4 highlights the storage paradox of the PNG branch. The container-control variant $b8$ (decoded source JPEG stored as 8-bit truecolor PNG, without additional level reduction) reaches 2288.66 MB while preserving baseline detection metrics, a 2.95$\times$ inflation over the 776.96 MB source JPEG baseline. Quantized variant $b7$ still requires 1912.67 MB (2.46$\times$ inflation) despite near-baseline mAP50. Even $b4$ (816.80 MB) fails to yield storage savings over the source JPEG baseline.
 
 The changes in individual object detection localization metrics (Precision and Recall) across all variants are mapped in Fig. 5.
 
@@ -283,7 +285,7 @@ The changes in individual object detection localization metrics (Precision and R
 \label{fig:precision_recall}
 \end{figure}
 
-Interestingly, Fig. 5 shows that for JPEG $q88$, Precision actually increases slightly to 0.6446 (from 0.6347), while Recall decreases gradually. This indicates that mild JPEG recompression acts as a high-frequency spatial filter, removing minor background textures and noise, which helps the network reduce false-positive detections.
+Fig. 5 shows that for JPEG $q88$, Precision increases slightly to 0.6446 (from 0.6347), while Recall decreases gradually. Because mAP50 remains essentially unchanged (0.5147 vs. 0.5187), this small Precision shift is best interpreted as a minor metric fluctuation rather than evidence of a systematic regularization effect.
 
 \subsection{Divergence of Visual and Task Metrics}
 The correlation between classical visual quality and downstream neural network performance is explored in Figs. 6 and 7.
@@ -312,6 +314,18 @@ Figs. 6 and 7 mathematically demonstrate the divergence between visual and task 
     \item \textbf{The $b4$ vs $q75$ Comparison}: $b4$ has a higher PSNR (34.48 dB vs 32.29 dB) and a higher SSIM (0.9064 vs 0.9055) than $q75$. Despite appearing visually superior, $b4$ yields a lower mAP50 (0.4987) while requiring 3.4$\times$ more storage than $q75$, which reaches a superior mAP50 of 0.5057.
 \end{itemize}
 
+\subsection{Pareto Trade-off Analysis}
+To compare storage efficiency and detection quality across variants without relying on matched parameter settings, Fig. 8 plots all non-baseline variants in the size--mAP50 plane and marks the Pareto frontier (points for which no other tested variant simultaneously achieves lower storage and higher mAP50).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{results/article_figures/fig10_pareto_storage_map50.png}
+\caption{Storage-detection Pareto frontier for tested JPEG and BPC variants.}
+\label{fig:pareto_frontier}
+\end{figure}
+
+The Pareto frontier is dominated by JPEG variants from $q88$ through $q25$. No BPC point lies on the frontier: even when BPC achieves smaller files at aggressive quantization levels, its mAP50 remains far below JPEG variants at comparable storage budgets (for example, $b1$ at 165.60 MB vs. $q25$ at 95.94 MB).
+
 \subsection{Visual Artifact Overviews}
 To illustrate the visual consequences of these degradation pipelines, we examine qualitative examples of spatial structures under compression.
 
@@ -335,14 +349,14 @@ Examples of visual degradation for uniform bit-depth reduction are referenced in
 \label{fig:bpc_degrad}
 \end{figure}
 
-Bit-depth reduction (Fig. 9) preserves spatial boundaries and geometric edges perfectly at $b7$ and $b4$. However, at $b4$, visible color banding (posterization) begins to appear on smooth gradients. At $b2$ and $b1$, the image disintegrates into a highly pixelated, high-contrast representation, completely destroying the smooth amplitude variations and color channels necessary for YOLOv8n's convolutional layers to register features.
+Bit-depth reduction (Fig. 9) remains visually close to the reference at $b7$ and $b4$, although posterization begins to appear at $b4$ on smooth gradients. At $b2$ and $b1$, severe tonal quantization produces posterized, high-contrast regions that destroy the smooth amplitude variations needed for reliable feature extraction.
 
 \section{Discussion}
 The empirical results compiled in this study provide several critical insights into the design of machine-centric digital image pipelines. Taken together, our findings substantiate the following key claims:
 \begin{enumerate}
     \item Different types of image degradation affect YOLOv8 in fundamentally different ways.
     \item An equal reduction in file size does not imply equal utility of the image for object detection.
-    \item A visually acceptable image is not necessarily optimal for neural network inference.
+    \item A visually acceptable image is not necessarily the most suitable input for neural network inference.
     \item Classical metrics such as PSNR and SSIM are insufficient for a complete assessment of image suitability in computer vision tasks.
     \item The choice of compression method for machine analysis must incorporate application-level detection metrics.
 \end{enumerate}
@@ -350,16 +364,17 @@ The empirical results compiled in this study provide several critical insights i
 \subsection{Analysis of JPEG Sweet Spots}
 JPEG recompression demonstrates exceptional efficiency in the near-baseline and mid-range zones:
 \begin{itemize}
-    \item \textbf{The $q88$ Operating Point}: The $q88$ variant represents the strongest near-baseline trade-off identified in this research. It achieves a 2.02$\times$ compression ratio (halving the required storage footprint to 384.22 MB) with a negligible mAP50 drop of only 0.004 (0.77\% relative loss). In practical edge-AI deployments, switching the storage pipeline from raw/uncompressed JPEG to $q88$ allows systems to double their data capacity or halve transmission costs with virtually no impact on object detection accuracy.
+    \item \textbf{The $q88$ Operating Point}: Among the tested JPEG quality levels, $q88$ provides the best near-baseline trade-off. It achieves a 2.02$\times$ compression ratio (halving the required storage footprint to 384.22 MB) with a negligible mAP50 drop of only 0.004 (0.77\% relative loss). In practical edge-AI deployments, switching from the source COCO JPEG baseline to $q88$ can approximately double effective storage capacity with virtually no impact on object detection accuracy.
     \item \textbf{The $q75$ Operating Point}: For systems operating under tighter storage or bandwidth constraints, $q75$ represents an outstanding compromise. It achieves 3.25$\times$ compression (reducing the dataset to 239.21 MB) while incurring a minor relative mAP50 drop of only 2.51\%.
-    \item \textbf{The Role of Frequency Filtering}: The slight increase in Precision observed at $q88$ (0.6446 vs. baseline 0.6347) may suggest that mild JPEG recompression acts as a spatial regularizer. By quantizing high-frequency DCT coefficients, JPEG can suppress minor pixel-level textures and background details. This provides a plausible explanation for the Precision increase, although confirming the exact mechanism would require additional per-class and false-positive analysis.
+    \item \textbf{Precision at $q88$}: The slight Precision increase at $q88$ (0.6446 vs. 0.6347) is not accompanied by a meaningful mAP50 gain and is therefore treated as a minor metric fluctuation rather than evidence of a systematic filtering benefit.
 \end{itemize}
 
 \subsection{The BPC + PNG Storage Paradox}
-The BPC branch presents a major architectural warning: \textbf{uniform bit-depth reduction stored in a standard lossless PNG container is highly inefficient for storage optimization.}
+The BPC branch presents a major architectural warning: \textbf{uniform RGB level quantization stored in a standard lossless 24-bit truecolor PNG container is highly inefficient for storage optimization under the tested pipeline.}
 \begin{itemize}
-    \item \textbf{File Size Inflation}: While 7-bit quantization ($b7$) preserves baseline detection performance perfectly (0.5189 mAP50), it inflates the dataset size to 1912.67 MB---a 146\% increase over the original baseline.
-    \item \textbf{Algorithmic Explanation}: This paradox lies in how PNG handles spatial compression. Lossless PNG relies on spatial filtering (checking adjacent pixels to predict values) followed by a DEFLATE entropy encoder (which uses Huffman coding and LZ77 duplicate string matching) \cite{w3c2003}. The original COCO images are stored in a lossy, high-frequency-smoothed JPEG format. When uniform quantization is applied, the continuous, smooth color gradients of the JPEG format are broken into discrete, step-like color intervals, creating sharp, artificial boundaries (spatial banding or posterization). These high-frequency transitions act as spatial noise, causing the PNG spatial prediction filters to fail. As a result, the DEFLATE algorithm cannot find repetitive spatial strings, causing the lossless file size to inflate far beyond the original lossy JPEG baseline.
+    \item \textbf{Container-Control Result ($b8$)}: Re-encoding the decoded source JPEG as 8-bit truecolor PNG without additional level reduction preserves baseline detection metrics exactly (mAP50 = 0.5187) but increases storage to 2288.66 MB (0.34$\times$ compression relative to the source JPEG baseline). This isolates a substantial container penalty before any additional quantization is applied.
+    \item \textbf{Quantization Effect ($b7$)}: With 7-bit level reduction, detection performance remains near baseline (0.5189 mAP50), but storage remains far above the JPEG baseline at 1912.67 MB. Thus, the dominant storage penalty in the near-lossless BPC regime is not explained by quantization alone.
+    \item \textbf{Algorithmic Explanation}: The observed PNG size behavior arises from the interaction between lossless PNG encoding (spatial filtering followed by DEFLATE entropy coding) \cite{w3c2003} and the spatial statistics of decoded or quantized RGB images. When uniform quantization is applied, smooth gradients can be replaced by step-like color intervals (posterization), which may further reduce compressibility depending on image content, filter choice, and encoder behavior.
     \item \textbf{Task Collapse}: At lower bit depths ($b \le 3$), where BPC finally achieves storage savings over the original dataset (e.g., $b3$ at 607.81 MB), the color gradients are so heavily quantized that YOLOv8n experiences a severe 15.31\% mAP50 drop. At $b2$ and $b1$, the visual information collapses, leading to a catastrophic loss in object detection utility.
 \end{itemize}
 
@@ -387,10 +402,10 @@ Under the evaluated conditions, the following key propositions are empirically e
     \item JPEG compression and bit-depth reduction at comparable compression levels exert fundamentally different effects on object detection quality.
     \item The nature of the distortions introduced is no less important a factor than the overall level of information loss.
     \item Moderate bit-depth reduction can preserve task-relevant information; however, the practical efficiency of this approach depends critically on the storage format.
-    \item For practical computer vision systems, the optimal compression method must be selected based on the trade-off between data volume and model performance on the downstream task.
+    \item For practical computer vision systems, the compression method should be selected based on the trade-off between data volume and model performance on the downstream task.
 \end{enumerate}
 
-Specifically, JPEG quality factor \textbf{q88} represents the most efficient practical operating point, halving the dataset storage size (2.02$\times$ compression) with less than a 1\% relative drop in object detection accuracy ($mAP50 = 0.5147$ vs. baseline $0.5187$). For tighter budgets, \textbf{q75} provides 3.25$\times$ compression with only a 2.51\% mAP50 drop. Uniform RGB bit-depth reduction stored in 24-bit PNG is highly inefficient: it introduces spatial banding that disrupts the PNG DEFLATE compressor, causing file size inflation at high bit depths ($b7$ is 2.46$\times$ larger than baseline) and collapsing downstream detection accuracy at lower bit depths. Traditional visual quality metrics (PSNR, SSIM) diverge significantly from neural network task metrics (mAP), confirming that human-centric evaluation is insufficient for machine vision engineering.
+Among the tested JPEG quality levels, \textbf{q88} provides the best near-baseline practical operating point, halving the dataset storage size (2.02$\times$ compression) with less than a 1\% relative drop in object detection accuracy ($mAP50 = 0.5147$ vs. baseline $0.5187$). For tighter budgets, \textbf{q75} provides 3.25$\times$ compression with only a 2.51\% mAP50 drop. Storing decoded images in 24-bit truecolor PNG is highly inefficient in the tested pipeline: the $b8$ container control is 2.95$\times$ larger than the source JPEG baseline with unchanged detection metrics, and quantized variants such as $b7$ remain far above JPEG sizes before task quality collapses at lower bit depths. Traditional visual quality metrics (PSNR, SSIM) diverge significantly from neural network task metrics (mAP), confirming that human-centric evaluation is insufficient for machine vision engineering.
 
 Although moderate bit-depth reduction preserves information that is meaningful for YOLOv8, under the evaluated data representation scheme it is inferior to JPEG recompression in terms of the combined storage size and detection quality trade-off. This is a legitimate and valuable scientific result: the study demonstrates that it is not simply the quantity of lost information that matters, but rather what kind of information is lost.
 
@@ -443,11 +458,8 @@ Wang, C.-Y., Bochkovskiy, A., \& Liao, H.-Y. M. (2023). YOLOv7: Trainable bag-of
 \bibitem{lin2014}
 Lin, T.-Y., Maire, M., Belongie, S. J., Hays, J., Perona, P., Ramanan, D., Dollár, P., \& Zitnick, C. L. (2014). Microsoft COCO: Common objects in context. In D. Fleet, T. Pajdla, B. Schiele, \& T. Tuytelaars (Eds.), \textit{Computer vision – ECCV 2014} (pp. 740–755). Springer. https://doi.org/10.1007/978-3-319-10602-1\_48
 
-\bibitem{hu2018}
-Hu, Y., Yang, W., Li, J., \& Wang, L. (2018). Content-aware and task-aware image compression for cloud-based object detection. \textit{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops}, 1689–1697. https://doi.org/10.1109/CVPRW.2018.00220
-
-\bibitem{kim2021}
-Kim, M., Lee, J., \& Kim, C. (2021). Task-aware image compression via spatially-adaptive feature transform. \textit{arXiv preprint arXiv:2108.09551}. https://arxiv.org/abs/2108.09551
+\bibitem{song2021}
+Song, M., Choi, J., \& Han, B. (2021). Variable-rate deep image compression through spatially-adaptive feature transform. \textit{Proceedings of the IEEE International Conference on Computer Vision (ICCV)}, 2360–2369. https://doi.org/10.1109/ICCV48922.2021.00238
 
 \bibitem{ye2023}
 Ye, J., Yeo, H., Park, J., \& Han, D. (2023). AccelIR: Task-aware image compression for accelerating neural restoration. \textit{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, 17852–17861. https://doi.org/10.1109/CVPR.2023.01712
@@ -462,7 +474,7 @@ Hao, Y., Pei, H., Lyu, Y., Yuan, Z., Rizzo, J.-R., Wang, Y., \& Fang, Y. (2022).
 Huang, C.-H., \& Wu, J.-L. (2024). Unveiling the future of human and machine coding: A survey of end-to-end learned image compression. \textit{Entropy}, \textit{26}(5), 357. https://doi.org/10.3390/e26050357
 
 \bibitem{piran2022}
-Piran, M. J. (2022). Learning-driven lossy image compression: A comprehensive survey. \textit{arXiv preprint arXiv:2201.09240}. https://doi.org/10.48550/arXiv.2201.09240
+Jamil, S., Piran, M. J., \& Rahman, M. U. (2022). Learning-driven lossy image compression: A comprehensive survey. \textit{arXiv preprint arXiv:2201.09240}. https://doi.org/10.48550/arXiv.2201.09240
 
 \bibitem{heckbert1982}
 Heckbert, P. S. (1982). Color image quantization for frame buffer display. \textit{Proceedings of the 9th Annual Conference on Computer Graphics and Interactive Techniques (SIGGRAPH ’82)}, 297–307. https://doi.org/10.1145/800064.801294

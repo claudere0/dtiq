@@ -44,6 +44,15 @@ def as_float(row, key):
     return float(row[key])
 
 
+def optional_float(value):
+    if value is None:
+        return None
+    text = str(value).strip()
+    if not text or text.lower() in {"inf", "nan"}:
+        return None
+    return float(text)
+
+
 def load_article_rows(metrics_csv, image_quality_csv):
     metric_rows = read_csv(metrics_csv)
     quality_rows = {row["variant"]: row for row in read_csv(image_quality_csv)}
@@ -71,8 +80,8 @@ def load_article_rows(metrics_csv, image_quality_csv):
                 "map50_95": map50_95,
                 "map50_drop_pct": ((baseline_map50 - map50) / baseline_map50) * 100.0,
                 "map50_95_drop_pct": ((baseline_map50_95 - map50_95) / baseline_map50_95) * 100.0,
-                "psnr": float(quality["mean_psnr"]) if quality else None,
-                "ssim": float(quality["mean_ssim"]) if quality else None,
+                "psnr": optional_float(quality.get("mean_psnr")) if quality else None,
+                "ssim": optional_float(quality.get("mean_ssim")) if quality else None,
             }
         )
     return rows
@@ -237,6 +246,60 @@ def write_line_chart(rows, output_path, title, xlabel, ylabel, x_key, y_key, gro
     chart.write(output_path)
 
 
+def pareto_optimal(rows, size_key="size_mb", quality_key="map50"):
+    """Return non-dominated points: lower size and higher mAP50 are better."""
+    candidates = sorted(rows, key=lambda row: (row[size_key], -row[quality_key]))
+    frontier = []
+    best_map = -1.0
+    for row in candidates:
+        if row[quality_key] > best_map:
+            frontier.append(row)
+            best_map = row[quality_key]
+    return sorted(frontier, key=lambda row: row[size_key])
+
+
+def is_pareto_optimal(row, rows, size_key="size_mb", quality_key="map50"):
+    for other in rows:
+        if other["variant"] == row["variant"]:
+            continue
+        if other[size_key] <= row[size_key] and other[quality_key] >= row[quality_key]:
+            if other[size_key] < row[size_key] or other[quality_key] > row[quality_key]:
+                return False
+    return True
+
+
+def write_pareto_chart(rows, output_path):
+    chart = SvgChart(
+        "Storage-detection Pareto frontier",
+        "Dataset size (MB)",
+        "mAP50",
+    )
+    tradeoff_rows = [row for row in rows if row["type"] != "original"]
+    chart.set_ranges(
+        [row["size_mb"] for row in tradeoff_rows],
+        [row["map50"] for row in tradeoff_rows],
+    )
+    chart.draw_axes()
+    for label in ["jpeg", "bpc"]:
+        group = by_type(tradeoff_rows, label)
+        if group:
+            chart.add_scatter(group, "size_mb", "map50", COLORS[label], label.upper())
+
+    frontier = pareto_optimal(tradeoff_rows)
+    if len(frontier) >= 2:
+        points = " ".join(f'{chart.x(row["size_mb"]):.2f},{chart.y(row["map50"]):.2f}' for row in frontier)
+        chart.add(
+            f'<polyline points="{points}" fill="none" stroke="#444444" '
+            f'stroke-width="2.5" stroke-dasharray="8 5"/>'
+        )
+    for row in frontier:
+        x = chart.x(row["size_mb"])
+        y = chart.y(row["map50"])
+        chart.add(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="7" fill="none" stroke="#444444" stroke-width="2"/>')
+    chart.add_legend_item("Pareto frontier", "#444444")
+    chart.write(output_path)
+
+
 def write_scatter_chart(rows, output_path, title, xlabel, ylabel, x_key, y_key):
     chart = SvgChart(title, xlabel, ylabel)
     selected_rows = [row for row in rows if row[x_key] is not None]
@@ -282,7 +345,20 @@ def write_bar_chart(rows, output_path, title, ylabel, value_key):
 
 
 def write_detection_bars(rows, output_path):
-    ordered_names = ["original", "q94", "q88", "q75", "q50", "q25", "b7", "b4", "b3", "b2", "b1"]
+    ordered_names = [
+        "original",
+        "q94",
+        "q88",
+        "q75",
+        "q50",
+        "q25",
+        "b8",
+        "b7",
+        "b4",
+        "b3",
+        "b2",
+        "b1",
+    ]
     row_map = {row["variant"]: row for row in rows}
     ordered = [row_map[name] for name in ordered_names if name in row_map]
     width = 1040
@@ -343,7 +419,11 @@ def write_article_table(rows, output_dir):
         for row in rows:
             writer.writerow(
                 {
-                    key: round(row[key], 6) if isinstance(row[key], float) else row[key]
+                    key: (
+                        round(row[key], 6)
+                        if isinstance(row[key], float)
+                        else ("" if row[key] is None else row[key])
+                    )
                     for key in fieldnames
                 }
             )
@@ -423,6 +503,7 @@ def main():
         "ssim",
         "map50",
     )
+    write_pareto_chart(rows, output_dir / "fig8_pareto_storage_map50.svg")
     print(f"Saved article figures to {output_dir}")
 
 

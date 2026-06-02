@@ -1,3 +1,4 @@
+import argparse
 import shutil
 from pathlib import Path
 
@@ -6,7 +7,21 @@ from PIL import Image
 
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".webp"}
-DEFAULT_BITS = [7, 4, 3, 2, 1]
+DEFAULT_BITS = [8, 7, 4, 3, 2, 1]
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Generate truecolor PNG variants after uniform RGB level quantization."
+    )
+    parser.add_argument(
+        "--bits",
+        nargs="*",
+        type=int,
+        default=DEFAULT_BITS,
+        help="Bit-per-channel level variants to generate. Use 8 for decoded source JPEG -> PNG control.",
+    )
+    return parser.parse_args()
 
 
 def quantize_image(data, bits):
@@ -42,6 +57,7 @@ def process_variant(source_images_dir, source_labels_dir, output_root, bits):
 
 
 def main():
+    args = parse_args()
     source_images_dir = Path("data/processed/val5k/original/images/val2017")
     source_labels_dir = Path("data/processed/val5k/original/labels/val2017")
     output_root = Path("data/processed/val5k/bpc")
@@ -55,7 +71,7 @@ def main():
             "Source labels for val5k are missing. Run scripts/prepare/create_val5k_original.py first."
         )
 
-    for bits in DEFAULT_BITS:
+    for bits in args.bits:
         process_variant(source_images_dir, source_labels_dir, output_root, bits)
 
 

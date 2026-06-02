@@ -30,6 +30,10 @@ variants:
     dataset: configs/datasets/val5k/q25.yaml
     quantization_type: jpeg
     parameter: 25
+  - name: b8
+    dataset: configs/datasets/val5k/b8.yaml
+    quantization_type: bpc
+    parameter: 8
   - name: b7
     dataset: configs/datasets/val5k/b7.yaml
     quantization_type: bpc
