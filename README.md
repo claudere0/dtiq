@@ -97,7 +97,9 @@ This computes per-image and aggregate `PSNR` and `SSIM` values for every non-ori
 ### 6. Generate plots
 
 ```bash
-python scripts/analyze/plot_results.py --metrics-csv results/val5k/summary/metrics.csv
+python scripts/analyze/plot_results.py \
+  --metrics-csv results/val5k/summary/metrics.csv \
+  --image-quality-csv results/val5k/summary/image_quality.csv
 ```
 
 Generated plots:
@@ -111,20 +113,16 @@ Generated plots:
 python scripts/analyze/make_article_figures.py \
   --metrics-csv results/val5k/summary/metrics.csv \
   --image-quality-csv results/val5k/summary/image_quality.csv \
-  --output-dir results/article_figures
+  --output-dir article/latex_project/results/article_figures
 ```
 
 This creates a dedicated article figure folder with SVG files and a compact merged table:
 
-- `results/article_figures/article_metrics_table.csv`;
-- `results/article_figures/fig1_map50_vs_size.svg`;
-- `results/article_figures/fig2_compression_ratio_vs_map50.svg`;
-- `results/article_figures/fig3_relative_map50_drop.svg`;
-- `results/article_figures/fig4_dataset_size_bars.svg`;
-- `results/article_figures/fig5_detection_metric_bars.svg`;
-- `results/article_figures/fig6_psnr_vs_map50.svg`;
-- `results/article_figures/fig7_ssim_vs_map50.svg`;
-- `results/article_figures/fig8_pareto_storage_map50.svg` (and `.png`).
+- `article/latex_project/results/article_figures/article_metrics_table.csv`;
+- `article/latex_project/results/article_figures/fig1`–`fig7` (`.svg` and `.png`);
+- `article/latex_project/results/article_figures/fig10_pareto_storage_map50` (`.svg` and `.png`);
+- `article/latex_project/results/article_figures/fig8_jpeg_visual_degradation_grid.png`;
+- `article/latex_project/results/article_figures/fig9_bpc_visual_degradation_grid.png`.
 
 Recommended additional visual examples for the paper:
 

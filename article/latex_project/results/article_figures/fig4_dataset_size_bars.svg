@@ -33,7 +33,7 @@
 <text x="772.25" y="558" text-anchor="middle" font-family="Arial" font-size="12">b4</text>
 <rect x="815.00" y="185.49" width="61.50" height="339.51" fill="#1b9e77"/>
 <text x="845.75" y="558" text-anchor="middle" font-family="Arial" font-size="12">b7</text>
-<rect x="888.50" y="118.75" width="61.50" height="406.25" fill="#1b9e77"/>
+<rect x="888.50" y="118.75" width="61.50" height="406.25" fill="#6a51a3"/>
 <text x="919.25" y="558" text-anchor="middle" font-family="Arial" font-size="12">b8</text>
 <line x1="80" y1="525" x2="950" y2="525" stroke="#333333" stroke-width="1.5"/>
 <line x1="80" y1="70" x2="80" y2="525" stroke="#333333" stroke-width="1.5"/>

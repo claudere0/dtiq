@@ -27,7 +27,7 @@
 \author{
   \textbf{Amir Karataev} \\
   \small Master of Science, Graduate Student, School of Software Engineering \\
-  \small amirkarataev1501@gmail.com, ORCID: 0000-0002-XXXX-XXXX \\
+  \small amirkarataev1501@gmail.com, ORCID: 0009-0007-7074-6421 \\
   \small Astana IT University, Kazakhstan \\
   \textbf{Shynar Akhmetzhanova} \\
   \small Candidate of Technical Sciences, Assistant Professor, School of Software Engineering \\
@@ -314,18 +314,6 @@ Figs. 6 and 7 mathematically demonstrate the divergence between visual and task 
     \item \textbf{The $b4$ vs $q75$ Comparison}: $b4$ has a higher PSNR (34.48 dB vs 32.29 dB) and a higher SSIM (0.9064 vs 0.9055) than $q75$. Despite appearing visually superior, $b4$ yields a lower mAP50 (0.4987) while requiring 3.4$\times$ more storage than $q75$, which reaches a superior mAP50 of 0.5057.
 \end{itemize}
 
-\subsection{Pareto Trade-off Analysis}
-To compare storage efficiency and detection quality across variants without relying on matched parameter settings, Fig. 8 plots all non-baseline variants in the size--mAP50 plane and marks the Pareto frontier (points for which no other tested variant simultaneously achieves lower storage and higher mAP50).
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig10_pareto_storage_map50.png}
-\caption{Storage-detection Pareto frontier for tested JPEG and BPC variants.}
-\label{fig:pareto_frontier}
-\end{figure}
-
-The Pareto frontier is dominated by JPEG variants from $q88$ through $q25$. No BPC point lies on the frontier: even when BPC achieves smaller files at aggressive quantization levels, its mAP50 remains far below JPEG variants at comparable storage budgets (for example, $b1$ at 165.60 MB vs. $q25$ at 95.94 MB).
-
 \subsection{Visual Artifact Overviews}
 To illustrate the visual consequences of these degradation pipelines, we examine qualitative examples of spatial structures under compression.
 
@@ -350,6 +338,18 @@ Examples of visual degradation for uniform bit-depth reduction are referenced in
 \end{figure}
 
 Bit-depth reduction (Fig. 9) remains visually close to the reference at $b7$ and $b4$, although posterization begins to appear at $b4$ on smooth gradients. At $b2$ and $b1$, severe tonal quantization produces posterized, high-contrast regions that destroy the smooth amplitude variations needed for reliable feature extraction.
+
+\subsection{Pareto Trade-off Analysis}
+To compare storage efficiency and detection quality across variants without relying on matched parameter settings, Fig. 10 plots all non-baseline variants in the size--mAP50 plane and marks the Pareto frontier (points for which no other tested variant simultaneously achieves lower storage and higher mAP50). Variant $b8$ is shown separately as a PNG container control and is excluded from the frontier because it isolates storage-format effects rather than a quantization trade-off.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{results/article_figures/fig10_pareto_storage_map50.png}
+\caption{Storage-detection Pareto frontier for tested JPEG and BPC variants. The $b8$ marker (diamond) denotes the PNG container control and is not part of the frontier.}
+\label{fig:pareto_frontier}
+\end{figure}
+
+The Pareto frontier is dominated by JPEG variants from $q88$ through $q25$. No quantized BPC point lies on the frontier: even when BPC achieves smaller files at aggressive quantization levels, its mAP50 remains far below JPEG variants at comparable storage budgets (for example, $b1$ at 165.60 MB vs. $q25$ at 95.94 MB).
 
 \section{Discussion}
 The empirical results compiled in this study provide several critical insights into the design of machine-centric digital image pipelines. Taken together, our findings substantiate the following key claims:

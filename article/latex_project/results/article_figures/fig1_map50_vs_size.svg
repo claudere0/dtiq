@@ -41,7 +41,7 @@
 <circle cx="272.62" cy="105.42" r="5" fill="#d95f02"/>
 <text x="279.62" y="98.42" font-family="Arial" font-size="12">q94</text>
 <g data-legend="true"><rect x="230" y="38" width="13" height="13" fill="#d95f02"/><text x="250" y="49" font-family="Arial" font-size="13">JPEG</text></g>
-<polyline points="152.16,509.65 202.27,342.70 293.16,186.49 359.79,123.88 709.19,102.57 829.07,102.77" fill="none" stroke="#1b9e77" stroke-width="2.5"/>
+<polyline points="152.16,509.65 202.27,342.70 293.16,186.49 359.79,123.88 709.19,102.57" fill="none" stroke="#1b9e77" stroke-width="2.5"/>
 <circle cx="152.16" cy="509.65" r="5" fill="#1b9e77"/>
 <text x="159.16" y="502.65" font-family="Arial" font-size="12">b1</text>
 <circle cx="202.27" cy="342.70" r="5" fill="#1b9e77"/>
@@ -52,7 +52,8 @@
 <text x="366.79" y="116.88" font-family="Arial" font-size="12">b4</text>
 <circle cx="709.19" cy="102.57" r="5" fill="#1b9e77"/>
 <text x="716.19" y="95.57" font-family="Arial" font-size="12">b7</text>
-<circle cx="829.07" cy="102.77" r="5" fill="#1b9e77"/>
-<text x="836.07" y="95.77" font-family="Arial" font-size="12">b8</text>
 <g data-legend="true"><rect x="345" y="38" width="13" height="13" fill="#1b9e77"/><text x="365" y="49" font-family="Arial" font-size="13">BPC</text></g>
+<polygon points="829.07,95.77 836.07,102.77 829.07,109.77 822.07,102.77" fill="#6a51a3" fill-opacity="0.25" stroke="#6a51a3" stroke-width="2.2"/>
+<text x="838.07" y="93.77" font-family="Arial" font-size="12">b8</text>
+<g data-legend="true"><rect x="460" y="38" width="13" height="13" fill="#6a51a3"/><text x="480" y="49" font-family="Arial" font-size="13">PNG control (b8)</text></g>
 </svg>

@@ -12,7 +12,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 TEX_PATH = ROOT / "draft.tex"
 OUTPUT_PATH = ROOT / "draft.docx"
-FIGURES_DIR = ROOT / "results" / "article_figures"
+FIGURES_DIR = ROOT / "article" / "latex_project" / "results" / "article_figures"
 
 
 COLORS = {

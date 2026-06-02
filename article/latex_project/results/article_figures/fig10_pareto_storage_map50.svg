@@ -36,8 +36,6 @@
 <circle cx="129.96" cy="220.30" r="5.5" fill="#d95f02"/>
 <text x="136.96" y="213.30" font-family="Arial" font-size="12">q25</text>
 <g data-legend="true"><rect x="115" y="38" width="13" height="13" fill="#d95f02"/><text x="135" y="49" font-family="Arial" font-size="13">JPEG</text></g>
-<circle cx="829.07" cy="102.77" r="5.5" fill="#1b9e77"/>
-<text x="836.07" y="95.77" font-family="Arial" font-size="12">b8</text>
 <circle cx="709.19" cy="102.57" r="5.5" fill="#1b9e77"/>
 <text x="716.19" y="95.57" font-family="Arial" font-size="12">b7</text>
 <circle cx="359.79" cy="123.88" r="5.5" fill="#1b9e77"/>
@@ -49,6 +47,9 @@
 <circle cx="152.16" cy="509.65" r="5.5" fill="#1b9e77"/>
 <text x="159.16" y="502.65" font-family="Arial" font-size="12">b1</text>
 <g data-legend="true"><rect x="230" y="38" width="13" height="13" fill="#1b9e77"/><text x="250" y="49" font-family="Arial" font-size="13">BPC</text></g>
+<polygon points="829.07,95.77 836.07,102.77 829.07,109.77 822.07,102.77" fill="#6a51a3" fill-opacity="0.25" stroke="#6a51a3" stroke-width="2.2"/>
+<text x="838.07" y="93.77" font-family="Arial" font-size="12">b8</text>
+<g data-legend="true"><rect x="345" y="38" width="13" height="13" fill="#6a51a3"/><text x="365" y="49" font-family="Arial" font-size="13">PNG control (b8)</text></g>
 <polyline points="129.96,220.30 149.33,142.10 175.64,116.51 221.87,106.97 272.62,105.42 709.19,102.57" fill="none" stroke="#444444" stroke-width="2.5" stroke-dasharray="8 5"/>
 <circle cx="129.96" cy="220.30" r="7" fill="none" stroke="#444444" stroke-width="2"/>
 <circle cx="149.33" cy="142.10" r="7" fill="none" stroke="#444444" stroke-width="2"/>
@@ -56,5 +57,5 @@
 <circle cx="221.87" cy="106.97" r="7" fill="none" stroke="#444444" stroke-width="2"/>
 <circle cx="272.62" cy="105.42" r="7" fill="none" stroke="#444444" stroke-width="2"/>
 <circle cx="709.19" cy="102.57" r="7" fill="none" stroke="#444444" stroke-width="2"/>
-<g data-legend="true"><rect x="345" y="38" width="13" height="13" fill="#444444"/><text x="365" y="49" font-family="Arial" font-size="13">Pareto frontier</text></g>
+<g data-legend="true"><rect x="460" y="38" width="13" height="13" fill="#444444"/><text x="480" y="49" font-family="Arial" font-size="13">Pareto frontier</text></g>
 </svg>

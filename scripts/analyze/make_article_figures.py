@@ -4,15 +4,20 @@ import html
 from pathlib import Path
 
 
+PNG_CONTROL_VARIANT = "b8"
+
 COLORS = {
     "original": "#222222",
     "jpeg": "#d95f02",
     "bpc": "#1b9e77",
+    "png_control": "#6a51a3",
     "map50": "#7570b3",
     "map50_95": "#66a61e",
     "grid": "#dddddd",
     "axis": "#333333",
 }
+
+DEFAULT_OUTPUT_DIR = "article/latex_project/results/article_figures"
 
 
 def parse_args():
@@ -29,10 +34,28 @@ def parse_args():
     )
     parser.add_argument(
         "--output-dir",
-        default="results/article_figures",
+        default=DEFAULT_OUTPUT_DIR,
         help="Directory for article-ready figures.",
     )
     return parser.parse_args()
+
+
+def is_png_control(row):
+    return row["variant"] == PNG_CONTROL_VARIANT
+
+
+def bpc_quantized_rows(rows):
+    return [row for row in rows if row["type"] == "bpc" and not is_png_control(row)]
+
+
+def png_control_rows(rows):
+    return [row for row in rows if is_png_control(row)]
+
+
+def variant_color(row):
+    if is_png_control(row):
+        return COLORS["png_control"]
+    return COLORS.get(row["type"], COLORS["bpc"])
 
 
 def read_csv(path):
@@ -214,6 +237,25 @@ class SvgChart:
             )
         self.add_legend_item(label, color)
 
+    def add_control_markers(self, rows, x_key, y_key, color, label):
+        for row in rows:
+            x = self.x(row[x_key])
+            y = self.y(row[y_key])
+            size = 7
+            points = (
+                f"{x:.2f},{y - size:.2f} {x + size:.2f},{y:.2f} "
+                f"{x:.2f},{y + size:.2f} {x - size:.2f},{y:.2f}"
+            )
+            self.add(
+                f'<polygon points="{points}" fill="{color}" fill-opacity="0.25" '
+                f'stroke="{color}" stroke-width="2.2"/>'
+            )
+            self.add(
+                f'<text x="{x + 9:.2f}" y="{y - 9:.2f}" font-family="Arial" '
+                f'font-size="12">{escape(row["variant"])}</text>'
+            )
+        self.add_legend_item(label, color)
+
     def add_legend_item(self, label, color):
         index = sum(1 for element in self.elements if 'data-legend="true"' in element)
         x = self.left + 20 + index * 115
@@ -241,8 +283,19 @@ def write_line_chart(rows, output_path, title, xlabel, ylabel, x_key, y_key, gro
     chart.set_ranges([row[x_key] for row in selected_rows], [row[y_key] for row in selected_rows])
     chart.draw_axes()
     for label, group in groups.items():
-        if group:
-            chart.add_line(group, x_key, y_key, COLORS[label.lower()], label.upper())
+        if not group:
+            continue
+        color_key = label.lower()
+        if color_key == "png_control":
+            chart.add_control_markers(
+                group,
+                x_key,
+                y_key,
+                COLORS["png_control"],
+                "PNG control (b8)",
+            )
+        else:
+            chart.add_line(group, x_key, y_key, COLORS[color_key], label.upper())
     chart.write(output_path)
 
 
@@ -275,17 +328,29 @@ def write_pareto_chart(rows, output_path):
         "mAP50",
     )
     tradeoff_rows = [row for row in rows if row["type"] != "original"]
+    pareto_rows = [row for row in tradeoff_rows if not is_png_control(row)]
     chart.set_ranges(
         [row["size_mb"] for row in tradeoff_rows],
         [row["map50"] for row in tradeoff_rows],
     )
     chart.draw_axes()
-    for label in ["jpeg", "bpc"]:
-        group = by_type(tradeoff_rows, label)
-        if group:
-            chart.add_scatter(group, "size_mb", "map50", COLORS[label], label.upper())
+    jpeg_rows = by_type(tradeoff_rows, "jpeg")
+    if jpeg_rows:
+        chart.add_scatter(jpeg_rows, "size_mb", "map50", COLORS["jpeg"], "JPEG")
+    bpc_rows = bpc_quantized_rows(tradeoff_rows)
+    if bpc_rows:
+        chart.add_scatter(bpc_rows, "size_mb", "map50", COLORS["bpc"], "BPC")
+    control_rows = png_control_rows(tradeoff_rows)
+    if control_rows:
+        chart.add_control_markers(
+            control_rows,
+            "size_mb",
+            "map50",
+            COLORS["png_control"],
+            "PNG control (b8)",
+        )
 
-    frontier = pareto_optimal(tradeoff_rows)
+    frontier = pareto_optimal(pareto_rows)
     if len(frontier) >= 2:
         points = " ".join(f'{chart.x(row["size_mb"]):.2f},{chart.y(row["map50"]):.2f}' for row in frontier)
         chart.add(
@@ -302,11 +367,17 @@ def write_pareto_chart(rows, output_path):
 
 def write_scatter_chart(rows, output_path, title, xlabel, ylabel, x_key, y_key):
     chart = SvgChart(title, xlabel, ylabel)
-    selected_rows = [row for row in rows if row[x_key] is not None]
+    selected_rows = [
+        row for row in rows if row[x_key] is not None and not is_png_control(row)
+    ]
     chart.set_ranges([row[x_key] for row in selected_rows], [row[y_key] for row in selected_rows])
     chart.draw_axes()
-    for label in ["jpeg", "bpc"]:
-        chart.add_scatter(by_type(selected_rows, label), x_key, y_key, COLORS[label], label.upper())
+    jpeg_rows = by_type(selected_rows, "jpeg")
+    if jpeg_rows:
+        chart.add_scatter(jpeg_rows, x_key, y_key, COLORS["jpeg"], "JPEG")
+    bpc_rows = bpc_quantized_rows(selected_rows)
+    if bpc_rows:
+        chart.add_scatter(bpc_rows, x_key, y_key, COLORS["bpc"], "BPC")
     chart.write(output_path)
 
 
@@ -335,7 +406,10 @@ def write_bar_chart(rows, output_path, title, ylabel, value_key):
         x = left + index * (bar_width + bar_gap)
         bar_height = (row[value_key] / max_value) * plot_height
         y = top + plot_height - bar_height
-        elements.append(f'<rect x="{x:.2f}" y="{y:.2f}" width="{bar_width:.2f}" height="{bar_height:.2f}" fill="{COLORS[row["type"]]}"/>')
+        elements.append(
+            f'<rect x="{x:.2f}" y="{y:.2f}" width="{bar_width:.2f}" height="{bar_height:.2f}" '
+            f'fill="{variant_color(row)}"/>'
+        )
         elements.append(f'<text x="{x + bar_width / 2:.2f}" y="{height - 62}" text-anchor="middle" font-family="Arial" font-size="12">{escape(row["variant"])}</text>')
     elements.append(f'<line x1="{left}" y1="{top + plot_height}" x2="{left + plot_width}" y2="{top + plot_height}" stroke="{COLORS["axis"]}" stroke-width="1.5"/>')
     elements.append(f'<line x1="{left}" y1="{top}" x2="{left}" y2="{top + plot_height}" stroke="{COLORS["axis"]}" stroke-width="1.5"/>')
@@ -387,12 +461,26 @@ def write_detection_bars(rows, output_path):
         elements.append(f'<text x="{left - 10}" y="{y + 4:.2f}" text-anchor="end" font-family="Arial" font-size="12">{tick:.2f}</text>')
     for index, row in enumerate(ordered):
         center = left + group_width * index + group_width / 2
+        if is_png_control(row):
+            outline_x = center - group_width * 0.42
+            outline_y = top + 2
+            outline_w = group_width * 0.84
+            outline_h = plot_height - 4
+            elements.append(
+                f'<rect x="{outline_x:.2f}" y="{outline_y:.2f}" width="{outline_w:.2f}" '
+                f'height="{outline_h:.2f}" fill="none" stroke="{COLORS["png_control"]}" '
+                f'stroke-width="2" stroke-dasharray="6 4"/>'
+            )
         for offset, key, color in [(-bar_width / 2, "map50", COLORS["map50"]), (bar_width / 2, "map50_95", COLORS["map50_95"])]:
             bar_height = (row[key] / max_value) * plot_height
             x = center + offset - bar_width / 2
             y = top + plot_height - bar_height
             elements.append(f'<rect x="{x:.2f}" y="{y:.2f}" width="{bar_width:.2f}" height="{bar_height:.2f}" fill="{color}"/>')
-        elements.append(f'<text x="{center:.2f}" y="{height - 62}" text-anchor="middle" font-family="Arial" font-size="12">{escape(row["variant"])}</text>')
+        label_color = COLORS["png_control"] if is_png_control(row) else "#333333"
+        elements.append(
+            f'<text x="{center:.2f}" y="{height - 62}" text-anchor="middle" font-family="Arial" '
+            f'font-size="12" fill="{label_color}">{escape(row["variant"])}</text>'
+        )
     elements.append(f'<line x1="{left}" y1="{top + plot_height}" x2="{left + plot_width}" y2="{top + plot_height}" stroke="{COLORS["axis"]}" stroke-width="1.5"/>')
     elements.append(f'<line x1="{left}" y1="{top}" x2="{left}" y2="{top + plot_height}" stroke="{COLORS["axis"]}" stroke-width="1.5"/>')
     elements.append(f'<text x="24" y="{top + plot_height / 2}" text-anchor="middle" transform="rotate(-90 24 {top + plot_height / 2})" font-family="Arial" font-size="15">Detection metric</text>')
@@ -437,6 +525,7 @@ def main():
     non_original = [row for row in rows if row["type"] != "original"]
 
     write_article_table(rows, output_dir)
+    tradeoff_non_control = [row for row in non_original if not is_png_control(row)]
     write_line_chart(
         rows,
         output_dir / "fig1_map50_vs_size.svg",
@@ -448,11 +537,12 @@ def main():
         {
             "original": by_type(rows, "original"),
             "jpeg": sorted(by_type(rows, "jpeg"), key=lambda row: row["size_mb"]),
-            "bpc": sorted(by_type(rows, "bpc"), key=lambda row: row["size_mb"]),
+            "bpc": sorted(bpc_quantized_rows(rows), key=lambda row: row["size_mb"]),
+            "png_control": png_control_rows(rows),
         },
     )
     write_line_chart(
-        non_original,
+        tradeoff_non_control,
         output_dir / "fig2_compression_ratio_vs_map50.svg",
         "Compression ratio vs detection quality",
         "Compression ratio vs original",
@@ -460,12 +550,12 @@ def main():
         "compression_ratio",
         "map50",
         {
-            "jpeg": sorted(by_type(non_original, "jpeg"), key=lambda row: row["compression_ratio"]),
-            "bpc": sorted(by_type(non_original, "bpc"), key=lambda row: row["compression_ratio"]),
+            "jpeg": sorted(by_type(tradeoff_non_control, "jpeg"), key=lambda row: row["compression_ratio"]),
+            "bpc": sorted(bpc_quantized_rows(tradeoff_non_control), key=lambda row: row["compression_ratio"]),
         },
     )
     write_line_chart(
-        non_original,
+        tradeoff_non_control,
         output_dir / "fig3_relative_map50_drop.svg",
         "Detection loss under compression",
         "Compression ratio vs original",
@@ -473,8 +563,8 @@ def main():
         "compression_ratio",
         "map50_drop_pct",
         {
-            "jpeg": sorted(by_type(non_original, "jpeg"), key=lambda row: row["compression_ratio"]),
-            "bpc": sorted(by_type(non_original, "bpc"), key=lambda row: row["compression_ratio"]),
+            "jpeg": sorted(by_type(tradeoff_non_control, "jpeg"), key=lambda row: row["compression_ratio"]),
+            "bpc": sorted(bpc_quantized_rows(tradeoff_non_control), key=lambda row: row["compression_ratio"]),
         },
     )
     write_bar_chart(
@@ -503,7 +593,7 @@ def main():
         "ssim",
         "map50",
     )
-    write_pareto_chart(rows, output_dir / "fig8_pareto_storage_map50.svg")
+    write_pareto_chart(rows, output_dir / "fig10_pareto_storage_map50.svg")
     print(f"Saved article figures to {output_dir}")
 
 
