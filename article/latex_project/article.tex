@@ -135,6 +135,8 @@ I'_{8} = \text{round}\left(I_{b} \times \frac{255}{2^b - 1}\right)
 \end{equation}
 Crucially, to evaluate the storage behavior of these quantized structures, the resulting images were saved as lossless \textbf{PNG} files using the Pillow library at default compression levels. Lossless PNG was chosen to prevent any frequency-domain filtering from altering the quantized spatial structures, ensuring that the visual and task degradation was solely a product of the bit-depth reduction.
 
+As a supplementary storage analysis (without additional YOLO runs), the same quantized pixels were also written to uncompressed 24-bit BMP and compressed per image with LZMA preset 6 \cite{pavlov2013}. Results are reported in Table~\ref{tab:lzma_png_storage}.
+
 \subsection{Evaluation Metrics}
 We evaluated each dataset variant across three axes: storage footprint, traditional visual fidelity, and neural detection accuracy.
 
@@ -234,9 +236,9 @@ To visually justify the comparative performance of the JPEG and BPC pipelines, w
 
 The relationship between total dataset storage footprint and the resulting object detection accuracy is shown in Fig. 1.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig1_map50_vs_size.png}
+\includegraphics[width=0.75\columnwidth]{results/article_figures/fig1_map50_vs_size.png}
 \caption{Detection quality as a function of dataset size for original, JPEG, and BPC variants.}
 \label{fig:map50_vs_size}
 \end{figure}
@@ -245,9 +247,9 @@ As illustrated in Fig. 1, the JPEG branch displays a highly efficient, leftward 
 
 The scaling efficiency of the compression ratio against the downstream detection performance is shown in Fig. 2.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig2_compression_ratio_vs_map50.png}
+\includegraphics[width=0.75\columnwidth]{results/article_figures/fig2_compression_ratio_vs_map50.png}
 \caption{Compression ratio versus detection accuracy.}
 \label{fig:cr_vs_map50}
 \end{figure}
@@ -256,9 +258,9 @@ Fig. 2 highlights the dominance of JPEG in the high-compression regime. JPEG mai
 
 The relative drop in object detection performance as a function of target degradation parameters is plotted in Fig. 3.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig3_relative_map50_drop.png}
+\includegraphics[width=0.75\columnwidth]{results/article_figures/fig3_relative_map50_drop.png}
 \caption{Relative mAP50 drop under different compression regimes.}
 \label{fig:map50_drop}
 \end{figure}
@@ -267,9 +269,9 @@ Fig. 3 illustrates that for JPEG, the accuracy drop remains below 3\% for $q \ge
 
 A direct comparison of the absolute physical storage footprint for each variant is provided in Fig. 4.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig4_dataset_size_bars.png}
+\includegraphics[width=0.75\columnwidth]{results/article_figures/fig4_dataset_size_bars.png}
 \caption{Dataset storage size compared by variant.}
 \label{fig:dataset_size}
 \end{figure}
@@ -278,9 +280,9 @@ Fig. 4 highlights the storage paradox of the PNG branch. The container-control v
 
 The changes in individual object detection localization metrics (Precision and Recall) across all variants are mapped in Fig. 5.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig5_detection_metric_bars.png}
+\includegraphics[width=0.75\columnwidth]{results/article_figures/fig5_detection_metric_bars.png}
 \caption{Precision and Recall trends across variants.}
 \label{fig:precision_recall}
 \end{figure}
@@ -292,18 +294,18 @@ The correlation between classical visual quality and downstream neural network p
 
 The relationship between mean PSNR and downstream mAP50 is illustrated in Fig. 6.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig6_psnr_vs_map50.png}
+\includegraphics[width=0.75\columnwidth]{results/article_figures/fig6_psnr_vs_map50.png}
 \caption{Mean PSNR versus mAP50.}
 \label{fig:psnr_vs_map50}
 \end{figure}
 
 The relationship between mean SSIM and downstream mAP50 is shown in Fig. 7.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig7_ssim_vs_map50.png}
+\includegraphics[width=0.75\columnwidth]{results/article_figures/fig7_ssim_vs_map50.png}
 \caption{Mean SSIM versus mAP50.}
 \label{fig:ssim_vs_map50}
 \end{figure}
@@ -319,9 +321,9 @@ To illustrate the visual consequences of these degradation pipelines, we examine
 
 Examples of visual degradation for JPEG recompression across various quality factors are referenced in Fig. 8.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig8_jpeg_visual_degradation_grid.png}
+\includegraphics[width=0.75\columnwidth]{results/article_figures/fig8_jpeg_visual_degradation_grid.png}
 \caption{Visual degradation examples for JPEG recompression (original, q88, q75, q25).}
 \label{fig:jpeg_degrad}
 \end{figure}
@@ -330,21 +332,21 @@ JPEG recompression (Fig. 8) exhibits high-frequency smoothing and minor blocking
 
 Examples of visual degradation for uniform bit-depth reduction are referenced in Fig. 9.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig9_bpc_visual_degradation_grid.png}
-\caption{Visual degradation examples for bit-depth reduction (original, b7, b4, b2, b1).}
+\includegraphics[width=0.75\columnwidth]{results/article_figures/fig9_bpc_visual_degradation_grid.png}
+\caption{Visual degradation examples for bit-depth reduction (original decoded to PNG container, equivalent to $b8$; $b7$; $b4$; $b2$; $b1$).}
 \label{fig:bpc_degrad}
 \end{figure}
 
-Bit-depth reduction (Fig. 9) remains visually close to the reference at $b7$ and $b4$, although posterization begins to appear at $b4$ on smooth gradients. At $b2$ and $b1$, severe tonal quantization produces posterized, high-contrast regions that destroy the smooth amplitude variations needed for reliable feature extraction.
+Bit-depth reduction (Fig. 9) shows that the first panel (decoded source stored as PNG, equivalent to the $b8$ control) is visually indistinguishable from the JPEG reference. Results remain close to the reference at $b7$ and $b4$, although posterization begins to appear at $b4$ on smooth gradients. At $b2$ and $b1$, severe tonal quantization produces posterized, high-contrast regions that destroy the smooth amplitude variations needed for reliable feature extraction.
 
 \subsection{Pareto Trade-off Analysis}
 To compare storage efficiency and detection quality across variants without relying on matched parameter settings, Fig. 10 plots all non-baseline variants in the size--mAP50 plane and marks the Pareto frontier (points for which no other tested variant simultaneously achieves lower storage and higher mAP50). Variant $b8$ is shown separately as a PNG container control and is excluded from the frontier because it isolates storage-format effects rather than a quantization trade-off.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\columnwidth]{results/article_figures/fig10_pareto_storage_map50.png}
+\includegraphics[width=0.75\columnwidth]{results/article_figures/fig10_pareto_storage_map50.png}
 \caption{Storage-detection Pareto frontier for tested JPEG and BPC variants. The $b8$ marker (diamond) denotes the PNG container control and is not part of the frontier.}
 \label{fig:pareto_frontier}
 \end{figure}
@@ -385,10 +387,34 @@ Our results mathematically confirm that classical full-reference quality metrics
     \item \textbf{Scientific Implication}: This divergence occurs because deep convolutional neural networks extract abstract semantic features across multiple spatial hierarchies. CNNs are highly robust to the high-frequency blocky boundaries and minor color shifts introduced by JPEG recompression, but they are severely disrupted by the loss of amplitude precision and the artificial step-like color contours introduced by severe bit-depth reduction. Consequently, validating compression algorithms for automated pipelines using only PSNR/SSIM is fundamentally flawed; evaluations must incorporate task-specific downstream metrics.
 \end{itemize}
 
-\subsection{Theoretical Limits of Data Containers}
-The empirical storage paradox observed in the BPC branch should not be interpreted as evidence that all bit-depth reduction schemes are inherently inefficient. In this study, all BPC variants were encoded using a 24-bit truecolor PNG representation. Consequently, heavily quantized variants such as $b1$, which contain at most $2^3=8$ unique RGB colors, were still stored through a container that represents each pixel using three 8-bit channels before lossless compression.
+\subsection{BMP and LZMA Storage Compared with PNG}
+The PNG paradox motivated a supplementary storage-only experiment. Using the same uniform RGB level quantization as the BPC branch, each of the 5,000 val2017 images was written as an uncompressed 24-bit BMP in memory and then compressed individually with LZMA (preset 6) using the Python \texttt{lzma} module, which implements the Lempel--Ziv--Markov chain algorithm \cite{pavlov2013}. This isolates the effect of the entropy coder from PNG spatial filtering.
 
-From a theoretical perspective, this inefficiency could be reduced by using container formats that better match the quantized signal. Indexed PNG, for example, supports paletted representations with 1-, 2-, 4-, and 8-bit indices, which would substantially reduce the raw representation size for extreme BPC modes. More machine-centric pipelines could also use raw bit-packing, storing exactly $b$ bits per channel and then applying a dictionary-based entropy coder such as LZMA. These alternatives are beyond the empirical scope of this paper, but they highlight an important architectural conclusion: for machine vision data pipelines, the physical storage container can be as important as the quantization algorithm itself.
+Two observations follow immediately. First, the uncompressed BMP payload is effectively independent of the quantization level $b$: every variant still allocates three 8-bit channels per pixel before compression. In our run, each BMP tree occupied approximately 4.1~GB (4,110~MB), matching the expected order of magnitude for 5,000 decoded RGB frames without container-level bit packing. Second, per-file LZMA reduces total size relative to BMP, but it does not uniformly beat PNG.
+
+Table~\ref{tab:lzma_png_storage} compares the official PNG dataset sizes from the main experiment with the auxiliary LZMA archives. At $b7$, LZMA (2005.76~MB) is slightly \textit{larger} than PNG (1912.67~MB), whereas at $b4$--$b1$ LZMA yields 19--32\% smaller archives than PNG while preserving the same quantized pixel values (lossless with respect to the BMP intermediate). JPEG recompression remains far smaller (e.g., $q88$ at 384.22~MB with near-baseline mAP50).
+
+\begin{table}[h]
+\centering
+\caption{Storage comparison of PNG containers (main experiment) versus per-image BMP+LZMA archives (auxiliary experiment, 5,000 images). Uncompressed BMP size was $\approx$4,110~MB for every tested $b$.}
+\label{tab:lzma_png_storage}
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{Variant} & \textbf{BMP raw (MB)} & \textbf{PNG (MB)} & \textbf{LZMA (MB)} & \textbf{PNG / LZMA} \\ \hline
+$b7$ & 4110 & 1912.67 & 2005.76 & 0.95$\times$ \\ \hline
+$b4$ & 4110 & 816.80 & 662.79 & 1.23$\times$ \\ \hline
+$b3$ & 4110 & 607.81 & 400.35 & 1.52$\times$ \\ \hline
+$b2$ & 4110 & 322.76 & 223.31 & 1.45$\times$ \\ \hline
+$b1$ & 4110 & 165.60 & 112.35 & 1.47$\times$ \\ \hline
+\end{tabular}
+\end{table}
+
+This table should be interpreted as a \textit{storage-format} comparison only: LZMA archives were not fed directly into YOLOv8 in the present study. The practical implication is that machine-centric pipelines must jointly optimize (i) how many bits are stored per channel, (ii) the intermediate uncompressed representation, and (iii) the entropy coder. PNG exploits 2D spatial prediction; LZMA exploits 1D dictionary redundancy on a byte stream. Neither replaces JPEG when both storage efficiency and the tested detection metrics are considered.
+
+\subsection{Theoretical Limits of Data Containers}
+The empirical storage paradox observed in the BPC branch should not be interpreted as evidence that all bit-depth reduction schemes are inherently inefficient. In this study, all BPC variants evaluated with YOLOv8n were encoded using a 24-bit truecolor PNG representation. Consequently, heavily quantized variants such as $b1$, which contain at most $2^3=8$ unique RGB colors, were still stored through a container that represents each pixel using three 8-bit channels before lossless compression.
+
+From a theoretical perspective, this inefficiency could be reduced by using container formats that better match the quantized signal. Indexed PNG supports paletted representations with 1-, 2-, 4-, and 8-bit indices. More machine-centric pipelines could pack exactly $b$ bits per channel and apply dictionary coders such as LZMA \cite{pavlov2013}; Table~\ref{tab:lzma_png_storage} shows that such coding helps relative to raw BMP but is not automatically superior to PNG. The architectural conclusion remains: for machine vision data pipelines, the physical storage container can be as important as the quantization algorithm itself.
 
 The central insight that a reader should take away from this analysis is as follows: image compression cannot be evaluated for computer vision tasks using only human visual perception or PSNR/SSIM. Neural networks are sensitive to the \textit{type} of distortion, not all information loss is equally harmful, and compression for human vision and compression for machine vision are not the same problem. The choice of compression method must account for the downstream task.
 
@@ -414,7 +440,7 @@ We acknowledge several key boundaries of our current experimental scope:
 \begin{itemize}
     \item \textbf{Detector Architecture}: Our evaluations were restricted to a single real-time detector family (YOLOv8n).
     \item \textbf{Dataset Diversity}: The empirical trends were evaluated solely on the Microsoft COCO val2017 dataset.
-    \item \textbf{BPC Storage Scope}: The bit-depth reduction branch was restricted to uniform RGB quantization saved via a standard 24-bit truecolor lossless PNG container.
+    \item \textbf{BPC Storage Scope}: The bit-depth reduction branch was restricted to uniform RGB quantization saved via a standard 24-bit truecolor lossless PNG container; the BMP+LZMA comparison (Table~\ref{tab:lzma_png_storage}) was storage-only and did not include additional YOLO validation runs.
     \item \textbf{Recompression Nature}: The JPEG branch evaluated represents second-order lossy recompression, as the original COCO source images were already stored in JPEG format.
     \item \textbf{Hardware Platform}: The final validation was conducted on a single-threaded CPU environment. The conclusions pertain to the tested setup and require careful generalization.
 \end{itemize}
@@ -426,7 +452,7 @@ To expand this research into a comprehensive framework, future investigations wi
     \item \textbf{Alternative Detector Families}: Testing the generalizability of these findings across different detector paradigms, such as two-stage detectors (Faster R-CNN), anchor-based models (YOLOv5), and vision-transformer-based detectors (DETR).
     \item \textbf{Learned Machine-Centric Compression}: Integrating end-to-end learned image compression networks trained directly with a joint loss function combining rate-distortion optimization and downstream detection loss.
     \item \textbf{Statistical Stability and Per-Class Analysis}: Conducting repeated statistical runs with varied initial seeds, alongside a per-class detection analysis to identify if specific semantic categories (e.g., small objects vs. large structures) display unique sensitivities to frequency-domain or amplitude-domain quantization noise.
-    \item \textbf{Entropy Coding for Low Bit-Depths}: Exploring customized, spatial-aware entropy encoders for quantized bit-depth images that bypass the limitations of the PNG container, enabling real storage savings for low-bit-depth machine vision inputs.
+    \item \textbf{Entropy Coding for Low Bit-Depths}: Extending the BMP+LZMA pilot with end-to-end detection evaluation, packed bitstreams, and comparisons against indexed PNG and task-aware codecs.
 \end{enumerate}
 
 \begin{thebibliography}{20}
@@ -487,6 +513,9 @@ Jacob, B., Kligys, S., Chen, B., Zhu, M., Tang, M., Howard, A., Adam, H., \& Kal
 
 \bibitem{han2016}
 Han, S., Mao, H., \& Dally, W. J. (2016). Deep compression: Compressing deep neural networks with pruning, trained quantization and Huffman coding. \textit{International Conference on Learning Representations (ICLR)}. https://arxiv.org/abs/1510.00149
+
+\bibitem{pavlov2013}
+Pavlov, I. (2013). \textit{LZMA SDK} (Version 9.20) [Computer software]. https://www.7-zip.org/sdk.html
 
 \end{thebibliography}
 
