@@ -17,13 +17,12 @@ The project evaluates the trade-off between:
 - classical image quality metrics: `PSNR` and `SSIM`;
 - object detection metrics: `Precision`, `Recall`, `mAP50`, and `mAP50-95`.
 
-The final experiment shows that moderate JPEG recompression provides a stronger storage-versus-detection trade-off than the tested `BPC + PNG` scheme.
+The final `val5k` experiment shows that moderate JPEG recompression provides a stronger storage-versus-detection trade-off than the tested `BPC + 24-bit PNG` scheme.
 
 ## Project Structure
 
 ```text
 configs/
-  experiment_500.yaml        # 500-image pilot validation setup
   experiment_5k.yaml         # final 5000-image validation setup
   datasets/                  # YOLO dataset configs for all variants
 
@@ -37,7 +36,6 @@ scripts/
   analyze/                   # metric collection, image quality, plotting, summaries
 
 results/
-  val500/                    # pilot experiment results
   val5k/                     # final experiment results
 ```
 
@@ -51,20 +49,7 @@ python scripts/prepare/coco_json_to_yolo.py
 
 This creates YOLO-format labels from the COCO annotation JSON.
 
-### 2. Create the 500-image pilot subset
-
-```bash
-python scripts/prepare/create_subset.py
-```
-
-### 3. Generate JPEG and BPC variants for the pilot subset
-
-```bash
-python scripts/prepare/subset_quality_reducer.py
-python scripts/prepare/subset_bit_reducer.py
-```
-
-### 4. Generate the full `val5k` experiment variants
+### 2. Generate the full `val5k` experiment variants
 
 ```bash
 python scripts/prepare/create_val5k_all_variants.py
@@ -76,13 +61,7 @@ This creates:
 - JPEG variants: `q94`, `q88`, `q75`, `q50`, `q25`;
 - BPC variants: `b7`, `b4`, `b3`, `b2`, `b1`.
 
-### 5. Run YOLO validation
-
-Pilot experiment:
-
-```bash
-python scripts/validate/run_all_validations.py --experiment-config configs/experiment_500.yaml --exist-ok
-```
+### 3. Run YOLO validation
 
 Final experiment:
 
@@ -99,14 +78,14 @@ The final official `val5k` results use:
 - batch: `1`;
 - workers: `0`.
 
-### 6. Collect detection metrics
+### 4. Collect detection metrics
 
 ```bash
 python scripts/analyze/collect_metrics.py --experiment-config configs/experiment_5k.yaml
 python scripts/analyze/summarize_results.py --metrics-csv results/val5k/summary/metrics.csv
 ```
 
-### 7. Compute image quality metrics
+### 5. Compute image quality metrics
 
 ```bash
 python scripts/analyze/compute_image_quality.py --experiment-config configs/experiment_5k.yaml --jobs 4
@@ -115,7 +94,7 @@ python scripts/analyze/summarize_image_quality.py --image-quality-csv results/va
 
 This computes per-image and aggregate `PSNR` and `SSIM` values for every non-original variant.
 
-### 8. Generate plots
+### 6. Generate plots
 
 ```bash
 python scripts/analyze/plot_results.py --metrics-csv results/val5k/summary/metrics.csv
@@ -125,10 +104,8 @@ Generated plots:
 
 - `results/val5k/plots/map50_vs_size.png`;
 - `results/val5k/plots/map50_95_vs_size.png`;
-- `results/val500/plots/map50_vs_size.png`;
-- `results/val500/plots/map50_95_vs_size.png`.
 
-### 9. Generate article-ready figures
+### 7. Generate article-ready figures
 
 ```bash
 python scripts/analyze/make_article_figures.py \
@@ -201,14 +178,14 @@ Recommended additional visual examples for the paper:
 
 ## Scientific Conclusion
 
-On `COCO val2017` with `YOLOv8n`, JPEG recompression provides a more effective storage-versus-detection trade-off than uniform bit-depth reduction stored as PNG.
+On `COCO val2017` with `YOLOv8n`, JPEG recompression provides a more effective storage-versus-detection trade-off than uniform bit-depth reduction stored as 24-bit PNG.
 
-The result should be interpreted carefully: the experiment does not prove that all bit-depth reduction methods are inferior to JPEG. It shows that, under the tested `BPC + PNG` implementation, JPEG recompression is more efficient for preserving object detection performance at reduced dataset size.
+The result should be interpreted carefully: the experiment does not prove that all bit-depth reduction methods are inferior to JPEG. It shows that, under the tested `BPC + 24-bit PNG` implementation, JPEG recompression is more efficient for preserving object detection performance at reduced dataset size. The container is part of the tested method: indexed PNG, bit-packing, or custom entropy coding may produce different storage behavior.
 
 ## Limitations
 
 - Only one detector was evaluated: `YOLOv8n`.
 - Only one dataset was used: `COCO val2017`.
 - JPEG was applied as recompression to images already stored as JPEG.
-- BPC variants were stored as PNG, so the result concerns the complete `BPC + PNG` storage scheme.
+- BPC variants were stored as 24-bit truecolor PNG, so the result concerns the complete `BPC + 24-bit PNG` storage scheme rather than all possible BPC containers.
 - The current article-level comparison should be extended with additional codecs, models, and statistical stability checks.

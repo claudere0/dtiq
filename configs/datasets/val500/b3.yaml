@@ -1,4 +1,0 @@
-path: data/processed/val500/bpc/b3
-train: images
-val: images
-nc: 80

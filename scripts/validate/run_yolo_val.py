@@ -31,7 +31,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run a single YOLO validation experiment.")
     parser.add_argument("--dataset", required=True, help="Path to dataset YAML.")
     parser.add_argument("--variant", required=True, help="Variant name, for example original or q94.")
-    parser.add_argument("--experiment-name", required=True, help="Experiment group name, for example val500.")
+    parser.add_argument("--experiment-name", required=True, help="Experiment group name, for example val5k.")
     parser.add_argument("--quantization-type", required=True, help="original, jpeg or bpc.")
     parser.add_argument("--parameter", required=True, help="Variant parameter, for example 94 or 4.")
     parser.add_argument("--model", default="yolov8n.pt", help="Path to YOLO weights.")
@@ -42,7 +42,7 @@ def parse_args():
     parser.add_argument(
         "--results-root",
         required=True,
-        help="Root directory for experiment outputs, for example results/val500.",
+        help="Root directory for experiment outputs, for example results/val5k.",
     )
     parser.add_argument("--exist-ok", action="store_true", help="Reuse existing YOLO run directory.")
     return parser.parse_args()

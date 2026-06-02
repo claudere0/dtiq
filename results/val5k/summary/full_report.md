@@ -141,33 +141,16 @@ JPEG clearly dominates BPC in both storage efficiency and detection quality.
 Conclusion:
 even aggressive JPEG compression remains substantially stronger than the corresponding aggressive BPC modes in terms of `size vs detection quality`.
 
-## 7. Comparison with the Previous `val500` Experiment
-
-The `val5k` experiment confirms the same structural pattern that was already visible on `val500`.
-
-What remained consistent:
-
-- JPEG remains better than `BPC + PNG` in the meaningful `size vs mAP` trade-off region
-- `q94`, `q88`, and `q75` remain the strongest JPEG operating points
-- `b7` remains near-baseline in detection quality but poor in storage size
-- `b4` remains the main threshold point in the BPC branch
-- `b2` and `b1` still show severe degradation
-
-What improved scientifically:
-
-- the full `5000`-image experiment greatly strengthens confidence in the conclusions
-- the result is no longer only a pilot observation, but a stable full-scale empirical trend
-
-## 8. Main Scientific Conclusion
+## 7. Main Scientific Conclusion
 
 The full-scale `val5k` experiment supports the following conclusion:
 
-On the full `COCO val2017` set, repeated JPEG recompression provides a more favorable trade-off between storage efficiency and `YOLOv8n` detection performance than uniform bit-depth reduction stored in `PNG`.
+On the full `COCO val2017` set, repeated JPEG recompression provides a more favorable trade-off between storage efficiency and `YOLOv8n` detection performance than uniform bit-depth reduction stored in 24-bit truecolor `PNG`.
 
 A more precise formulation is:
-moderate bit-depth reduction can preserve task-relevant information, but under the tested `BPC + PNG` scheme it is less efficient than JPEG recompression in the relationship between storage size and object detection quality.
+moderate bit-depth reduction can preserve task-relevant information, but under the tested `BPC + 24-bit PNG` scheme it is less efficient than JPEG recompression in the relationship between storage size and object detection quality.
 
-## 9. Most Important Points for the Paper
+## 8. Most Important Points for the Paper
 
 The most informative operating points are:
 
@@ -180,7 +163,7 @@ The most informative operating points are:
 
 These points are especially useful because they show not only a winning branch, but also why the competing branch loses in practical storage-performance terms.
 
-## 10. Careful Interpretation
+## 9. Careful Interpretation
 
 Some claims should still be phrased cautiously:
 

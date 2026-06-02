@@ -1,4 +1,0 @@
-path: data/processed/val500/jpeg/q94
-train: images
-val: images
-nc: 80

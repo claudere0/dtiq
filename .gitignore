@@ -2,3 +2,8 @@
 .DS_Store
 /runs
 /.cache
+__pycache__/
+*.pyc
+/results/val5k_cpu_check
+/results/val5k_quality_temp
+/results/val5k_image_quality_skimage

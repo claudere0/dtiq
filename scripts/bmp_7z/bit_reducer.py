@@ -8,21 +8,21 @@ import numpy as np
 from PIL import Image
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".webp"}
-DEFAULT_BITS = [2, 1] #7 4 3
+DEFAULT_BITS = [7, 4, 3, 2, 1]
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Generate bit-depth reduced dataset variants (.lzma).")
     parser.add_argument(
         "--source-images-dir",
-        default="data/processed/val500/original/images/original_1_10th",
+        default="data/processed/val5k/original/images/val2017",
         help="Directory with source images.",
     )
     parser.add_argument(
         "--source-labels-dir",
-        default="data/processed/val500/original/labels/original_1_10th",
+        default="data/processed/val5k/original/labels/val2017",
         help="Directory with YOLO labels matching the source images.",
     )
-    parser.add_argument("--output-root", default="data/processed/val500/bpc_lzma", help="Output root for variants.")
+    parser.add_argument("--output-root", default="data/processed/val5k/bpc_lzma", help="Output root for variants.")
     parser.add_argument(
         "--bits",
         nargs="*",

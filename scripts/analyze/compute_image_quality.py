@@ -27,7 +27,7 @@ def parse_args():
     parser.add_argument(
         "--experiment-config",
         required=True,
-        help="Path to configs/experiment_500.yaml or configs/experiment_5k.yaml.",
+        help="Path to an experiment config, for example configs/experiment_5k.yaml.",
     )
     parser.add_argument(
         "--variants",
