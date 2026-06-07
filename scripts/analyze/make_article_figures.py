@@ -3,6 +3,11 @@ import csv
 import html
 from pathlib import Path
 
+try:
+    from summarize_lzma_storage import generate as generate_lzma_summary
+except ImportError:  # pragma: no cover - optional helper
+    generate_lzma_summary = None
+
 
 PNG_CONTROL_VARIANT = "b8"
 
@@ -36,6 +41,11 @@ def parse_args():
         "--output-dir",
         default=DEFAULT_OUTPUT_DIR,
         help="Directory for article-ready figures.",
+    )
+    parser.add_argument(
+        "--lzma-root",
+        default="data/processed/val5k/bpc_lzma",
+        help="Optional root directory for the auxiliary BMP+LZMA experiment.",
     )
     return parser.parse_args()
 
@@ -525,6 +535,17 @@ def main():
     non_original = [row for row in rows if row["type"] != "original"]
 
     write_article_table(rows, output_dir)
+    lzma_root = Path(args.lzma_root)
+    if lzma_root.exists() and generate_lzma_summary is not None:
+        generate_lzma_summary(
+            output_dir / "article_metrics_table.csv",
+            lzma_root,
+            output_dir / "lzma_storage.csv",
+            output_dir / "lzma_storage_table.tex",
+            [7, 4, 3, 2, 1],
+        )
+        print(f"Saved LZMA summary to {output_dir / 'lzma_storage.csv'}")
+        print(f"Saved LZMA table to {output_dir / 'lzma_storage_table.tex'}")
     tradeoff_non_control = [row for row in non_original if not is_png_control(row)]
     write_line_chart(
         rows,

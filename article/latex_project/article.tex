@@ -390,24 +390,11 @@ Our results mathematically confirm that classical full-reference quality metrics
 \subsection{BMP and LZMA Storage Compared with PNG}
 The PNG paradox motivated a supplementary storage-only experiment. Using the same uniform RGB level quantization as the BPC branch, each of the 5,000 val2017 images was written as an uncompressed 24-bit BMP in memory and then compressed individually with LZMA (preset 6) using the Python \texttt{lzma} module, which implements the Lempel--Ziv--Markov chain algorithm \cite{pavlov2013}. This isolates the effect of the entropy coder from PNG spatial filtering.
 
-Two observations follow immediately. First, the uncompressed BMP payload is effectively independent of the quantization level $b$: every variant still allocates three 8-bit channels per pixel before compression. In our run, each BMP tree occupied approximately 4.1~GB (4,110~MB), matching the expected order of magnitude for 5,000 decoded RGB frames without container-level bit packing. Second, per-file LZMA reduces total size relative to BMP, but it does not uniformly beat PNG.
+Two observations follow immediately. First, the uncompressed BMP payload is effectively independent of the quantization level $b$: every variant still allocates three 8-bit channels per pixel before compression. Second, per-file LZMA reduces total size relative to BMP, but it does not uniformly beat PNG.
 
-Table~\ref{tab:lzma_png_storage} compares the official PNG dataset sizes from the main experiment with the auxiliary LZMA archives. At $b7$, LZMA (2005.76~MB) is slightly \textit{larger} than PNG (1912.67~MB), whereas at $b4$--$b1$ LZMA yields 19--32\% smaller archives than PNG while preserving the same quantized pixel values (lossless with respect to the BMP intermediate). JPEG recompression remains far smaller (e.g., $q88$ at 384.22~MB with near-baseline mAP50).
+The supplementary storage table below is generated automatically from \texttt{results/article_figures/lzma_storage.csv} via \texttt{scripts/analyze/summarize_lzma_storage.py}, so it can be refreshed whenever the auxiliary experiment is regenerated.
 
-\begin{table}[h]
-\centering
-\caption{Storage comparison of PNG containers (main experiment) versus per-image BMP+LZMA archives (auxiliary experiment, 5,000 images). Uncompressed BMP size was $\approx$4,110~MB for every tested $b$.}
-\label{tab:lzma_png_storage}
-\begin{tabular}{|l|r|r|r|r|}
-\hline
-\textbf{Variant} & \textbf{BMP raw (MB)} & \textbf{PNG (MB)} & \textbf{LZMA (MB)} & \textbf{PNG / LZMA} \\ \hline
-$b7$ & 4110 & 1912.67 & 2005.76 & 0.95$\times$ \\ \hline
-$b4$ & 4110 & 816.80 & 662.79 & 1.23$\times$ \\ \hline
-$b3$ & 4110 & 607.81 & 400.35 & 1.52$\times$ \\ \hline
-$b2$ & 4110 & 322.76 & 223.31 & 1.45$\times$ \\ \hline
-$b1$ & 4110 & 165.60 & 112.35 & 1.47$\times$ \\ \hline
-\end{tabular}
-\end{table}
+\input{results/article_figures/lzma_storage_table.tex}
 
 This table should be interpreted as a \textit{storage-format} comparison only: LZMA archives were not fed directly into YOLOv8 in the present study. The practical implication is that machine-centric pipelines must jointly optimize (i) how many bits are stored per channel, (ii) the intermediate uncompressed representation, and (iii) the entropy coder. PNG exploits 2D spatial prediction; LZMA exploits 1D dictionary redundancy on a byte stream. Neither replaces JPEG when both storage efficiency and the tested detection metrics are considered.
 
