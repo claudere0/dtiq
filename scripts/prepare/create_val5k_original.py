@@ -3,8 +3,8 @@ from pathlib import Path
 
 
 def main():
-    source_images_dir = Path("data/raw/coco/images/val2017")
-    source_labels_dir = Path("data/raw/coco/labels/val2017")
+    source_images_dir = Path("data/source/coco/images/val2017")
+    source_labels_dir = Path("data/source/coco/labels/val2017")
     destination_root = Path("data/processed/val5k/original")
     destination_images_dir = destination_root / "images" / "val2017"
     destination_labels_dir = destination_root / "labels" / "val2017"
