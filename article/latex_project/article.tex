@@ -392,9 +392,20 @@ The PNG paradox motivated a supplementary storage-only experiment. Using the sam
 
 Two observations follow immediately. First, the uncompressed BMP payload is effectively independent of the quantization level $b$: every variant still allocates three 8-bit channels per pixel before compression. Second, per-file LZMA reduces total size relative to BMP, but it does not uniformly beat PNG.
 
-The supplementary storage table below is generated automatically from \texttt{results/article_figures/lzma_storage.csv} via \texttt{scripts/analyze/summarize_lzma_storage.py}, so it can be refreshed whenever the auxiliary experiment is regenerated.
-
-\input{results/article_figures/lzma_storage_table.tex}
+\begin{table}[h]
+\centering
+\caption{Storage comparison of PNG containers (main experiment) versus per-image BMP+LZMA archives (auxiliary experiment, 5,000 images). Uncompressed BMP size was approximately 4,110 MB for every tested $b$.}
+\label{tab:lzma_png_storage}
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{Variant} & \textbf{BMP raw (MB)} & \textbf{PNG (MB)} & \textbf{LZMA (MB)} & \textbf{PNG / LZMA} \\ \hline
+$b7$ & 4110 & 1912.67 & 2005.76 & 0.95$\times$ \\ \hline
+$b4$ & 4110 & 816.80 & 662.79 & 1.23$\times$ \\ \hline
+$b3$ & 4110 & 607.81 & 400.35 & 1.52$\times$ \\ \hline
+$b2$ & 4110 & 322.76 & 223.31 & 1.45$\times$ \\ \hline
+$b1$ & 4110 & 165.60 & 112.35 & 1.47$\times$ \\ \hline
+\end{tabular}
+\end{table}
 
 This table should be interpreted as a \textit{storage-format} comparison only: LZMA archives were not fed directly into YOLOv8 in the present study. The practical implication is that machine-centric pipelines must jointly optimize (i) how many bits are stored per channel, (ii) the intermediate uncompressed representation, and (iii) the entropy coder. PNG exploits 2D spatial prediction; LZMA exploits 1D dictionary redundancy on a byte stream. Neither replaces JPEG when both storage efficiency and the tested detection metrics are considered.
 

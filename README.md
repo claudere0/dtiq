@@ -120,7 +120,6 @@ This creates a dedicated article figure folder with SVG files, the main merged t
 
 - `article/latex_project/results/article_figures/article_metrics_table.csv`;
 - `article/latex_project/results/article_figures/lzma_storage.csv`;
-- `article/latex_project/results/article_figures/lzma_storage_table.tex`;
 - `article/latex_project/results/article_figures/fig1`–`fig7` (`.svg` and `.png`);
 - `article/latex_project/results/article_figures/fig10_pareto_storage_map50` (`.svg` and `.png`);
 - `article/latex_project/results/article_figures/fig8_jpeg_visual_degradation_grid.png`;

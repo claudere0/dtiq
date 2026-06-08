@@ -541,11 +541,9 @@ def main():
             output_dir / "article_metrics_table.csv",
             lzma_root,
             output_dir / "lzma_storage.csv",
-            output_dir / "lzma_storage_table.tex",
             [7, 4, 3, 2, 1],
         )
         print(f"Saved LZMA summary to {output_dir / 'lzma_storage.csv'}")
-        print(f"Saved LZMA table to {output_dir / 'lzma_storage_table.tex'}")
     tradeoff_non_control = [row for row in non_original if not is_png_control(row)]
     write_line_chart(
         rows,
