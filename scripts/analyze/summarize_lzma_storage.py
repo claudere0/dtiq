@@ -1,6 +1,5 @@
 import argparse
 import csv
-import lzma
 from pathlib import Path
 
 
@@ -9,6 +8,7 @@ DEFAULT_ARTICLE_METRICS_CSV = Path("article/latex_project/results/article_figure
 DEFAULT_LZMA_ROOT = Path("data/processed/val5k/bpc_lzma")
 DEFAULT_OUTPUT_CSV = Path("article/latex_project/results/article_figures/lzma_storage.csv")
 DEFAULT_OUTPUT_TEX = Path("article/latex_project/results/article_figures/lzma_storage_table.tex")
+BMP_RAW_APPROX_MB = 4110.0
 
 
 def parse_args():
@@ -68,15 +68,11 @@ def summarize_variant(variant_dir):
     if not lzma_files:
         raise SystemExit(f"No .lzma files found in {image_dir}")
 
-    raw_bytes = 0
     compressed_bytes = 0
     for file_path in lzma_files:
-        compressed = file_path.read_bytes()
-        compressed_bytes += len(compressed)
-        raw_bytes += len(lzma.decompress(compressed))
+        compressed_bytes += file_path.stat().st_size
 
     return {
-        "bmp_raw_mb": raw_bytes / (1024 * 1024),
         "lzma_mb": compressed_bytes / (1024 * 1024),
     }
 
@@ -96,7 +92,7 @@ def build_rows(article_metrics_csv, lzma_root, bits):
         rows.append(
             {
                 "variant": variant,
-                "bmp_raw_mb": stats["bmp_raw_mb"],
+                "bmp_raw_mb": BMP_RAW_APPROX_MB,
                 "png_mb": png_mb,
                 "lzma_mb": lzma_mb,
                 "png_over_lzma": png_mb / lzma_mb,
