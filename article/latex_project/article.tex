@@ -107,11 +107,12 @@ For the downstream task, we utilized \textbf{YOLOv8n} (the nano variant of the Y
 \subsection{Hardware and Environment Configuration}
 To reduce variability caused by hardware acceleration libraries, all final official validation runs were executed in a fixed CPU validation environment:
 \begin{itemize}
-    \item \textbf{Model Framework}: Ultralytics YOLOv8 (version 8.4.52)
-    \item \textbf{Execution Device}: CPU
+    \item \textbf{Model Framework}: Ultralytics YOLOv8 (version 8.4.52) on PyTorch 2.6.0 and torchvision 0.21.0
+    \item \textbf{Execution Device}: Apple M1 CPU on a MacBook Air with 8 GB unified memory running macOS 15.6.1
     \item \textbf{Input Image Size}: $640\times640$ pixels (standard YOLO validation resolution)
     \item \textbf{Batch Size}: 1 (to simulate streaming real-time inference)
     \item \textbf{Data Loaders}: \texttt{workers = 0} (sequential data loading)
+    \item \textbf{Core Libraries}: NumPy 2.2.6, Pillow 10.4.0, OpenCV 4.12.0.88, SciPy 1.15.1, scikit-image 0.26.0, PyYAML 6.0.2, and pycocotools 2.0.11
 \end{itemize}
 
 \subsection{Image Degradation Frameworks}

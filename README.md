@@ -78,6 +78,12 @@ The final official `val5k` results use:
 - batch: `1`;
 - workers: `0`.
 
+Reproducibility note:
+
+- hardware: Apple M1 MacBook Air with `8 GB` unified memory;
+- operating system: `macOS 15.6.1`;
+- core libraries: `ultralytics 8.4.52`, `torch 2.6.0`, `torchvision 0.21.0`, `numpy 2.2.6`, `pillow 10.4.0`, `opencv-python 4.12.0.88`, `scipy 1.15.1`, `scikit-image 0.26.0`, `PyYAML 6.0.2`, `pycocotools 2.0.11`.
+
 ### 4. Collect detection metrics
 
 ```bash
