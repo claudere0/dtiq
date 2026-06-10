@@ -1,8 +1,11 @@
 ultralytics==8.4.52
-PyYAML>=6.0
-numpy>=1.26
-Pillow>=10.0
+torch==2.6.0
+torchvision==0.21.0
+numpy==2.2.6
+Pillow==10.4.0
+opencv-python==4.12.0.88
+scipy==1.15.1
+scikit-image==0.26.0
+PyYAML==6.0.2
+pycocotools==2.0.11
 matplotlib>=3.8
-scikit-image>=0.22
-scipy>=1.11
-opencv-python>=4.8
