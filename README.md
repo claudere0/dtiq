@@ -70,7 +70,7 @@ rm annotations_trainval2017.zip
 ### 2. Convert COCO annotations to YOLO format
 
 ```bash
-python scripts/prepare/coco_json_to_yolo.py
+python scripts/prepare/01_coco_json_to_yolo.py
 ```
 
 This creates YOLO-format labels from the COCO annotation JSON.
@@ -78,7 +78,7 @@ This creates YOLO-format labels from the COCO annotation JSON.
 ### 3. Generate the full `val5k` experiment variants
 
 ```bash
-python scripts/prepare/create_val5k_all_variants.py
+python scripts/prepare/02_create_val5k_all_variants.py
 ```
 
 This creates:
@@ -92,7 +92,7 @@ This creates:
 Final experiment:
 
 ```bash
-python scripts/validate/run_all_validations.py --experiment-config configs/experiment_5k.yaml --exist-ok
+python scripts/validate/03_run_all_validations.py --experiment-config configs/experiment_5k.yaml --exist-ok
 ```
 
 The final official `val5k` results use:
@@ -113,13 +113,13 @@ Reproducibility note:
 ### 5. Collect detection metrics
 
 ```bash
-python scripts/analyze/collect_metrics.py --experiment-config configs/experiment_5k.yaml
+python scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k.yaml
 ```
 
 ### 6. Compute image quality metrics
 
 ```bash
-python scripts/analyze/compute_image_quality.py --experiment-config configs/experiment_5k.yaml --jobs 4
+python scripts/analyze/05_compute_image_quality.py --experiment-config configs/experiment_5k.yaml --jobs 4
 ```
 
 This computes per-image and aggregate `PSNR` and `SSIM` values for every non-original variant.
@@ -127,7 +127,7 @@ This computes per-image and aggregate `PSNR` and `SSIM` values for every non-ori
 ### 7. Generate plots
 
 ```bash
-python scripts/analyze/plot_results.py \
+python scripts/analyze/06_plot_results.py \
   --metrics-csv results/val5k/summary/metrics.csv \
   --image-quality-csv results/val5k/summary/image_quality.csv
 ```
@@ -140,7 +140,7 @@ Generated plots:
 ### 8. Generate article-ready figures
 
 ```bash
-python scripts/analyze/make_article_figures.py \
+python scripts/analyze/07_make_article_figures.py \
   --metrics-csv results/val5k/summary/metrics.csv \
   --image-quality-csv results/val5k/summary/image_quality.csv \
   --output-dir article/latex_project/results/article_figures
@@ -158,7 +158,7 @@ This creates a dedicated article figure folder with SVG files, the main merged t
 If you regenerate the auxiliary `BMP + LZMA` experiment separately, you can refresh just that supplementary table with:
 
 ```bash
-python scripts/analyze/summarize_lzma_storage.py \
+python scripts/analyze/08_summarize_lzma_storage.py \
   --article-metrics-csv article/latex_project/results/article_figures/article_metrics_table.csv \
   --lzma-root data/processed/val5k/bpc_lzma
 ```
