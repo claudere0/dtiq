@@ -114,14 +114,12 @@ Reproducibility note:
 
 ```bash
 python scripts/analyze/collect_metrics.py --experiment-config configs/experiment_5k.yaml
-python scripts/analyze/summarize_results.py --metrics-csv results/val5k/summary/metrics.csv
 ```
 
 ### 6. Compute image quality metrics
 
 ```bash
 python scripts/analyze/compute_image_quality.py --experiment-config configs/experiment_5k.yaml --jobs 4
-python scripts/analyze/summarize_image_quality.py --image-quality-csv results/val5k/summary/image_quality.csv
 ```
 
 This computes per-image and aggregate `PSNR` and `SSIM` values for every non-original variant.
