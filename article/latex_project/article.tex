@@ -78,7 +78,7 @@ The intersection of digital image compression, visual quality evaluation, and de
 \subsection{Classical Image Compression and Coding Standards}
 The evolution of classical image compression standards relies heavily on exploiting spatial and statistical redundancies. The Joint Photographic Experts Group (JPEG) standard, formalized by Wallace \cite{wallace1992}, remains the most widely deployed lossy compression framework. JPEG operates in the frequency domain, partitioning the image into $8\times8$ pixel blocks, applying a Discrete Cosine Transform (DCT), and quantizing the resulting coefficients based on a human visual sensitivity matrix. While effective at low to medium compression ratios, JPEG's block-based nature introduces prominent blocking artifacts and high-frequency noise at low quality factors.
 
-In contrast, the Portable Network Graphics (PNG) format, specified by the World Wide Web Consortium \cite{w3c2003}, represents the standard for lossless spatial-domain storage. PNG utilizes a two-stage compression pipeline consisting of spatial prediction filtering followed by DEFLATE entropy coding. While lossless PNG preserves exact pixel-level fidelity, its compression efficiency depends heavily on the presence of smooth, repetitive spatial patterns and low-frequency gradients. When images contain high-frequency noise or sharp transitions, PNG's spatial prediction models fail, leading to drastically reduced compression ratios.
+In contrast, the Portable Network Graphics (PNG) format, specified by the World Wide Web Consortium \cite{w3c2003}, represents the standard for lossless spatial-domain storage. PNG utilizes a two-stage compression pipeline consisting of spatial prediction filtering followed by DEFLATE entropy coding. While lossless PNG preserves exact pixel-level fidelity, its compression efficiency depends on the presence of smooth, repetitive spatial patterns and low-frequency gradients. When images contain high-frequency noise or irregular transitions, PNG spatial filtering and subsequent entropy coding may become less effective, reducing compression efficiency.
 
 \subsection{Image Quality Assessment}
 For decades, IQA has relied on full-reference metrics such as PSNR and SSIM. PSNR computes the logarithmic ratio between the maximum possible power of a signal and the corrupting noise affecting its fidelity. However, PSNR is a purely pixel-difference metric that fails to account for human structural perception. To resolve this, Wang et al. \cite{wang2004} introduced the Structural Similarity Index Measure (SSIM), which models image degradation as a combination of luminance, contrast, and structural changes. While SSIM represents a significant advancement toward simulating human visual judgment, comparative studies by Horé and Ziou \cite{hore2010} demonstrate that PSNR and SSIM often exhibit non-linear behavior under different types of noise and distortions. As surveyed by Zhai and Min \cite{zhai2020}, traditional IQA metrics remain largely human-centric. They are mathematically ill-suited for evaluating ``machine visual quality,'' as deep neural networks operate on statistical distributions and abstract semantic features rather than biological visual pathways.
@@ -266,7 +266,7 @@ The relative drop in object detection performance as a function of target degrad
 \label{fig:map50_drop}
 \end{figure}
 
-Fig. 3 illustrates that for JPEG, the accuracy drop remains below 3\% for $q \ge 75$. For BPC, the degradation is exponential: a minor drop at $b=4$ is followed by a sudden 15.3\% drop at $b=3$, and a complete failure (74.4\% relative drop) at $b=1$.
+Fig. 3 illustrates that for JPEG, the accuracy drop remains below 3\% for $q \ge 75$. For BPC, the accuracy decline becomes sharply nonlinear at lower bit depths: a minor drop at $b=4$ is followed by a sudden 15.3\% drop at $b=3$, and a severe failure (74.4\% relative drop) at $b=1$.
 
 A direct comparison of the absolute physical storage footprint for each variant is provided in Fig. 4.
 
@@ -313,8 +313,8 @@ The relationship between mean SSIM and downstream mAP50 is shown in Fig. 7.
 
 Figs. 6 and 7 mathematically demonstrate the divergence between visual and task metrics:
 \begin{itemize}
-    \item \textbf{The $b7$ vs $q94$ Comparison}: $b7$ achieves a near-lossless PSNR of 51.22 dB and an SSIM of 0.9980. While it matches the baseline detection quality, it requires 3.5$\times$ more storage than $q94$ (37.47 dB PSNR, 0.9677 SSIM), which achieves the exact same object detection accuracy.
-    \item \textbf{The $b4$ vs $q75$ Comparison}: $b4$ has a higher PSNR (34.48 dB vs 32.29 dB) and a higher SSIM (0.9064 vs 0.9055) than $q75$. Despite appearing visually superior, $b4$ yields a lower mAP50 (0.4987) while requiring 3.4$\times$ more storage than $q75$, which reaches a superior mAP50 of 0.5057.
+    \item \textbf{The $b7$ vs $q94$ Comparison}: $b7$ achieves a near-lossless PSNR of 51.22 dB and an SSIM of 0.9980. q94 achieves a similarly high detection accuracy while requiring substantially less storage (37.47 dB PSNR, 0.9677 SSIM).
+    \item \textbf{The $b4$ vs $q75$ Comparison}: $b4$ has slightly higher PSNR (34.48 dB vs 32.29 dB) and SSIM (0.9064 vs 0.9055) than $q75$, while $q75$ achieves higher mAP50 and requires substantially less storage.
 \end{itemize}
 
 \subsection{Visual Artifact Overviews}
@@ -325,7 +325,7 @@ Examples of visual degradation for JPEG recompression across various quality fac
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\columnwidth]{results/article_figures/fig8_jpeg_visual_degradation_grid.png}
-\caption{Visual degradation examples for JPEG recompression (original, q88, q75, q25).}
+\caption{Visual degradation examples for JPEG recompression (source, q88, q75, q25).}
 \label{fig:jpeg_degrad}
 \end{figure}
 
@@ -378,7 +378,7 @@ The BPC branch highlights an important limitation: \textbf{uniform RGB level qua
     \item \textbf{Container-Control Result ($b8$)}: Re-encoding the decoded source JPEG as 8-bit truecolor PNG without additional level reduction preserves baseline detection metrics (mAP50 = 0.5187) but increases storage to 2288.66 MB (0.34$\times$ compression relative to the source JPEG baseline). This isolates a substantial container penalty before any additional quantization is applied.
     \item \textbf{Quantization Effect ($b7$)}: With 7-bit level reduction, detection performance remains near baseline (0.5189 mAP50), but storage remains far above the JPEG baseline at 1912.67 MB. Thus, the dominant storage penalty in the near-lossless BPC regime is not explained by quantization alone.
     \item \textbf{Algorithmic Explanation}: The observed PNG size behavior arises from the interaction between lossless PNG encoding (spatial filtering followed by DEFLATE entropy coding) \cite{w3c2003} and the spatial statistics of decoded or quantized RGB images. When uniform quantization is applied, smooth gradients can be replaced by step-like color intervals (posterization), which may further reduce compressibility depending on image content, filter choice, and encoder behavior.
-    \item \textbf{Task Collapse}: At lower bit depths ($b \le 3$), where BPC finally achieves storage savings over the source dataset (e.g., $b3$ at 607.81 MB), the color gradients are so heavily quantized that YOLOv8n experiences a severe 15.31\% mAP50 drop. At $b2$ and $b1$, the visual information collapses, leading to a severe loss in object detection utility.
+    \item \textbf{Task Collapse}: At lower bit depths ($b \le 3$), where BPC finally achieves storage savings over the source dataset (e.g., $b3$ at 607.81 MB), severe tonal quantization produces posterized, high-contrast regions and coincides with a sharp decline in detection performance.
 \end{itemize}
 
 \subsection{Divergence of Human and Machine Quality}
