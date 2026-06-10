@@ -41,7 +41,31 @@ results/
 
 ## Pipeline
 
-### 1. Convert COCO annotations to YOLO format
+### 1. Download COCO val2017 Dataset
+
+Before running the pipeline, you must download the COCO val2017 images and annotations. You can download them manually from the [official COCO website](https://cocodataset.org/#download) or use the direct links below.
+
+**Option A: Manual Download (Browser)**
+1. Download [val2017.zip](http://images.cocodataset.org/zips/val2017.zip) and extract it inside `data/source/coco/images/`. The final image folder should be `data/source/coco/images/val2017/`.
+2. Download [annotations_trainval2017.zip](http://images.cocodataset.org/annotations/annotations_trainval2017.zip) and extract it so that the JSON files are inside `data/source/coco/annotations/`. (Specifically, you need `instances_val2017.json`).
+
+**Option B: Terminal (curl/wget)**
+```bash
+mkdir -p data/source/coco/images
+mkdir -p data/source/coco/annotations
+
+# Download and extract images
+curl -O http://images.cocodataset.org/zips/val2017.zip
+unzip val2017.zip -d data/source/coco/images/
+rm val2017.zip
+
+# Download and extract annotations
+curl -O http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+unzip annotations_trainval2017.zip -d data/source/coco/
+rm annotations_trainval2017.zip
+```
+
+### 2. Convert COCO annotations to YOLO format
 
 ```bash
 python scripts/prepare/coco_json_to_yolo.py
@@ -49,7 +73,7 @@ python scripts/prepare/coco_json_to_yolo.py
 
 This creates YOLO-format labels from the COCO annotation JSON.
 
-### 2. Generate the full `val5k` experiment variants
+### 3. Generate the full `val5k` experiment variants
 
 ```bash
 python scripts/prepare/create_val5k_all_variants.py
@@ -61,7 +85,7 @@ This creates:
 - JPEG variants: `q94`, `q88`, `q75`, `q50`, `q25`;
 - BPC variants: `b8` (decoded JPEG → PNG control), `b7`, `b4`, `b3`, `b2`, `b1`.
 
-### 3. Run YOLO validation
+### 4. Run YOLO validation
 
 Final experiment:
 
@@ -84,14 +108,14 @@ Reproducibility note:
 - operating system: `macOS 15.6.1`;
 - core libraries: `ultralytics 8.4.52`, `torch 2.6.0`, `torchvision 0.21.0`, `numpy 2.2.6`, `pillow 10.4.0`, `opencv-python 4.12.0.88`, `scipy 1.15.1`, `scikit-image 0.26.0`, `PyYAML 6.0.2`, `pycocotools 2.0.11`.
 
-### 4. Collect detection metrics
+### 5. Collect detection metrics
 
 ```bash
 python scripts/analyze/collect_metrics.py --experiment-config configs/experiment_5k.yaml
 python scripts/analyze/summarize_results.py --metrics-csv results/val5k/summary/metrics.csv
 ```
 
-### 5. Compute image quality metrics
+### 6. Compute image quality metrics
 
 ```bash
 python scripts/analyze/compute_image_quality.py --experiment-config configs/experiment_5k.yaml --jobs 4
@@ -100,7 +124,7 @@ python scripts/analyze/summarize_image_quality.py --image-quality-csv results/va
 
 This computes per-image and aggregate `PSNR` and `SSIM` values for every non-original variant.
 
-### 6. Generate plots
+### 7. Generate plots
 
 ```bash
 python scripts/analyze/plot_results.py \
@@ -113,7 +137,7 @@ Generated plots:
 - `results/val5k/plots/map50_vs_size.png`;
 - `results/val5k/plots/map50_95_vs_size.png`;
 
-### 7. Generate article-ready figures
+### 8. Generate article-ready figures
 
 ```bash
 python scripts/analyze/make_article_figures.py \
