@@ -1,82 +1,82 @@
-# Визуальный анализ искажений сжатия: JPEG против BPC
+# Visual Analysis of Compression Distortion: JPEG vs BPC
 
-В данном документе представлено подробное описание и научный анализ визуальной деградации изображений для двух основных экспериментов: **повторного сжатия JPEG (JPEG Recompression)** и **сокращения разрядности каналов (Bit-Depth Reduction, BPC)**.
+This document provides a detailed description and scientific analysis of visual image degradation for two main experiments: **JPEG Recompression** and **Bit-Depth Reduction (BPC)**.
 
-Анализ выполнен на примере изображения **`000000029596.jpg`** из набора данных COCO val2017 (разрешение $640 \times 428$ пикселей, полный размер).
-
----
-
-## Описание исходной сцены
-
-Изображение представляет собой типичную комнатную сцену (домашний интерьер) с несколькими объектами разного масштаба и текстуры:
-* **Диван (Couch)** на переднем плане слева — крупный объект с выраженной мягкой текстурой обивки и плавными светотеневыми переходами.
-* **Обеденный стол (Dining Table)** в центре — деревянная поверхность со средней отражающей способностью.
-* **Стулья (Chairs)** — объекты среднего размера с тонкими ножками и спинками (высокочастотные детали).
-* **Телевизор (TV)** на заднем плане справа — контрастный прямоугольный объект, расположенный на фоне стены с мягким градиентом освещения.
-
-Эта сцена идеально подходит для сравнения, так как содержит как **низкочастотные области** (плавные градиенты на стенах, диване), так и **высокочастотные границы** (ножки стульев, углы телевизора и стола).
+The analysis is performed using the sample image **`000000029596.jpg`** from the COCO val2017 dataset (resolution $640 \times 428$ pixels, full size).
 
 ---
 
-## Рисунок 8: Деградация при повторном сжатии JPEG
+## Source Scene Description
 
-Сетка $3 \times 2$ (`fig8_jpeg_visual_degradation_grid.png`) демонстрирует влияние снижения качества JPEG по следующей схеме:
+The image represents a typical indoor scene (home interior) with several objects of varying scales and textures:
+* **Couch** in the left foreground — a large object with a distinct soft upholstery texture and smooth light-shadow transitions.
+* **Dining Table** in the center — a wooden surface with medium reflectivity.
+* **Chairs** — medium-sized objects with thin legs and backrests (high-frequency details).
+* **TV** in the right background — a contrasting rectangular object positioned against a wall with a soft lighting gradient.
+
+This scene is ideal for comparison, as it contains both **low-frequency regions** (smooth gradients on the walls and couch) and **high-frequency boundaries** (chair legs, corners of the TV and table).
+
+---
+
+## Figure 8: Degradation from JPEG Recompression
+
+The $3 \times 2$ grid (`fig8_jpeg_visual_degradation_grid.png`) demonstrates the impact of reducing JPEG quality according to the following scheme:
 ```text
-Original (Без сжатия) | q94 (Очень легкое) | q88 (Легкое)
-q75 (Умеренное)       | q50 (Сильное)      | q25 (Агрессивное)
+Original (Uncompressed) | q94 (Very Light) | q88 (Light)
+q75 (Moderate)          | q50 (Heavy)      | q25 (Aggressive)
 ```
 
-### Поэтапное изменение искажений:
+### Step-by-Step Distortion Changes:
 
-1. **Original (Без сжатия)**
-   * Базовое изображение с оригинальной резкостью. Границы объектов четкие, шумы кодирования отсутствуют, YOLOv8n уверенно обнаруживает диван, телевизор, обеденный стол и стулья.
-2. **q94 & q88 (Легкая деградация)**
-   * Визуально неотличимы от оригинала без многократного увеличения. Алгоритм дискретного косинусного преобразования (DCT) сжимает избыточные высокочастотные компоненты. Все границы и тонкие структуры (ножки стульев) остаются четкими.
-   * **Влияние на YOLO**: Практически нулевое. Детектор сохраняет точность на уровне базовой линии.
-3. **q75 (Умеренное сжатие)**
-   * Начинают появляться едва заметные артефакты на контрастных границах (например, вокруг корпуса телевизора и на краях стола) в виде легкого «размытия» или эффекта «звона» (ringing artifacts). На диване слегка сглаживается микротекстура.
-   * **Влияние на YOLO**: Незначительное снижение метрик (менее 1-2% mAP50), так как структура объектов все еще отлично считывается.
-4. **q50 (Сильное сжатие)**
-   * Четко проявляется блочная структура JPEG (сетка из блоков $8 \times 8$ пикселей). Градиентные переходы на стенах становятся ступенчатыми. Мелкие детали (ножки стульев на заднем плане) начинают сливаться с фоном.
-   * **Влияние на YOLO**: Заметная просадка по Recall. Модели становится сложнее локализовать границы мелких и удаленных объектов.
-5. **q25 (Агрессивное сжатие)**
-   * Сильнейшая пикселизация и размытие. Границы объектов становятся рваными и ступенчатыми. Высокочастотные детали полностью теряются. Вокруг всех контрастных элементов наблюдаются грубые ореолы артефактов DCT.
-   * **Влияние на YOLO**: Критическое падение метрик (mAP50 падает с 0.518 до 0.407). Модель теряет способность детектировать мелкие стулья и путает границы стола.
+1. **Original (Uncompressed)**
+   * The baseline image with original sharpness. Object boundaries are clear, coding noise is absent, and YOLOv8n confidently detects the couch, TV, dining table, and chairs.
+2. **q94 & q88 (Light Degradation)**
+   * Visually indistinguishable from the original without high magnification. The Discrete Cosine Transform (DCT) algorithm compresses redundant high-frequency components. All boundaries and thin structures (chair legs) remain sharp.
+   * **Impact on YOLO**: Practically zero. The detector maintains accuracy at the baseline level.
+3. **q75 (Moderate Compression)**
+   * Barely noticeable artifacts begin to appear on contrasting edges (e.g., around the TV frame and table edges) as slight blurring or "ringing artifacts". The microtexture on the couch is slightly smoothed out.
+   * **Impact on YOLO**: Minor drop in metrics (less than 1-2% mAP50), as the object structures are still easily read.
+4. **q50 (Heavy Compression)**
+   * The block structure of JPEG ($8 \times 8$ pixel block grid) clearly emerges. Gradient transitions on the walls become stepped. Small details (chair legs in the background) begin to merge with the background.
+   * **Impact on YOLO**: Noticeable drop in Recall. It becomes harder for the model to localize the boundaries of small and distant objects.
+5. **q25 (Aggressive Compression)**
+   * Severe pixelation and blurring. Object boundaries become jagged and stepped. High-frequency details are completely lost. Rough DCT artifact halos are observed around all contrasting elements.
+   * **Impact on YOLO**: Critical drop in metrics (mAP50 falls from 0.518 to 0.407). The model loses the ability to detect the small chairs and confuses the table's boundaries.
 
 ---
 
-## Рисунок 9: Деградация при сокращении разрядности каналов (BPC)
+## Figure 9: Degradation from Bit-Depth Reduction (BPC)
 
-Сетка $3 \times 2$ (`fig9_bpc_visual_degradation_grid.png`) демонстрирует влияние квантования цвета на канал по следующей схеме:
+The $3 \times 2$ grid (`fig9_bpc_visual_degradation_grid.png`) demonstrates the impact of color quantization per channel according to the following scheme:
 ```text
-Original (8 бит) | b7 (7 бит) | b4 (4 бита)
-b3 (3 бита)      | b2 (2 бита) | b1 (1 бит)
+Original (8 bit) | b7 (7 bit) | b4 (4 bit)
+b3 (3 bit)       | b2 (2 bit) | b1 (1 bit)
 ```
 
-### Поэтапное изменение искажений:
+### Step-by-Step Distortion Changes:
 
-1. **Original (8 бит / 256 уровней на канал)**
-   * Исходное представление цвета (24-битный RGB). Плавные цветовые переходы во всех зонах.
-2. **b7 (7 бит / 128 уровней на канал)**
-   * Визуальные отличия отсутствуют. Квантование слишком мягкое, чтобы человеческий глаз или сверточные слои YOLO заметили разницу. Метрики детектирования идентичны оригиналу.
-3. **b4 & b3 (Умеренное квантование / Постеризация)**
-   * **Визуальный эффект**: Появляется выраженный эффект **постеризации (color banding)**. Плавные полутона и тени на стенах, диване и поверхности стола разбиваются на отчетливые, плоские зоны однородного цвета с резкими границами (ступенчатый градиент).
-   * **Научное отличие от JPEG**: В отличие от JPEG, который размывает изображение, BPC сохраняет математическую резкость границ, но полностью меняет распределение градиентов локальной контрастности. Ножки стульев все еще геометрически острые, но их цвета искажены.
-   * **Влияние на YOLO**: Умеренное ухудшение. Нейросеть начинает терять текстурные признаки, но геометрические контуры помогают удерживать детекцию средних объектов.
-4. **b2 (2 бита / 4 уровня на канал / 64 цвета всего)**
-   * Изображение приобретает выраженный «ретро-компьютерный» вид. Практически все текстуры уничтожены. На диване и стенах остаются огромные монотонные плашки базовых цветов. Теряется глубина сцены.
-   * **Влияние на YOLO**: Катастрофическое падение точности (mAP50 падает до 0.291). Детектор теряет мелкие объекты и путает классы из-за полной потери градиентной информации.
-5. **b1 (1 бит / 2 уровня на канал / 8 цветов всего)**
-   * Экстремальный режим. Каждый пиксель RGB-канала может принимать только значения 0 или 255. Изображение распадается на грубые, высококонтрастные разноцветные силуэты. Половина объектов сцены визуально сливается в единые черные или цветные пятна.
-   * **Влияние на YOLO**: Полный отказ системы детектирования (mAP50 падает до 0.132). Локальные признаки (градиенты яркости HOG/Convolutional), на которых обучался экстрактор признаков YOLO, полностью уничтожены.
+1. **Original (8 bit / 256 levels per channel)**
+   * The initial color representation (24-bit RGB). Smooth color transitions in all areas.
+2. **b7 (7 bit / 128 levels per channel)**
+   * No visual differences. The quantization is too soft for the human eye or YOLO's convolutional layers to notice a difference. Detection metrics are identical to the original.
+3. **b4 & b3 (Moderate Quantization / Posterization)**
+   * **Visual Effect**: A pronounced **posterization (color banding)** effect appears. Smooth half-tones and shadows on the walls, couch, and table surface break into distinct, flat zones of uniform color with sharp boundaries (stepped gradient).
+   * **Scientific difference from JPEG**: Unlike JPEG, which blurs the image, BPC preserves the mathematical sharpness of boundaries but completely alters the distribution of local contrast gradients. The chair legs are still geometrically sharp, but their colors are distorted.
+   * **Impact on YOLO**: Moderate degradation. The neural network begins to lose textural features, but the geometric contours help retain the detection of medium-sized objects.
+4. **b2 (2 bit / 4 levels per channel / 64 colors total)**
+   * The image takes on a pronounced "retro-computer" appearance. Almost all textures are destroyed. Huge, monotone patches of basic colors remain on the couch and walls. The depth of the scene is lost.
+   * **Impact on YOLO**: Catastrophic drop in accuracy (mAP50 falls to 0.291). The detector misses small objects and confuses classes due to the total loss of gradient information.
+5. **b1 (1 bit / 2 levels per channel / 8 colors total)**
+   * Extreme regime. Each pixel in an RGB channel can only take values of 0 or 255. The image disintegrates into crude, high-contrast, multi-colored silhouettes. Half of the objects in the scene visually merge into single black or colored spots.
+   * **Impact on YOLO**: Complete failure of the detection system (mAP50 falls to 0.132). The local features (HOG/Convolutional brightness gradients) that the YOLO feature extractor trained on are entirely destroyed.
 
 ---
 
-## Научный вывод: Разница в типах деградации
+## Scientific Conclusion: Difference in Degradation Types
 
-| Характеристика | JPEG Recompression | Bit-Depth Reduction (BPC) |
+| Characteristic | JPEG Recompression | Bit-Depth Reduction (BPC) |
 | :--- | :--- | :--- |
-| **Основной тип искажения** | Высокочастотный шум, блочность DCT, размытие границ. | Постеризация, ступенчатые градиенты (color banding), потеря полутонов. |
-| **Сохранение границ** | Границы сглаживаются, размываются и покрываются ореолами. | Геометрические границы остаются абсолютно резкими, но меняют цвет. |
-| **Влияние на размер файла** | **Эффективное**: значительное уменьшение веса (до 8x) при хорошем сохранении метрик. | **Неэффективное (в PNG)**: размер файла b7 даже увеличивается, экономия начинается только при критическом разрушении кадра. |
-| **Поведение YOLOv8** | Лояльно к умеренному сжатию (до q75/q50), так как контуры и контекст сохраняются. | Крайне чувствительно к квантованию (ниже b4), так как резкие искусственные шаги градиентов сбивают сверточные фильтры с толку. |
+| **Main type of distortion** | High-frequency noise, DCT blocking, boundary blurring. | Posterization, stepped gradients (color banding), loss of half-tones. |
+| **Boundary preservation** | Boundaries are smoothed, blurred, and covered with halos. | Geometric boundaries remain absolutely sharp but change color. |
+| **Impact on file size** | **Efficient**: Significant weight reduction (up to 8x) with good metric retention. | **Inefficient (in PNG)**: The file size of b7 actually increases; savings only begin at critical destruction of the frame. |
+| **YOLOv8 behavior** | Tolerant of moderate compression (down to q75/q50), as contours and context are preserved. | Extremely sensitive to quantization (below b4), as sharp artificial gradient steps confuse the convolutional filters. |
