@@ -1,5 +1,7 @@
 # Task-Aware Analysis of JPEG Recompression and Bit-Depth Reduction for Efficient Image Compression in Object Detection
 
+*Project **DTIQ** (Different Types of Image Quantization)*
+
 This repository contains an experimental pipeline for studying how image compression and quantization affect downstream object detection quality.
 
 The project compares two image degradation strategies on `COCO val2017` using `YOLOv8n`:
