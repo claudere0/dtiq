@@ -27,7 +27,7 @@ configs/
   datasets/                  # YOLO dataset configs for all variants
 
 data/
-  source/coco/                  # COCO val2017 images and YOLO labels
+  source/coco/               # COCO val2017 images and YOLO labels
   processed/                 # generated variants, ignored by git
 
 scripts/
