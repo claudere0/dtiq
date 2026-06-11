@@ -20,7 +20,7 @@ def main():
     )
     
     # ultralytics creates 'coco_converted' adjacent to the provided labels_dir
-    coco_converted_dir = coco_dir / "coco_converted"
+    coco_converted_dir = root_dir / "coco_converted"
     
     if coco_converted_dir.exists():
         labels_src = coco_converted_dir / "labels"
