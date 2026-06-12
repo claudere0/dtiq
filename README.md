@@ -64,6 +64,16 @@ New-Item -ItemType Directory -Force -Path "data\source\coco\images"
 New-Item -ItemType Directory -Force -Path "data\source\coco\annotations"
 ```
 
+*Project structure after this step:*
+```text
+dtiq/
+└── data/
+    └── source/
+        └── coco/
+            ├── annotations/
+            └── images/
+```
+
 ### 1. Download COCO val2017 Dataset
 
 Before running the pipeline, you must download the COCO val2017 images and annotations. You can download them manually from the [official COCO website](https://cocodataset.org/#download) or use the direct commands below.
@@ -98,6 +108,20 @@ Expand-Archive -Path "annotations_trainval2017.zip" -DestinationPath "data\sourc
 Remove-Item "annotations_trainval2017.zip"
 ```
 
+*Project structure after this step:*
+```text
+dtiq/
+└── data/
+    └── source/
+        └── coco/
+            ├── annotations/
+            │   └── instances_val2017.json
+            └── images/
+                └── val2017/
+                    ├── 000000000139.jpg
+                    └── ... (5000 images)
+```
+
 ### 2. Convert COCO annotations to YOLO format
 
 ```bash
@@ -105,6 +129,20 @@ python scripts/prepare/01_coco_json_to_yolo.py
 ```
 
 This creates YOLO-format labels from the COCO annotation JSON.
+
+*Project structure after this step:*
+```text
+dtiq/
+└── data/
+    └── source/
+        └── coco/
+            ├── annotations/
+            ├── images/
+            └── labels/
+                └── val2017/
+                    ├── 000000000139.txt
+                    └── ... (YOLO label files)
+```
 
 ### 3. Generate the full `val5k` experiment variants
 
@@ -117,6 +155,23 @@ This creates:
 - original `COCO val2017` copy;
 - JPEG variants: `q94`, `q88`, `q75`, `q50`, `q25`;
 - BPC variants: `b8` (decoded JPEG → PNG control), `b7`, `b4`, `b3`, `b2`, `b1`.
+
+*Project structure after this step:*
+```text
+dtiq/
+└── data/
+    ├── source/
+    │   └── coco/
+    └── processed/
+        └── val5k/
+            ├── original/
+            ├── jpeg/
+            │   ├── q94/
+            │   └── ...
+            └── bpc_png/
+                ├── b8/
+                └── ...
+```
 
 ### 4. Run YOLO validation
 
@@ -141,10 +196,31 @@ Reproducibility note:
 - operating system: `macOS 15.6.1`;
 - core libraries: `ultralytics 8.4.52`, `torch 2.6.0`, `torchvision 0.21.0`, `numpy 2.2.6`, `pillow 10.4.0`, `opencv-python 4.12.0.88`, `scipy 1.15.1`, `scikit-image 0.26.0`, `PyYAML 6.0.2`, `pycocotools 2.0.11`.
 
+*Project structure after this step:*
+```text
+dtiq/
+└── results/
+    └── val5k/
+        └── yolo_runs/
+            ├── original/
+            ├── jpeg_q94/
+            └── ...
+```
+
 ### 5. Collect detection metrics
 
 ```bash
 python scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k.yaml
+```
+
+*Project structure after this step:*
+```text
+dtiq/
+└── results/
+    └── val5k/
+        ├── yolo_runs/
+        └── summary/
+            └── metrics.csv
 ```
 
 ### 6. Compute image quality metrics
@@ -154,6 +230,16 @@ python scripts/analyze/05_compute_image_quality.py --experiment-config configs/e
 ```
 
 This computes per-image and aggregate `PSNR` and `SSIM` values for every non-original variant.
+
+*Project structure after this step:*
+```text
+dtiq/
+└── results/
+    └── val5k/
+        └── summary/
+            ├── metrics.csv
+            └── image_quality.csv
+```
 
 ### 7. Generate plots
 
@@ -165,6 +251,17 @@ Generated plots:
 
 - `results/val5k/plots/map50_vs_size.png`;
 - `results/val5k/plots/map50_95_vs_size.png`;
+
+*Project structure after this step:*
+```text
+dtiq/
+└── results/
+    └── val5k/
+        ├── summary/
+        └── plots/
+            ├── map50_vs_size.png
+            └── map50_95_vs_size.png
+```
 
 ### 8. Generate article-ready figures
 
@@ -196,6 +293,17 @@ Recommended additional visual examples for the paper:
 - `b4`;
 - `b2`;
 - `b1`.
+
+*Project structure after this step:*
+```text
+dtiq/
+└── results/
+    ├── val5k/
+    └── article_figures/
+        ├── article_metrics_table.csv
+        ├── fig1_map50_vs_size.svg
+        └── ...
+```
 
 ## Final `val5k` Results
 
