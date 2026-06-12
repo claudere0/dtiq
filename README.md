@@ -347,10 +347,13 @@ dtiq/
 - `b7` preserves detection quality and has excellent `PSNR/SSIM`, but it is much larger than the original dataset.
 - `b4` is the main threshold point for BPC: detection remains relatively close to baseline, but storage savings are absent.
 - Aggressive BPC modes (`b2`, `b1`) strongly damage detection quality.
+- **Traditional image quality metrics (PSNR, SSIM) diverge from neural network performance:** For example, `b4` has higher PSNR and SSIM than `q75` (appearing sharper to human eyes), but yields lower detection accuracy and requires 3.4× more storage.
 
 ## Scientific Conclusion
 
 On `COCO val2017` with `YOLOv8n`, JPEG recompression provides a more effective storage-versus-detection trade-off than uniform bit-depth reduction stored as 24-bit PNG.
+
+Compression methods for machine vision must be evaluated using task-level metrics (e.g., mAP50) rather than human-centric visual fidelity scores (PSNR, SSIM), because neural networks are sensitive to the *type* of distortion, not just the magnitude of information loss.
 
 The result should be interpreted carefully: the experiment does not prove that all bit-depth reduction methods are inferior to JPEG. It shows that, under the tested `BPC + 24-bit PNG` implementation, JPEG recompression is more efficient for preserving object detection performance at reduced dataset size. The container is part of the tested method: indexed PNG, bit-packing, or custom entropy coding may produce different storage behavior.
 
@@ -360,4 +363,5 @@ The result should be interpreted carefully: the experiment does not prove that a
 - Only one dataset was used: `COCO val2017`.
 - JPEG was applied as recompression to images already stored as JPEG.
 - BPC variants were stored as 24-bit truecolor PNG, so the result concerns the complete `BPC + 24-bit PNG` storage scheme rather than all possible BPC containers.
+- The BMP+LZMA auxiliary comparison confirms that the raw 24-bit uncompressed payload remains constant (4110 MB) across bit depths, demonstrating that the intermediate container and entropy coder heavily impact final compressed sizes in naive bit-depth reduction pipelines.
 - The current article-level comparison should be extended with additional codecs, models, and statistical stability checks.
