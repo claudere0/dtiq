@@ -4,7 +4,9 @@ import html
 from pathlib import Path
 
 try:
-    from summarize_lzma_storage import generate as generate_lzma_summary
+    import importlib
+    lzma_module = importlib.import_module("08_summarize_lzma_storage")
+    generate_lzma_summary = lzma_module.generate
 except ImportError:  # pragma: no cover - optional helper
     generate_lzma_summary = None
 
