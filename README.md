@@ -41,21 +41,39 @@ results/
   val5k/                     # final experiment results
 ```
 
+## Prerequisites
+
+- **Python Version:** `Python 3.11.5` is **strictly required**. If you use a newer version, the libraries in `requirements.txt` may fail to install due to version conflicts.
+- **Dependencies:** Install them using `pip install -r requirements.txt`.
+
 ## Pipeline
+
+### 0. Create Required Directories
+
+Git does not track empty folders, so you must create the necessary data directories before downloading anything.
+
+**Mac / Linux (Terminal):**
+```bash
+mkdir -p data/source/coco/images
+mkdir -p data/source/coco/annotations
+```
+
+**Windows (PowerShell):**
+```powershell
+New-Item -ItemType Directory -Force -Path "data\source\coco\images"
+New-Item -ItemType Directory -Force -Path "data\source\coco\annotations"
+```
 
 ### 1. Download COCO val2017 Dataset
 
-Before running the pipeline, you must download the COCO val2017 images and annotations. You can download them manually from the [official COCO website](https://cocodataset.org/#download) or use the direct links below.
+Before running the pipeline, you must download the COCO val2017 images and annotations. You can download them manually from the [official COCO website](https://cocodataset.org/#download) or use the direct commands below.
 
 **Option A: Manual Download (Browser)**
 1. Download [val2017.zip](http://images.cocodataset.org/zips/val2017.zip) and extract it inside `data/source/coco/images/`. The final image folder should be `data/source/coco/images/val2017/`.
 2. Download [annotations_trainval2017.zip](http://images.cocodataset.org/annotations/annotations_trainval2017.zip) and extract it so that the JSON files are inside `data/source/coco/annotations/`. (Specifically, you need `instances_val2017.json`).
 
-**Option B: Terminal (curl/wget)**
+**Option B: Terminal (Mac / Linux)**
 ```bash
-mkdir -p data/source/coco/images
-mkdir -p data/source/coco/annotations
-
 # Download and extract images
 curl -O http://images.cocodataset.org/zips/val2017.zip
 unzip val2017.zip -d data/source/coco/images/
@@ -65,6 +83,19 @@ rm val2017.zip
 curl -O http://images.cocodataset.org/annotations/annotations_trainval2017.zip
 unzip annotations_trainval2017.zip -d data/source/coco/
 rm annotations_trainval2017.zip
+```
+
+**Option B: Terminal (Windows PowerShell)**
+```powershell
+# Download and extract images
+Invoke-WebRequest -Uri "http://images.cocodataset.org/zips/val2017.zip" -OutFile "val2017.zip"
+Expand-Archive -Path "val2017.zip" -DestinationPath "data\source\coco\images\"
+Remove-Item "val2017.zip"
+
+# Download and extract annotations
+Invoke-WebRequest -Uri "http://images.cocodataset.org/annotations/annotations_trainval2017.zip" -OutFile "annotations_trainval2017.zip"
+Expand-Archive -Path "annotations_trainval2017.zip" -DestinationPath "data\source\coco\"
+Remove-Item "annotations_trainval2017.zip"
 ```
 
 ### 2. Convert COCO annotations to YOLO format
@@ -127,9 +158,7 @@ This computes per-image and aggregate `PSNR` and `SSIM` values for every non-ori
 ### 7. Generate plots
 
 ```bash
-python scripts/analyze/06_plot_results.py \
-  --metrics-csv results/val5k/summary/metrics.csv \
-  --image-quality-csv results/val5k/summary/image_quality.csv
+python scripts/analyze/06_plot_results.py --metrics-csv results/val5k/summary/metrics.csv --image-quality-csv results/val5k/summary/image_quality.csv
 ```
 
 Generated plots:
@@ -140,10 +169,7 @@ Generated plots:
 ### 8. Generate article-ready figures
 
 ```bash
-python scripts/analyze/07_make_article_figures.py \
-  --metrics-csv results/val5k/summary/metrics.csv \
-  --image-quality-csv results/val5k/summary/image_quality.csv \
-  --output-dir results/article_figures
+python scripts/analyze/07_make_article_figures.py --metrics-csv results/val5k/summary/metrics.csv --image-quality-csv results/val5k/summary/image_quality.csv --output-dir results/article_figures
 ```
 
 This creates a dedicated article figure folder with SVG files, the main merged table, and the supplementary LZMA summary:
@@ -158,9 +184,7 @@ This creates a dedicated article figure folder with SVG files, the main merged t
 If you regenerate the auxiliary `BMP + LZMA` experiment separately, you can refresh just that supplementary table with:
 
 ```bash
-python scripts/analyze/08_summarize_lzma_storage.py \
-  --article-metrics-csv results/article_figures/article_metrics_table.csv \
-  --lzma-root data/processed/val5k/bpc_lzma
+python scripts/analyze/08_summarize_lzma_storage.py --article-metrics-csv results/article_figures/article_metrics_table.csv --lzma-root data/processed/val5k/bpc_lzma
 ```
 
 Recommended additional visual examples for the paper:
