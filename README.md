@@ -143,23 +143,23 @@ Generated plots:
 python scripts/analyze/07_make_article_figures.py \
   --metrics-csv results/val5k/summary/metrics.csv \
   --image-quality-csv results/val5k/summary/image_quality.csv \
-  --output-dir article/latex_project/results/article_figures
+  --output-dir results/article_figures
 ```
 
 This creates a dedicated article figure folder with SVG files, the main merged table, and the supplementary LZMA summary:
 
-- `article/latex_project/results/article_figures/article_metrics_table.csv`;
-- `article/latex_project/results/article_figures/lzma_storage.csv`;
-- `article/latex_project/results/article_figures/fig1`–`fig7` (`.svg` and `.png`);
-- `article/latex_project/results/article_figures/fig10_pareto_storage_map50` (`.svg` and `.png`);
-- `article/latex_project/results/article_figures/fig8_jpeg_visual_degradation_grid.png`;
-- `article/latex_project/results/article_figures/fig9_bpc_visual_degradation_grid.png`.
+- `results/article_figures/article_metrics_table.csv`;
+- `results/article_figures/lzma_storage.csv`;
+- `results/article_figures/fig1`–`fig7` (`.svg` and `.png`);
+- `results/article_figures/fig10_pareto_storage_map50` (`.svg` and `.png`);
+- `results/article_figures/fig8_jpeg_visual_degradation_grid.png`;
+- `results/article_figures/fig9_bpc_visual_degradation_grid.png`.
 
 If you regenerate the auxiliary `BMP + LZMA` experiment separately, you can refresh just that supplementary table with:
 
 ```bash
 python scripts/analyze/08_summarize_lzma_storage.py \
-  --article-metrics-csv article/latex_project/results/article_figures/article_metrics_table.csv \
+  --article-metrics-csv results/article_figures/article_metrics_table.csv \
   --lzma-root data/processed/val5k/bpc_lzma
 ```
 

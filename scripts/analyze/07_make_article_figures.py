@@ -22,7 +22,7 @@ COLORS = {
     "axis": "#333333",
 }
 
-DEFAULT_OUTPUT_DIR = "article/latex_project/results/article_figures"
+DEFAULT_OUTPUT_DIR = "results/article_figures"
 
 
 def parse_args():

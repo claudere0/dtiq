@@ -4,9 +4,9 @@ from pathlib import Path
 
 
 DEFAULT_BITS = [7, 4, 3, 2, 1]
-DEFAULT_ARTICLE_METRICS_CSV = Path("article/latex_project/results/article_figures/article_metrics_table.csv")
+DEFAULT_ARTICLE_METRICS_CSV = Path("results/article_figures/article_metrics_table.csv")
 DEFAULT_LZMA_ROOT = Path("data/processed/val5k/bpc_lzma")
-DEFAULT_OUTPUT_CSV = Path("article/latex_project/results/article_figures/lzma_storage.csv")
+DEFAULT_OUTPUT_CSV = Path("results/article_figures/lzma_storage.csv")
 BMP_RAW_APPROX_MB = 4110.0
 
 

@@ -11,7 +11,7 @@ os.environ.setdefault("MPLBACKEND", "Agg")
 import matplotlib.pyplot as plt
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_ARTICLE_FIGURES_DIR = REPO_ROOT / "article/latex_project/results/article_figures"
+DEFAULT_ARTICLE_FIGURES_DIR = REPO_ROOT / "results/article_figures"
 PNG_CONTROL_VARIANT = "b8"
 
 COLORS = {
