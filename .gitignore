@@ -4,3 +4,10 @@
 /.cache
 __pycache__/
 *.pyc
+
+# Ignore raw datasets and downloaded model weights
+/data/source/
+*.pt
+
+# Ignore heavy YOLO validation visualizations and predictions, but keep metrics and logs
+results/*/yolo_runs/
