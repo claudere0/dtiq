@@ -1,15 +1,22 @@
 # Инструкция для запуска экспериментов на Acer Nitro (Windows)
 
-Здесь собраны все шаги, чтобы прогнать новые тесты для YOLOv8m и RT-DETR-L, а затем закинуть результаты обратно на Mac через GitHub.
+Здесь собраны все шаги, чтобы прогнать новые тесты для **YOLOv8n**, **YOLOv8m** и **RT-DETR-L**, а затем закинуть результаты обратно на Mac через GitHub. Мы также прогоним заново `YOLOv8n`, чтобы собрать для нее новые метрики (mAP по размерам объектов).
 
 ## 0. Подготовка окружения
-Убедись, что ты клонировал (или обновил через `git pull`) этот репозиторий и проверил окружение с помощью другого ИИ (CUDA, PyTorch, pycocotools, ultralytics).
+Убедись, что ты клонировал репозиторий и проверил окружение с помощью другого ИИ (CUDA, PyTorch, pycocotools, ultralytics).
 
-*Примечание про веса моделей:* Тебе **не нужно** скачивать веса (`yolov8m.pt` и `rtdetr-l.pt`) вручную. Библиотека `ultralytics` скачает их сама при первом запуске!
+*Примечание про веса моделей:* Тебе **не нужно** скачивать веса (`yolov8n.pt`, `yolov8m.pt` и `rtdetr-l.pt`) вручную. Библиотека `ultralytics` скачает их сама при первом запуске!
 
 ## 1. Запуск экспериментов
 
-Я подготовил два новых конфигурационных файла специально для твоей видеокарты (device: 0, workers: 4, batch: 16/8). 
+Я подготовил три конфигурационных файла специально для твоей видеокарты (device: 0, workers: 4, batch: 16/8). 
+
+Запускай их по очереди (каждый тест займет какое-то время):
+
+**Для YOLOv8n (batch 16):**
+```powershell
+python scripts/validate/03_run_all_validations.py --experiment-config configs/experiment_5k_yolov8n.yaml
+```
 
 **Для YOLOv8m (batch 16):**
 ```powershell
@@ -24,14 +31,16 @@ python scripts/validate/03_run_all_validations.py --experiment-config configs/ex
 > **Важно!** Если во время запуска возникнет ошибка **CUDA Out of Memory**, просто открой нужный `.yaml` файл в папке `configs/` и уменьши параметр `batch` в два раза (например, с 16 до 8, или с 8 до 4).
 
 ## 2. Сбор метрик
-После того как валидация пройдет для всех форматов, собери метрики в CSV файлы:
+После того как валидация пройдет для всех моделей, собери метрики в CSV файлы:
 
 ```powershell
+python scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k_yolov8n.yaml
 python scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k_yolov8m.yaml
 python scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k_rtdetr_l.yaml
 ```
 
 Результаты сохранятся в:
+- `results/val5k_yolov8n/summary/metrics.csv`
 - `results/val5k_yolov8m/summary/metrics.csv`
 - `results/val5k_rtdetr_l/summary/metrics.csv`
 
@@ -45,7 +54,7 @@ python scripts/analyze/04_collect_metrics.py --experiment-config configs/experim
 git add .
 
 # Делаем коммит
-git commit -m "Add YOLOv8m and RT-DETR-L experiment results"
+git commit -m "Add YOLOv8n, YOLOv8m and RT-DETR-L experiment results"
 
 # Отправляем в репозиторий
 git push
