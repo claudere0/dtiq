@@ -69,6 +69,9 @@ def main():
         "recall",
         "map50",
         "map50_95",
+        "map_s",
+        "map_m",
+        "map_l",
         "fitness",
         "save_dir",
     ]

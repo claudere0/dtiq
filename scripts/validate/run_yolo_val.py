@@ -106,16 +106,30 @@ def run_validation(args):
                 project=str(yolo_project),
                 name=args.variant,
                 exist_ok=args.exist_ok,
+                save_json=True,
             )
             elapsed_seconds = time.perf_counter() - start_time
             payload = build_metrics_payload(args, metrics, elapsed_seconds)
-            print("mAP50-95:", payload["map50_95"])
-            print("mAP50:", payload["map50"])
-            print("Precision:", payload["precision"])
-            print("Recall:", payload["recall"])
         finally:
             sys.stdout = original_stdout
             sys.stderr = original_stderr
+    import re
+    log_content = log_path.read_text(encoding="utf-8")
+    match_s = re.search(r'Average Precision.*?area=\s*small.*?=\s*([0-9.]+)', log_content)
+    match_m = re.search(r'Average Precision.*?area=\s*medium.*?=\s*([0-9.]+)', log_content)
+    match_l = re.search(r'Average Precision.*?area=\s*large.*?=\s*([0-9.]+)', log_content)
+
+    payload["map_s"] = float(match_s.group(1)) if match_s else None
+    payload["map_m"] = float(match_m.group(1)) if match_m else None
+    payload["map_l"] = float(match_l.group(1)) if match_l else None
+
+    print("mAP50-95:", payload["map50_95"])
+    print("mAP50:", payload["map50"])
+    print("Precision:", payload["precision"])
+    print("Recall:", payload["recall"])
+    print("mAP_S:", payload["map_s"])
+    print("mAP_M:", payload["map_m"])
+    print("mAP_L:", payload["map_l"])
 
     metrics_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"Saved metrics to {metrics_path}")
