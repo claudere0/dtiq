@@ -1,0 +1,22 @@
+{
+  "experiment_name": "val5k_yolov8m",
+  "variant": "q88",
+  "quantization_type": "jpeg",
+  "parameter": "88",
+  "dataset": "configs/datasets/val5k/q88.yaml",
+  "model": "yolov8m.pt",
+  "device": "0",
+  "imgsz": 640,
+  "batch": 16,
+  "workers": 4,
+  "elapsed_seconds": 136.155,
+  "save_dir": "C:\\Users\\Alan\\Desktop\\dtiq\\results\\val5k_yolov8m\\yolo_runs\\q88",
+  "precision": 0.7026162440665134,
+  "recall": 0.6087323464556412,
+  "map50": 0.6578773328796155,
+  "map50_95": 0.4912715644361452,
+  "fitness": 0.4912715644361452,
+  "map_s": 0.04901166053350563,
+  "map_m": 0.08105437000213794,
+  "map_l": 0.10540971214894644
+}
