@@ -10,6 +10,8 @@ os.environ.setdefault("MPLBACKEND", "Agg")
 
 import matplotlib.pyplot as plt
 
+plt.rcParams.update({'font.size': 14, 'axes.titlesize': 16, 'axes.labelsize': 14, 'xtick.labelsize': 12, 'ytick.labelsize': 12, 'legend.fontsize': 12})
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_ARTICLE_FIGURES_DIR = REPO_ROOT / "results/article_figures"
 PNG_CONTROL_VARIANT = "b8"
