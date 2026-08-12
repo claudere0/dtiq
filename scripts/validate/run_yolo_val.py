@@ -113,15 +113,37 @@ def run_validation(args):
         finally:
             sys.stdout = original_stdout
             sys.stderr = original_stderr
-    import re
-    log_content = log_path.read_text(encoding="utf-8")
-    match_s = re.search(r'Average Precision.*?area=\s*small.*?=\s*([0-9.]+)', log_content)
-    match_m = re.search(r'Average Precision.*?area=\s*medium.*?=\s*([0-9.]+)', log_content)
-    match_l = re.search(r'Average Precision.*?area=\s*large.*?=\s*([0-9.]+)', log_content)
+    # Try to evaluate COCO metrics manually if predictions exist
+    payload["map_s"] = None
+    payload["map_m"] = None
+    payload["map_l"] = None
+    
+    pred_path = Path(metrics.save_dir) / "predictions.json"
+    if not pred_path.exists():
+        pred_path = Path(metrics.save_dir) / "val2017_predictions.json"
 
-    payload["map_s"] = float(match_s.group(1)) if match_s else None
-    payload["map_m"] = float(match_m.group(1)) if match_m else None
-    payload["map_l"] = float(match_l.group(1)) if match_l else None
+    if pred_path.exists():
+        try:
+            from pycocotools.coco import COCO
+            from pycocotools.cocoeval import COCOeval
+            import contextlib
+            import io
+
+            gt_path = Path("data/source/coco/annotations/instances_val2017.json")
+            if gt_path.exists():
+                with contextlib.redirect_stdout(io.StringIO()):
+                    cocoGt = COCO(str(gt_path))
+                    cocoDt = cocoGt.loadRes(str(pred_path))
+                    cocoEval = COCOeval(cocoGt, cocoDt, "bbox")
+                    cocoEval.evaluate()
+                    cocoEval.accumulate()
+                    cocoEval.summarize()
+                
+                payload["map_s"] = float(cocoEval.stats[3])
+                payload["map_m"] = float(cocoEval.stats[4])
+                payload["map_l"] = float(cocoEval.stats[5])
+        except Exception as e:
+            print(f"Failed to evaluate COCO metrics manually: {e}")
 
     print("mAP50-95:", payload["map50_95"])
     print("mAP50:", payload["map50"])
