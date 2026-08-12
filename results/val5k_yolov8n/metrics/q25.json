@@ -1,0 +1,22 @@
+{
+  "experiment_name": "val5k_yolov8n",
+  "variant": "q25",
+  "quantization_type": "jpeg",
+  "parameter": "25",
+  "dataset": "configs/datasets/val5k/q25.yaml",
+  "model": "yolov8n.pt",
+  "device": "0",
+  "imgsz": 640,
+  "batch": 16,
+  "workers": 4,
+  "elapsed_seconds": 67.125,
+  "save_dir": "C:\\Users\\Alan\\Desktop\\dtiq\\results\\val5k_yolov8n\\yolo_runs\\q25",
+  "precision": 0.5663255486402461,
+  "recall": 0.3787945351237195,
+  "map50": 0.4072758592479997,
+  "map50_95": 0.2743820919626544,
+  "fitness": 0.2743820919626544,
+  "map_s": 0.019861457757375554,
+  "map_m": 0.049909442678267725,
+  "map_l": 0.07958534202449855
+}

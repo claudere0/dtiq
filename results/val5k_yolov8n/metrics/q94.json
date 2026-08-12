@@ -1,0 +1,22 @@
+{
+  "experiment_name": "val5k_yolov8n",
+  "variant": "q94",
+  "quantization_type": "jpeg",
+  "parameter": "94",
+  "dataset": "configs/datasets/val5k/q94.yaml",
+  "model": "yolov8n.pt",
+  "device": "0",
+  "imgsz": 640,
+  "batch": 16,
+  "workers": 4,
+  "elapsed_seconds": 68.489,
+  "save_dir": "C:\\Users\\Alan\\Desktop\\dtiq\\results\\val5k_yolov8n\\yolo_runs\\q94",
+  "precision": 0.6352235492289706,
+  "recall": 0.46973777574823183,
+  "map50": 0.5162412274171662,
+  "map50_95": 0.36616524169227477,
+  "fitness": 0.36616524169227477,
+  "map_s": 0.03221570659173913,
+  "map_m": 0.06112461136690509,
+  "map_l": 0.09156794883789049
+}

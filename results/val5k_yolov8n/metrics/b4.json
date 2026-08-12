@@ -1,0 +1,22 @@
+{
+  "experiment_name": "val5k_yolov8n",
+  "variant": "b4",
+  "quantization_type": "bpc",
+  "parameter": "4",
+  "dataset": "configs/datasets/val5k/b4.yaml",
+  "model": "yolov8n.pt",
+  "device": "0",
+  "imgsz": 640,
+  "batch": 16,
+  "workers": 4,
+  "elapsed_seconds": 70.519,
+  "save_dir": "C:\\Users\\Alan\\Desktop\\dtiq\\results\\val5k_yolov8n\\yolo_runs\\b4",
+  "precision": 0.6093802854917005,
+  "recall": 0.4592556449797948,
+  "map50": 0.49881080263668987,
+  "map50_95": 0.3510901740854321,
+  "fitness": 0.3510901740854321,
+  "map_s": 0.029190703394980717,
+  "map_m": 0.06067899789047548,
+  "map_l": 0.08899903966723219
+}

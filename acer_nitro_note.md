@@ -3,7 +3,8 @@
 Здесь собраны все шаги, чтобы прогнать новые тесты для **YOLOv8n**, **YOLOv8m** и **RT-DETR-L**, а затем закинуть результаты обратно на Mac через GitHub. Мы также прогоним заново `YOLOv8n`, чтобы собрать для нее новые метрики (mAP по размерам объектов).
 
 ## 0. Подготовка окружения
-Убедись, что ты клонировал репозиторий и проверил окружение с помощью другого ИИ (CUDA, PyTorch, pycocotools, ultralytics).
+Окружение под видеокарту RTX 4050 настроено в **Python 3.11** (команда `py -3.11`).
+Убедись, что ты клонировал репозиторий. Все команды запускаются через `py -3.11`.
 
 *Примечание про веса моделей:* Тебе **не нужно** скачивать веса (`yolov8n.pt`, `yolov8m.pt` и `rtdetr-l.pt`) вручную. Библиотека `ultralytics` скачает их сама при первом запуске!
 
@@ -15,17 +16,17 @@
 
 **Для YOLOv8n (batch 16):**
 ```powershell
-python scripts/validate/03_run_all_validations.py --experiment-config configs/experiment_5k_yolov8n.yaml
+py -3.11 scripts/validate/03_run_all_validations.py --experiment-config configs/experiment_5k_yolov8n.yaml
 ```
 
 **Для YOLOv8m (batch 16):**
 ```powershell
-python scripts/validate/03_run_all_validations.py --experiment-config configs/experiment_5k_yolov8m.yaml
+py -3.11 scripts/validate/03_run_all_validations.py --experiment-config configs/experiment_5k_yolov8m.yaml
 ```
 
 **Для RT-DETR-L (batch 8):**
 ```powershell
-python scripts/validate/03_run_all_validations.py --experiment-config configs/experiment_5k_rtdetr_l.yaml
+py -3.11 scripts/validate/03_run_all_validations.py --experiment-config configs/experiment_5k_rtdetr_l.yaml
 ```
 
 > **Важно!** Если во время запуска возникнет ошибка **CUDA Out of Memory**, просто открой нужный `.yaml` файл в папке `configs/` и уменьши параметр `batch` в два раза (например, с 16 до 8, или с 8 до 4).
@@ -34,9 +35,9 @@ python scripts/validate/03_run_all_validations.py --experiment-config configs/ex
 После того как валидация пройдет для всех моделей, собери метрики в CSV файлы:
 
 ```powershell
-python scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k_yolov8n.yaml
-python scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k_yolov8m.yaml
-python scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k_rtdetr_l.yaml
+py -3.11 scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k_yolov8n.yaml
+py -3.11 scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k_yolov8m.yaml
+py -3.11 scripts/analyze/04_collect_metrics.py --experiment-config configs/experiment_5k_rtdetr_l.yaml
 ```
 
 Результаты сохранятся в:
