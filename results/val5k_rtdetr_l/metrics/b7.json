@@ -1,0 +1,22 @@
+{
+  "experiment_name": "val5k_rtdetr_l",
+  "variant": "b7",
+  "quantization_type": "bpc",
+  "parameter": "7",
+  "dataset": "configs/datasets/val5k/b7.yaml",
+  "model": "rtdetr-l.pt",
+  "device": "0",
+  "imgsz": 640,
+  "batch": 8,
+  "workers": 4,
+  "elapsed_seconds": 200.992,
+  "save_dir": "C:\\Users\\Alan\\Desktop\\dtiq\\results\\val5k_rtdetr_l\\yolo_runs\\b7",
+  "precision": 0.7448858517656738,
+  "recall": 0.6527673381400948,
+  "map50": 0.7067302157076393,
+  "map50_95": 0.5230173287849198,
+  "fitness": 0.5230173287849198,
+  "map_s": 0.05411927131706487,
+  "map_m": 0.08153644676908921,
+  "map_l": 0.10576352072849528
+}

@@ -1,0 +1,22 @@
+{
+  "experiment_name": "val5k_rtdetr_l",
+  "variant": "q88",
+  "quantization_type": "jpeg",
+  "parameter": "88",
+  "dataset": "configs/datasets/val5k/q88.yaml",
+  "model": "rtdetr-l.pt",
+  "device": "0",
+  "imgsz": 640,
+  "batch": 8,
+  "workers": 4,
+  "elapsed_seconds": 204.31,
+  "save_dir": "C:\\Users\\Alan\\Desktop\\dtiq\\results\\val5k_rtdetr_l\\yolo_runs\\q88",
+  "precision": 0.7422628819773434,
+  "recall": 0.6423864293019379,
+  "map50": 0.7007562367011102,
+  "map50_95": 0.5175253726254638,
+  "fitness": 0.5175253726254638,
+  "map_s": 0.05207683880499868,
+  "map_m": 0.08085669531170442,
+  "map_l": 0.1055342291249369
+}

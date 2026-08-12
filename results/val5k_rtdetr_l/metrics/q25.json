@@ -1,0 +1,22 @@
+{
+  "experiment_name": "val5k_rtdetr_l",
+  "variant": "q25",
+  "quantization_type": "jpeg",
+  "parameter": "25",
+  "dataset": "configs/datasets/val5k/q25.yaml",
+  "model": "rtdetr-l.pt",
+  "device": "0",
+  "imgsz": 640,
+  "batch": 8,
+  "workers": 4,
+  "elapsed_seconds": 201.068,
+  "save_dir": "C:\\Users\\Alan\\Desktop\\dtiq\\results\\val5k_rtdetr_l\\yolo_runs\\q25",
+  "precision": 0.7288373708033384,
+  "recall": 0.580202370144815,
+  "map50": 0.6434702379473398,
+  "map50_95": 0.4611878977107763,
+  "fitness": 0.4611878977107763,
+  "map_s": 0.0413822499052743,
+  "map_m": 0.07367451293578134,
+  "map_l": 0.10335844886175839
+}
