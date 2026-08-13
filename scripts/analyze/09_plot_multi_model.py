@@ -9,14 +9,27 @@ os.environ.setdefault("MPLCONFIGDIR", str(MATPLOTLIB_CACHE))
 os.environ.setdefault("MPLBACKEND", "Agg")
 
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 
-plt.rcParams.update({'font.size': 14, 'axes.titlesize': 16, 'axes.labelsize': 14, 'xtick.labelsize': 12, 'ytick.labelsize': 12, 'legend.fontsize': 12})
+plt.rcParams.update({
+    'font.family': 'sans-serif',
+    'font.sans-serif': ['Arial', 'Helvetica', 'DejaVu Sans'],
+    'font.size': 16,
+    'axes.titlesize': 18,
+    'axes.titleweight': 'bold',
+    'axes.labelsize': 17,
+    'axes.labelweight': 'bold',
+    'xtick.labelsize': 15,
+    'ytick.labelsize': 15,
+    'legend.fontsize': 14,
+    'figure.titlesize': 20,
+    'figure.titleweight': 'bold'
+})
 
-COLORS = {
-    "original": "#222222",
-    "jpeg": "#d95f02",
-    "bpc": "#1b9e77",
-    "png_control": "#6a51a3",
+MODEL_STYLES = {
+    "YOLOv8n": {"marker": "D", "linestyle": "-", "jpeg": "#9671bd", "bpc": "#6a408d"},
+    "YOLOv8m": {"marker": "s", "linestyle": "--", "jpeg": "#77b5b6", "bpc": "#378d94"},
+    "RT-DETR-L": {"marker": "o", "linestyle": ":", "jpeg": "#f2ad73", "bpc": "#c45a16"}
 }
 
 MODELS = [
@@ -42,16 +55,18 @@ def by_type(rows, quantization_type):
 def bpc_quantized_rows(rows):
     return [row for row in rows if row["quantization_type"] == "bpc" and not is_png_control(row)]
 
-def plot_line_group(ax, rows, x_key, y_key, color, label):
+def plot_line_group(ax, rows, x_key, y_key, color, label, marker="o"):
     rows = sorted(rows, key=lambda row: row[x_key])
     ax.plot(
         [row[x_key] for row in rows],
         [row[y_key] for row in rows],
-        marker="o",
+        marker=marker,
         linewidth=2,
         color=color,
         label=label,
         zorder=3,
+        markeredgecolor='white',
+        markeredgewidth=0.5
     )
     for row in rows:
         ax.annotate(
@@ -63,9 +78,12 @@ def plot_line_group(ax, rows, x_key, y_key, color, label):
         )
 
 def plot_model_ax(ax, rows, title):
-    plot_line_group(ax, by_type(rows, "original"), "dataset_size_mb", "map50", COLORS["original"], "ORIGINAL")
-    plot_line_group(ax, by_type(rows, "jpeg"), "dataset_size_mb", "map50", COLORS["jpeg"], "JPEG")
-    plot_line_group(ax, bpc_quantized_rows(rows), "dataset_size_mb", "map50", COLORS["bpc"], "BPC")
+    style = MODEL_STYLES[title]
+    marker = style["marker"]
+    
+    plot_line_group(ax, by_type(rows, "original"), "dataset_size_mb", "map50", "#7e7e7e", "ORIGINAL", marker=marker)
+    plot_line_group(ax, by_type(rows, "jpeg"), "dataset_size_mb", "map50", style["jpeg"], "JPEG", marker=marker)
+    plot_line_group(ax, bpc_quantized_rows(rows), "dataset_size_mb", "map50", style["bpc"], "BPC", marker=marker)
     
     control_rows = [row for row in rows if is_png_control(row)]
     if control_rows:
@@ -74,34 +92,51 @@ def plot_model_ax(ax, rows, title):
             [row["map50"] for row in control_rows],
             s=140,
             facecolors="none",
-            edgecolors=COLORS["png_control"],
+            edgecolors="#333333",
             linewidths=2,
-            marker="D",
+            marker=marker,
             label="PNG control (b8)",
             zorder=4,
         )
         for row in control_rows:
             ax.annotate(row["variant"], (row["dataset_size_mb"], row["map50"]), textcoords="offset points", xytext=(5, 5), fontsize=10)
 
-    ax.set_title(title)
-    ax.set_xlabel("Dataset size (MB)")
-    ax.set_ylabel("mAP50")
-    ax.grid(alpha=0.3)
+    ax.set_title(title, pad=15)
+    ax.set_xlabel("Dataset size (MB)", labelpad=10)
+    ax.set_ylabel("mAP50", labelpad=10)
+    
+    ax.set_axisbelow(True)
+    ax.minorticks_on()
+    ax.grid(True, which='major', linestyle='-', linewidth=0.75, alpha=0.3)
+    ax.grid(True, which='minor', linestyle='-', linewidth=0.25, alpha=0.15)
 
 def plot_all_models_ax(ax, all_data):
-    model_styles = [("-", "o"), ("--", "s"), (":", "^")]
-    for (model_name, rows), (linestyle, marker) in zip(all_data, model_styles):
+    for model_name, rows in all_data:
+        style = MODEL_STYLES[model_name]
         jpeg_rows = sorted(by_type(rows, "jpeg"), key=lambda r: r["dataset_size_mb"])
         bpc_rows = sorted(bpc_quantized_rows(rows), key=lambda r: r["dataset_size_mb"])
         
-        ax.plot([r["dataset_size_mb"] for r in jpeg_rows], [r["map50"] for r in jpeg_rows], linestyle=linestyle, marker=marker, color=COLORS["jpeg"], label=f"{model_name} JPEG")
-        ax.plot([r["dataset_size_mb"] for r in bpc_rows], [r["map50"] for r in bpc_rows], linestyle=linestyle, marker=marker, color=COLORS["bpc"], label=f"{model_name} BPC")
+        ax.plot([r["dataset_size_mb"] for r in jpeg_rows], [r["map50"] for r in jpeg_rows], linestyle=style["linestyle"], marker=style["marker"], color=style["jpeg"], markeredgecolor='white', markeredgewidth=0.5, markersize=8)
+        ax.plot([r["dataset_size_mb"] for r in bpc_rows], [r["map50"] for r in bpc_rows], linestyle=style["linestyle"], marker=style["marker"], color=style["bpc"], markeredgecolor='white', markeredgewidth=0.5, markersize=8)
         
-    ax.set_title("All Models Comparison")
-    ax.set_xlabel("Dataset size (MB)")
-    ax.set_ylabel("mAP50")
-    ax.grid(alpha=0.3)
-    ax.legend(fontsize=10, loc="lower right")
+    ax.set_title("All Models Comparison", pad=15)
+    ax.set_xlabel("Dataset size (MB)", labelpad=10)
+    ax.set_ylabel("mAP50", labelpad=10)
+    
+    ax.set_axisbelow(True)
+    ax.minorticks_on()
+    ax.grid(True, which='major', linestyle='-', linewidth=0.75, alpha=0.3)
+    ax.grid(True, which='minor', linestyle='-', linewidth=0.25, alpha=0.15)
+    
+    custom_lines = [
+        Line2D([0], [0], color=MODEL_STYLES["YOLOv8n"]["jpeg"], linestyle=MODEL_STYLES["YOLOv8n"]["linestyle"], marker='D', markersize=8, markeredgecolor='white', markeredgewidth=0.5, label='YOLOv8n JPEG'),
+        Line2D([0], [0], color=MODEL_STYLES["YOLOv8n"]["bpc"], linestyle=MODEL_STYLES["YOLOv8n"]["linestyle"], marker='D', markersize=8, markeredgecolor='white', markeredgewidth=0.5, label='YOLOv8n BPC'),
+        Line2D([0], [0], color=MODEL_STYLES["YOLOv8m"]["jpeg"], linestyle=MODEL_STYLES["YOLOv8m"]["linestyle"], marker='s', markersize=8, markeredgecolor='white', markeredgewidth=0.5, label='YOLOv8m JPEG'),
+        Line2D([0], [0], color=MODEL_STYLES["YOLOv8m"]["bpc"], linestyle=MODEL_STYLES["YOLOv8m"]["linestyle"], marker='s', markersize=8, markeredgecolor='white', markeredgewidth=0.5, label='YOLOv8m BPC'),
+        Line2D([0], [0], color=MODEL_STYLES["RT-DETR-L"]["jpeg"], linestyle=MODEL_STYLES["RT-DETR-L"]["linestyle"], marker='o', markersize=8, markeredgecolor='white', markeredgewidth=0.5, label='RT-DETR-L JPEG'),
+        Line2D([0], [0], color=MODEL_STYLES["RT-DETR-L"]["bpc"], linestyle=MODEL_STYLES["RT-DETR-L"]["linestyle"], marker='o', markersize=8, markeredgecolor='white', markeredgewidth=0.5, label='RT-DETR-L BPC')
+    ]
+    ax.legend(handles=custom_lines, fontsize=10, loc="lower right", frameon=False)
 
 def main():
     out_dir = Path("article/latex_project/results/article_figures")
@@ -118,7 +153,7 @@ def main():
             all_data.append((name, rows))
             plot_model_ax(axes[i], rows, name)
             if i == 0:
-                axes[i].legend(fontsize=11)
+                axes[i].legend(fontsize=11, loc="lower right", frameon=False)
         else:
             print(f"File not found: {path}")
             

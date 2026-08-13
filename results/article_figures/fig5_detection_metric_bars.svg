@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="620" viewBox="0 0 1040 620">
+<rect x="0" y="0" width="1040" height="620" fill="white"/>
+<text x="520.0" y="32" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700">Detection metrics by variant</text>
+<rect x="100" y="40" width="13" height="13" fill="#7570b3"/>
+<text x="120" y="51" font-family="Arial" font-size="13">mAP50</text>
+<rect x="200" y="40" width="13" height="13" fill="#66a61e"/>
+<text x="220" y="51" font-family="Arial" font-size="13">mAP50-95</text>
+<line x1="80" y1="525.00" x2="1010" y2="525.00" stroke="#dddddd"/>
+<text x="70" y="529.00" text-anchor="end" font-family="Arial" font-size="12">0.00</text>
+<line x1="80" y1="411.25" x2="1010" y2="411.25" stroke="#dddddd"/>
+<text x="70" y="415.25" text-anchor="end" font-family="Arial" font-size="12">0.15</text>
+<line x1="80" y1="297.50" x2="1010" y2="297.50" stroke="#dddddd"/>
+<text x="70" y="301.50" text-anchor="end" font-family="Arial" font-size="12">0.29</text>
+<line x1="80" y1="183.75" x2="1010" y2="183.75" stroke="#dddddd"/>
+<text x="70" y="187.75" text-anchor="end" font-family="Arial" font-size="12">0.44</text>
+<line x1="80" y1="70.00" x2="1010" y2="70.00" stroke="#dddddd"/>
+<text x="70" y="74.00" text-anchor="end" font-family="Arial" font-size="12">0.58</text>
+<rect x="92.40" y="118.90" width="26.35" height="406.10" fill="#7570b3"/>
+<rect x="118.75" y="236.86" width="26.35" height="288.14" fill="#66a61e"/>
+<text x="118.75" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">original</text>
+<rect x="169.90" y="120.87" width="26.35" height="404.13" fill="#7570b3"/>
+<rect x="196.25" y="238.45" width="26.35" height="286.55" fill="#66a61e"/>
+<text x="196.25" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">q94</text>
+<rect x="247.40" y="122.02" width="26.35" height="402.98" fill="#7570b3"/>
+<rect x="273.75" y="239.51" width="26.35" height="285.49" fill="#66a61e"/>
+<text x="273.75" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">q88</text>
+<rect x="324.90" y="129.11" width="26.35" height="395.89" fill="#7570b3"/>
+<rect x="351.25" y="246.07" width="26.35" height="278.93" fill="#66a61e"/>
+<text x="351.25" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">q75</text>
+<rect x="402.40" y="148.10" width="26.35" height="376.90" fill="#7570b3"/>
+<rect x="428.75" y="261.95" width="26.35" height="263.05" fill="#66a61e"/>
+<text x="428.75" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">q50</text>
+<rect x="479.90" y="206.17" width="26.35" height="318.83" fill="#7570b3"/>
+<rect x="506.25" y="310.32" width="26.35" height="214.68" fill="#66a61e"/>
+<text x="506.25" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">q25</text>
+<rect x="551.20" y="72.00" width="65.10" height="451.00" fill="none" stroke="#6a51a3" stroke-width="2" stroke-dasharray="6 4"/>
+<rect x="557.40" y="118.90" width="26.35" height="406.10" fill="#7570b3"/>
+<rect x="583.75" y="236.86" width="26.35" height="288.14" fill="#66a61e"/>
+<text x="583.75" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#6a51a3">b8</text>
+<rect x="634.90" y="118.75" width="26.35" height="406.25" fill="#7570b3"/>
+<rect x="661.25" y="236.90" width="26.35" height="288.10" fill="#66a61e"/>
+<text x="661.25" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">b7</text>
+<rect x="712.40" y="134.57" width="26.35" height="390.43" fill="#7570b3"/>
+<rect x="738.75" y="250.26" width="26.35" height="274.74" fill="#66a61e"/>
+<text x="738.75" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">b4</text>
+<rect x="789.90" y="181.06" width="26.35" height="343.94" fill="#7570b3"/>
+<rect x="816.25" y="287.03" width="26.35" height="237.97" fill="#66a61e"/>
+<text x="816.25" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">b3</text>
+<rect x="867.40" y="297.05" width="26.35" height="227.95" fill="#7570b3"/>
+<rect x="893.75" y="372.97" width="26.35" height="152.03" fill="#66a61e"/>
+<text x="893.75" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">b2</text>
+<rect x="944.90" y="421.01" width="26.35" height="103.99" fill="#7570b3"/>
+<rect x="971.25" y="460.24" width="26.35" height="64.76" fill="#66a61e"/>
+<text x="971.25" y="558" text-anchor="middle" font-family="Arial" font-size="12" fill="#333333">b1</text>
+<line x1="80" y1="525" x2="1010" y2="525" stroke="#333333" stroke-width="1.5"/>
+<line x1="80" y1="70" x2="80" y2="525" stroke="#333333" stroke-width="1.5"/>
+<text x="24" y="297.5" text-anchor="middle" transform="rotate(-90 24 297.5)" font-family="Arial" font-size="15">Detection metric</text>
+</svg>
