@@ -158,7 +158,7 @@ Finally, we pulled standard YOLO metrics to evaluate detection quality. Precisio
 
 
 \section{Results}
-Here, we break down the hard data from our full 5,000-image validation run across three distinct architectures: YOLOv8n, YOLOv8m, and RT-DETR-L.
+Here, we break down the hard data from our full 5,000-image validation run across three distinct architectures. The detailed detection performance metrics for YOLOv8n, YOLOv8m, and RT-DETR-L are presented in Tables~\ref{tab:results_yolov8n}, \ref{tab:results_yolov8m}, and \ref{tab:results_rtdetr}, respectively.
 
 \begin{table*}[htbp]
 \centering
@@ -232,7 +232,7 @@ b1 & 0.5624 & 0.3510 & 0.3700 & 0.2446 & 0.0225 & 0.0421 & 0.0746 \\ \hline
 }
 \end{table*}
 
-\begin{table*}[htbp]
+\begin{table*}[ht]
 \centering
 \caption{Compression efficiency and image quality metrics on COCO val2017.}
 \label{tab:results_efficiency}
@@ -254,9 +254,9 @@ b1 & BPC & 165.5969 & 4.69x & 10.9245 & 0.3089 \\ \hline
 \end{tabular}
 \end{table*}
 
-The addition of object scale metrics ($\text{mAP}_S, \text{mAP}_M, \text{mAP}_L$) reveals that small objects are the most vulnerable to compression artifacts across all architectures. For instance, in YOLOv8m, degrading from $q94$ to $q25$ causes the $\text{mAP}_S$ to plummet from $0.0520$ to $0.0267$, a relative loss of nearly 50\%, whereas the $\text{mAP}_L$ remains more stable.
+The addition of object scale metrics ($\text{mAP}_S, \text{mAP}_M, \text{mAP}_L$) reveals that small objects are the most vulnerable to compression artifacts across all architectures, as illustrated in Fig.~\ref{fig:maps_collapse}. For instance, in YOLOv8m, degrading from $q94$ to $q25$ causes the $\text{mAP}_S$ to plummet from $0.0520$ to $0.0267$, a relative loss of nearly 50\%, whereas the $\text{mAP}_L$ remains more stable.
 
-\begin{figure*}[htbp]
+\begin{figure*}[ht]
 \centering
 \includegraphics[width=0.95\textwidth]{results/article_figures/maps_degradation.png}
 \caption{The impact of compression on small object detection accuracy ($\text{mAP}_S$). (a) JPEG recompression maintains a relatively stable performance even at low quality levels. (b) Uniform bit-depth reduction (BPC) causes a dramatic collapse in accuracy, completely failing to detect small objects at the 2-bit and 1-bit thresholds across all tested architectures.}
@@ -265,7 +265,7 @@ The addition of object scale metrics ($\text{mAP}_S, \text{mAP}_M, \text{mAP}_L$
 
 To evaluate the comparative performance, we mapped the tradeoff distributions. The relationship between total dataset storage footprint and object detection accuracy (mAP50) for all three models is presented in Fig.~\ref{fig:map50_vs_size}.
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=1.0\columnwidth]{results/article_figures/fig_multi_model_grid.png}
 \caption{Detection quality (mAP50) as a function of dataset size (MB) for YOLOv8n, YOLOv8m, and RT-DETR-L.}
@@ -283,14 +283,14 @@ To provide a deeper analysis of the underlying mechanisms, we revisit the relati
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.82\columnwidth]{results/article_figures/fig6_psnr_vs_map50.png}
+\includegraphics[width=0.87\columnwidth]{results/article_figures/fig6_psnr_vs_map50.png}
 \caption{PSNR vs mAP50 for YOLOv8n.}
 \label{fig:psnr_vs_map}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.82\columnwidth]{results/article_figures/fig7_ssim_vs_map50.png}
+\includegraphics[width=0.87\columnwidth]{results/article_figures/fig7_ssim_vs_map50.png}
 \caption{SSIM vs mAP50 for YOLOv8n.}
 \label{fig:ssim_vs_map}
 \end{figure}
@@ -299,7 +299,7 @@ Figures \ref{fig:psnr_vs_map} and \ref{fig:ssim_vs_map} illustrate a critical di
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.82\columnwidth]{results/article_figures/fig10_pareto_storage_map50.png}
+\includegraphics[width=0.87\columnwidth]{results/article_figures/fig10_pareto_storage_map50.png}
 \caption{Storage vs detection accuracy Pareto frontier for YOLOv8n.}
 \label{fig:pareto}
 \end{figure}
@@ -312,7 +312,7 @@ Across all architectures, JPEG recompression demonstrates exceptional efficiency
 
 The BPC branch highlights an important architectural limitation: uniform RGB level quantization stored in a standard lossless 24-bit truecolor PNG container is highly inefficient for storage optimization under the tested pipeline. Re-encoding the decoded source JPEG as an 8-bit truecolor PNG without additional level reduction preserves baseline detection metrics (mAP50 = 0.5187) but inflates storage to 2288.66 MB. This 0.34$\times$ compression relative to the source JPEG baseline isolates a substantial container penalty before any quantization is even applied. With 7-bit level reduction, detection performance remains near baseline (0.5189 mAP50). Although removing 1 bit from the 8-bit depth discards half of the available colors per channel, this reduction fails to generate a significantly higher number of structural matches for the PNG spatial prediction algorithm. Substantial compressibility relative to the 8-bit PNG only begins to emerge at 4 bits per channel, where a 16-fold reduction in colors per channel finally yields a sufficient number of matching segments and uniform color intervals. However, even at 4 bits per channel, the PNG storage footprint (816.80 MB) remains larger than the source JPEG baseline. This PNG size behavior arises from the interaction between lossless PNG encoding---namely spatial filtering followed by DEFLATE entropy coding \cite{w3c2003}---and the spatial statistics of quantized RGB images. Uniform quantization replaces smooth gradients with step-like color intervals (posterization), which actively degrades compressibility depending on image content and filter choice. When the bit depth is lowered enough to achieve actual storage savings over the source dataset (e.g., $b3$ at 607.81 MB), the tonal quantization becomes severe. High-contrast posterized regions dominate the image, coinciding with a sharp decline in detection performance.
 
-The results also indicate that classical full-reference quality metrics are limited predictors of deep learning performance. Comparing $b4$ and $q75$, we observe that $b4$ has a higher PSNR (34.48 dB vs. 32.29 dB) and a higher SSIM (0.9064 vs. 0.9055). To a human observer, the $b4$ image appears sharper and less distorted than the blocky $q75$ image. However, using YOLOv8n as a representative example, the detector achieves a higher mAP50 on $q75$ (0.5057) than on $b4$ (0.4987), while $q75$ requires 3.4$\times$ less storage (239.21 MB vs. 816.80 MB). Similar trends were observed for YOLOv8m and RT-DETR-L. These results suggest that deep object detectors are more tolerant of the tested JPEG recompression artifacts than of severe uniform RGB level quantization. A feature-level analysis would be required to establish the underlying mechanism. Consequently, PSNR and SSIM are insufficient as sole predictors of downstream detection quality across different distortion families.
+The results also indicate that classical full-reference quality metrics are limited predictors of deep learning performance (see Table~\ref{tab:results_efficiency} for full quality and storage footprint data). Comparing $b4$ and $q75$, we observe that $b4$ has a higher PSNR (34.48 dB vs. 32.29 dB) and a higher SSIM (0.9064 vs. 0.9055). To a human observer, the $b4$ image appears sharper and less distorted than the blocky $q75$ image. However, using YOLOv8n as a representative example, the detector achieves a higher mAP50 on $q75$ (0.5057) than on $b4$ (0.4987), while $q75$ requires 3.4$\times$ less storage (239.21 MB vs. 816.80 MB). Similar trends were observed for YOLOv8m and RT-DETR-L. These results suggest that deep object detectors are more tolerant of the tested JPEG recompression artifacts than of severe uniform RGB level quantization. A feature-level analysis would be required to establish the underlying mechanism. Consequently, PSNR and SSIM are insufficient as sole predictors of downstream detection quality across different distortion families.
 
 Regarding statistical robustness, we did not calculate formal p-values or confidence intervals due to the nature of the aggregate COCO mAP metric. Additionally, the standard COCO API evaluation toolkit aggregates prediction results globally across the entire dataset to compute overall AP/AR metrics. It does not provide a built-in mechanism to extract per-image scores or compute per-image variance, which makes the standard calculation of confidence intervals mathematically and technically non-trivial within this framework. However, the consistency of the degradation trend is highly robust. The exact same non-linear performance drops and artifact sensitivities were observed consistently across models encompassing two fundamentally different architectural paradigms (the convolutional YOLOv8 family at different scales, and the transformer-based RT-DETR-L). This cross-architectural agreement provides strong empirical evidence that the observed differences are structural and meaningful, rather than random statistical fluctuations.
 
@@ -349,16 +349,16 @@ The central insight derived from this analysis is that image compression for com
 
 To provide qualitative context to our quantitative metrics, we visualize the visual degradation introduced by both compression methods. 
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=0.82\columnwidth]{results/article_figures/fig8_jpeg_visual_degradation_grid.png}
+\includegraphics[width=0.87\columnwidth]{results/article_figures/fig8_jpeg_visual_degradation_grid.png}
 \caption{Visual degradation under varying levels of JPEG compression.}
 \label{fig:jpeg_vis}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=0.82\columnwidth]{results/article_figures/fig9_bpc_visual_degradation_grid.png}
+\includegraphics[width=0.87\columnwidth]{results/article_figures/fig9_bpc_visual_degradation_grid.png}
 \caption{Visual degradation under varying levels of uniform RGB bit-depth reduction (BPC).}
 \label{fig:bpc_vis}
 \end{figure}
